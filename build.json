@@ -1,0 +1,36 @@
+{
+  "plugins": [
+    [
+      "build-plugin-fusion",
+      {
+        "themePackage": "@alifd/theme-design-pro"
+      }
+    ],
+    [
+      "build-plugin-moment-locales",
+      {
+        "locales": [
+          "zh-cn"
+        ]
+      }
+    ]
+  ],
+  "proxy": {
+    "/pageMenuApi": {
+      "enable": true,
+      "target": "http://127.0.0.1:8010"
+    },
+    "/entityCreateApi": {
+      "enable": true,
+      "target": "http://127.0.0.1:8020"
+    },
+    "/dictionaryApi": {
+      "enable": true,
+      "target": "http://127.0.0.1:8030"
+    },
+    "/logApi": {
+      "enable": true,
+      "target": "http://127.0.0.1:8040"
+    }
+  }
+}
