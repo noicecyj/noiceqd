@@ -102,20 +102,8 @@ function EntityCreaterPage() {
               <Transfer mode="simple" dataSource={entitycreaterState.OVERRIDE_METHOD}
                 titles={['可重写方法', '需重写方法']} name="method" />
             </FormItem>
-            <FormItem label="POJO类生成路径:">
+            <FormItem label="项目生成路径:">
               <Input id="path" name="path" />
-            </FormItem>
-            <FormItem label="Dao接口生成路径:">
-              <Input id="daoPath" name="daoPath" />
-            </FormItem>
-            <FormItem label="Service接口生成路径:">
-              <Input id="servicePath" name="servicePath" />
-            </FormItem>
-            <FormItem label="Service类生成路径:">
-              <Input id="serviceImplPath" name="serviceImplPath" />
-            </FormItem>
-            <FormItem label="Controller类生成路径:">
-              <Input id="controllerPath" name="controllerPath" />
             </FormItem>
           </Form>
         </div>
