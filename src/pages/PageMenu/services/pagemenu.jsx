@@ -23,13 +23,10 @@ export default {
       data
     })
   },
-  createRouteFile(data) {
+  createRouteFile() {
     return request({
       url: '/pageMenuApi/createRouteFile',
       method: 'post',
-      params: {
-        routePath: data
-      }
     })
   },
 }

@@ -5,7 +5,6 @@ export default {
   namespace: 'pagemenu',
 
   state: {
-    routePath: '',
     pagemenuTableData: [],
     pagemenuVisible: false,
     pagemenuFormData: {},
@@ -77,8 +76,8 @@ export default {
       const payload = { pagemenuVisible: false }
       dispatch.pagemenu.setState(payload);
     },
-    createRouteFile(data) {
-      pagemenuService.createRouteFile(data);
-    }
+    createRouteFile() {
+      pagemenuService.createRouteFile();
+    },
   })
 };

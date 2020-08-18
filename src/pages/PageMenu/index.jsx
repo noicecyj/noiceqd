@@ -29,9 +29,7 @@ function MenuPage() {
         <div className={styles.Main}>
           <div className={styles.add}>
             <Button type="primary" onClick={() => pagemenuDispatchers.editPageMenu()}> 添加菜单 </Button>
-            <Button type="primary" onClick={() => pagemenuDispatchers.createRouteFile(pagemenuState.routePath)}> 生成路由文件 </Button>
-            <Input id="routePath" name="routePath" style={{ width: '400px' }} placeholder="请输入生成路径"
-              onChange={value => dispatchers.setState({ routePath: value })} />
+            <Button type="primary" onClick={() => pagemenuDispatchers.createRouteFile()}> 生成路由文件 </Button>
             <Dialog title="菜单" visible={pagemenuState.pagemenuVisible}
               onOk={() => pagemenuDispatchers.savePageMenu({
                 pagemenuFormData: pagemenuState.pagemenuFormData
@@ -54,7 +52,7 @@ function MenuPage() {
                 <FormItem label="菜单路径:" required requiredMessage="请输入菜单路径">
                   <Input id="path" name="path" placeholder="请输入菜单路径" />
                 </FormItem>
-                <FormItem label="组件名称:" required requiredMessage="请输入组件名称">
+                <FormItem label="组件名称:" requiredMessage="请输入组件名称">
                   <Input id="componentName" name="componentName" placeholder="请输入组件名称" />
                 </FormItem>
                 <FormItem label="排序代码:" required requiredMessage="请输入排序代码">

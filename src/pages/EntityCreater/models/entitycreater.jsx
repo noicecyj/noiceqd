@@ -129,7 +129,7 @@ export default {
     findCatalogByValue(data) {
       entitycreaterService.findCatalogByValue(data).then(res => {
         const formArr = [];
-        res.data.forEach(item => {
+        res.forEach(item => {
           formArr.push({
             label: item.dictionaryName,
             value: item.dictionaryValue,
