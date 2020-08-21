@@ -55,6 +55,9 @@ function MenuPage() {
                 <FormItem label="组件名称:" requiredMessage="请输入组件名称">
                   <Input id="componentName" name="componentName" placeholder="请输入组件名称" />
                 </FormItem>
+                <FormItem label="接口路径:" requiredMessage="请输入接口路径">
+                  <Input id="apiPath" name="apiPath" placeholder="请输入接口路径" />
+                </FormItem>
                 <FormItem label="排序代码:" required requiredMessage="请输入排序代码">
                   <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
                 </FormItem>
@@ -66,11 +69,12 @@ function MenuPage() {
           </div>
           <Loading tip="加载中..." visible={pagemenuState.pagemenuLoadingVisible}>
             <Table hasBorder className={styles.Table} dataSource={pagemenuTableData} isTree primaryKey="id">
-              <Table.Column title="菜单代号" dataIndex="id" width="300px" />
-              <Table.Column title="上级菜单代号" dataIndex="pid" width="300px" />
+              <Table.Column title="菜单代号" dataIndex="id" width="150px" />
+              <Table.Column title="上级菜单代号" dataIndex="pid" width="150px" />
               <Table.Column title="菜单名称" dataIndex="name" />
               <Table.Column title="菜单路径" dataIndex="path" />
               <Table.Column title="组件名称" dataIndex="componentName" />
+              <Table.Column title="接口路径" dataIndex="apiPath" />
               <Table.Column title="菜单图标" dataIndex="icon" />
               <Table.Column title="排序代码" dataIndex="sortCode" width="100px" />
               <Table.Column title="操作" lock="right" width="160px" cell={menuPageRender} />

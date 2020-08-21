@@ -18,7 +18,7 @@ export default {
   },
   savePageFunction(data) {
     return request({
-      url: '/ssoApi/savePageFunction',
+      url: '/ssoApi/pageFunctionSave',
       method: 'post',
       data
     })

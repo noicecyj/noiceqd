@@ -18,7 +18,7 @@ export default {
   },
   saveUser(data) {
     return request({
-      url: '/ssoApi/saveUser',
+      url: '/ssoApi/userSave',
       method: 'post',
       data
     })
