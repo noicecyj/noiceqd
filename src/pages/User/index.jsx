@@ -12,13 +12,16 @@ function UserPage() {
   const userTableData = JSON.parse(JSON.stringify(userState.userTableData));
 
   useEffect(() => {
-    userDispatchers.userPage();
+    userDispatchers.userPage(1);
   }, [userDispatchers]);
 
   const UserPageRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => userDispatchers.edituser(record)}> 编辑 </Button>
-      <Button type="primary" size="small" onClick={() => userDispatchers.deleteuser(record)} warning> 删除 </Button>
+      <Button type="primary" size="small" onClick={() => userDispatchers.userEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => userDispatchers.userDelete({
+        record,
+        userCurrent: userState.userCurrent
+      })} warning> 删除 </Button>
     </div>;
   };
 
@@ -27,8 +30,7 @@ function UserPage() {
       <Cell colSpan={12}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => userDispatchers.edituser()}> 添加菜单 </Button>
-            <Button type="primary" onClick={() => userDispatchers.createRouteFile()}> 生成路由文件 </Button>
+            <Button type="primary" onClick={() => userDispatchers.userEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={userState.userVisible}
               onOk={() => userDispatchers.saveuser({
                 userFormData: userState.userFormData

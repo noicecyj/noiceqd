@@ -1,10 +1,15 @@
 import { request } from 'ice';
 
 export default {
-  userPage() {
+  userPage(value) {
     return request({
       url: '/ssoApi/userPage',
-      method: 'post'
+      method: 'post',
+      params: {
+        pageNumber: value,
+        pageSize: 13,
+        sortCode: 'sortCode'
+      }
     });
   },
   userDelete(record) {

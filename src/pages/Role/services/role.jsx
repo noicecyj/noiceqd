@@ -1,10 +1,15 @@
 import { request } from 'ice';
 
 export default {
-  rolePage() {
+  rolePage(value) {
     return request({
       url: '/ssoApi/rolePage',
-      method: 'post'
+      method: 'post',
+      params: {
+        pageNumber: value,
+        pageSize: 13,
+        sortCode: 'sortCode'
+      }
     });
   },
   roleDelete(record) {

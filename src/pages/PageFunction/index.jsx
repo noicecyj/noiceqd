@@ -12,13 +12,16 @@ function PageFunctionPage() {
   const pageFunctionTableData = JSON.parse(JSON.stringify(pageFunctionState.pageFunctionTableData));
 
   useEffect(() => {
-    pageFunctionDispatchers.pageFunctionPage();
+    pageFunctionDispatchers.pageFunctionPage(1);
   }, [pageFunctionDispatchers]);
 
   const PageFunctionPageRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => pageFunctionDispatchers.editpageFunction(record)}> 编辑 </Button>
-      <Button type="primary" size="small" onClick={() => pageFunctionDispatchers.deletepageFunction(record)} warning> 删除 </Button>
+      <Button type="primary" size="small" onClick={() => pageFunctionDispatchers.pageFunctionEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => pageFunctionDispatchers.pageFunctionDelete({
+        record,
+        pageFunctionCurrent: pageFunctionState.pageFunctionCurrent
+      })} warning> 删除 </Button>
     </div>;
   };
 
@@ -27,8 +30,7 @@ function PageFunctionPage() {
       <Cell colSpan={12}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => pageFunctionDispatchers.editpageFunction()}> 添加菜单 </Button>
-            <Button type="primary" onClick={() => pageFunctionDispatchers.createRouteFile()}> 生成路由文件 </Button>
+            <Button type="primary" onClick={() => pageFunctionDispatchers.pageFunctionEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={pageFunctionState.pageFunctionVisible}
               onOk={() => pageFunctionDispatchers.savepageFunction({
                 pageFunctionFormData: pageFunctionState.pageFunctionFormData

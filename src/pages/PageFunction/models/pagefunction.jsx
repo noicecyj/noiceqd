@@ -2,7 +2,7 @@ import pageFunctionService from '../services/pagefunction'
 
 export default {
 
-  namespace: 'pageFunction',
+  namespace: 'pagefunction',
 
   state: {
     pageFunctionTableData: [],
@@ -10,6 +10,7 @@ export default {
     pageFunctionFormData: {},
     pageFunctionLoadingVisible: true,
     pageFunctionTotal: 0,
+    pageFunctionCurrent: 1,
     formItemLayout: {
       labelCol: {
         fixedSpan: 6
@@ -27,54 +28,56 @@ export default {
   },
 
   effects: (dispatch) => ({
-    pageFunctionPage() {
-      pageFunctionService.pageFunctionPage().then(res => {
+    pageFunctionPage(data) {
+      pageFunctionService.pageFunctionPage(data).then(res => {
         const payload = {
-          pageFunctionTotal: res.data[1],
-          pageFunctionTableData: [res.data[0]],
+          pageFunctionTotal: res.data.totalElements,
+          pageFunctionTableData: res.data.content,
           pageFunctionLoadingVisible: false
         }
-        dispatch.pageFunction.setState(payload);
+        dispatch.pagefunction.setState(payload);
       })
     },
-    editpageFunction(data) {
+    pageFunctionEdit(data) {
       if (data) {
         const payload = {
           pageFunctionFormData: data,
           pageFunctionVisible: true
         }
-        dispatch.pageFunction.setState(payload);
+        dispatch.pagefunction.setState(payload);
       } else {
         const payload = {
           pageFunctionFormData: {},
           pageFunctionVisible: true
         }
-        dispatch.pageFunction.setState(payload);
+        dispatch.pagefunction.setState(payload);
       }
     },
-    deletepageFunction(data) {
-      pageFunctionService.pageFunctionDelete(data).then(() => {
-        pageFunctionService.pageFunctionPage().then(res => {
+    pageFunctionDelete(data) {
+      pageFunctionService.pageFunctionDelete(data.record).then(() => {
+        pageFunctionService.pageFunctionPage(data.pageFunctionCurrent).then(res => {
           const payload = {
-            pageFunctionTotal: res.data[1],
-            pageFunctionTableData: [res.data[0]],
+            pageFunctionTotal: res.data.totalElements,
+            pageFunctionTableData: res.data.content,
+            pageFunctionLoadingVisible: false
           }
-          dispatch.pageFunction.setState(payload);
+          dispatch.pagefunction.setState(payload);
         })
       })
     },
-    savepageFunction(data) {
+    pageFunctionSave(data) {
       pageFunctionService.pageFunctionSave(data.pageFunctionFormData).then(() => {
-        pageFunctionService.pageFunctionPage().then(res => {
+        pageFunctionService.pageFunctionPage(data.pageFunctionCurrent).then(res => {
           const payload = {
-            pageFunctionTotal: res.data[1],
-            pageFunctionTableData: [res.data[0]],
+            pageFunctionTotal: res.data.totalElements,
+            pageFunctionTableData: res.data.content,
+            pageFunctionLoadingVisible: false
           }
-          dispatch.pageFunction.setState(payload);
+          dispatch.pagefunction.setState(payload);
         })
       })
       const payload = { pageFunctionVisible: false }
-      dispatch.pageFunction.setState(payload);
+      dispatch.pagefunction.setState(payload);
     },
   })
 };

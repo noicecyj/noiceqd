@@ -12,13 +12,16 @@ function RolePage() {
   const roleTableData = JSON.parse(JSON.stringify(roleState.roleTableData));
 
   useEffect(() => {
-    roleDispatchers.rolePage();
+    roleDispatchers.rolePage(1);
   }, [roleDispatchers]);
 
   const RolePageRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => roleDispatchers.editrole(record)}> 编辑 </Button>
-      <Button type="primary" size="small" onClick={() => roleDispatchers.deleterole(record)} warning> 删除 </Button>
+      <Button type="primary" size="small" onClick={() => roleDispatchers.roleEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => roleDispatchers.roleDelete({
+        record,
+        roleCurrent: roleState.roleCurrent
+      })} warning> 删除 </Button>
     </div>;
   };
 
@@ -27,8 +30,7 @@ function RolePage() {
       <Cell colSpan={12}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => roleDispatchers.editrole()}> 添加菜单 </Button>
-            <Button type="primary" onClick={() => roleDispatchers.createRouteFile()}> 生成路由文件 </Button>
+            <Button type="primary" onClick={() => roleDispatchers.roleEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={roleState.roleVisible}
               onOk={() => roleDispatchers.saverole({
                 roleFormData: roleState.roleFormData

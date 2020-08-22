@@ -10,6 +10,7 @@ export default {
     userFormData: {},
     userLoadingVisible: true,
     userTotal: 0,
+    userCurrent: 1,
     formItemLayout: {
       labelCol: {
         fixedSpan: 6
@@ -27,17 +28,17 @@ export default {
   },
 
   effects: (dispatch) => ({
-    userPage() {
-      userService.userPage().then(res => {
+    userPage(data) {
+      userService.userPage(data).then(res => {
         const payload = {
-          userTotal: res.data[1],
-          userTableData: [res.data[0]],
+          userTotal: res.data.totalElements,
+          userTableData: res.data.content,
           userLoadingVisible: false
         }
         dispatch.user.setState(payload);
       })
     },
-    edituser(data) {
+    userEdit(data) {
       if (data) {
         const payload = {
           userFormData: data,
@@ -52,23 +53,25 @@ export default {
         dispatch.user.setState(payload);
       }
     },
-    deleteuser(data) {
-      userService.userDelete(data).then(() => {
-        userService.userPage().then(res => {
+    userDelete(data) {
+      userService.userDelete(data.record).then(() => {
+        userService.userPage(data.userCurrent).then(res => {
           const payload = {
-            userTotal: res.data[1],
-            userTableData: [res.data[0]],
+            userTotal: res.data.totalElements,
+            userTableData: res.data.content,
+            userLoadingVisible: false
           }
           dispatch.user.setState(payload);
         })
       })
     },
-    saveuser(data) {
+    userSave(data) {
       userService.userSave(data.userFormData).then(() => {
-        userService.userPage().then(res => {
+        userService.userPage(data.userCurrent).then(res => {
           const payload = {
-            userTotal: res.data[1],
-            userTableData: [res.data[0]],
+            userTotal: res.data.totalElements,
+            userTableData: res.data.content,
+            userLoadingVisible: false
           }
           dispatch.user.setState(payload);
         })

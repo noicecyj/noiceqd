@@ -12,13 +12,16 @@ function ApiPage() {
   const apiTableData = JSON.parse(JSON.stringify(apiState.apiTableData));
 
   useEffect(() => {
-    apiDispatchers.apiPage();
+    apiDispatchers.apiPage(1);
   }, [apiDispatchers]);
 
   const ApiPageRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => apiDispatchers.editapi(record)}> 编辑 </Button>
-      <Button type="primary" size="small" onClick={() => apiDispatchers.deleteapi(record)} warning> 删除 </Button>
+      <Button type="primary" size="small" onClick={() => apiDispatchers.apiEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => apiDispatchers.apiDelete({
+        record,
+        apiCurrent: apiState.apiCurrent
+      })} warning> 删除 </Button>
     </div>;
   };
 
@@ -27,8 +30,7 @@ function ApiPage() {
       <Cell colSpan={12}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => apiDispatchers.editapi()}> 添加菜单 </Button>
-            <Button type="primary" onClick={() => apiDispatchers.createRouteFile()}> 生成路由文件 </Button>
+            <Button type="primary" onClick={() => apiDispatchers.apiEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={apiState.apiVisible}
               onOk={() => apiDispatchers.saveapi({
                 apiFormData: apiState.apiFormData

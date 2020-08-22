@@ -10,6 +10,7 @@ export default {
     apiFormData: {},
     apiLoadingVisible: true,
     apiTotal: 0,
+    apiCurrent: 1,
     formItemLayout: {
       labelCol: {
         fixedSpan: 6
@@ -27,17 +28,17 @@ export default {
   },
 
   effects: (dispatch) => ({
-    apiPage() {
-      apiService.apiPage().then(res => {
+    apiPage(data) {
+      apiService.apiPage(data).then(res => {
         const payload = {
-          apiTotal: res.data[1],
-          apiTableData: [res.data[0]],
+          apiTotal: res.data.totalElements,
+          apiTableData: res.data.content,
           apiLoadingVisible: false
         }
         dispatch.api.setState(payload);
       })
     },
-    editapi(data) {
+    apiEdit(data) {
       if (data) {
         const payload = {
           apiFormData: data,
@@ -52,23 +53,25 @@ export default {
         dispatch.api.setState(payload);
       }
     },
-    deleteapi(data) {
-      apiService.apiDelete(data).then(() => {
-        apiService.apiPage().then(res => {
+    apiDelete(data) {
+      apiService.apiDelete(data.record).then(() => {
+        apiService.apiPage(data.apiCurrent).then(res => {
           const payload = {
-            apiTotal: res.data[1],
-            apiTableData: [res.data[0]],
+            apiTotal: res.data.totalElements,
+            apiTableData: res.data.content,
+            apiLoadingVisible: false
           }
           dispatch.api.setState(payload);
         })
       })
     },
-    saveapi(data) {
+    apiSave(data) {
       apiService.apiSave(data.apiFormData).then(() => {
-        apiService.apiPage().then(res => {
+        apiService.apiPage(data.apiCurrent).then(res => {
           const payload = {
-            apiTotal: res.data[1],
-            apiTableData: [res.data[0]],
+            apiTotal: res.data.totalElements,
+            apiTableData: res.data.content,
+            apiLoadingVisible: false
           }
           dispatch.api.setState(payload);
         })

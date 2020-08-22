@@ -10,6 +10,7 @@ export default {
     roleFormData: {},
     roleLoadingVisible: true,
     roleTotal: 0,
+    roleCurrent: 1,
     formItemLayout: {
       labelCol: {
         fixedSpan: 6
@@ -27,17 +28,17 @@ export default {
   },
 
   effects: (dispatch) => ({
-    rolePage() {
-      roleService.rolePage().then(res => {
+    rolePage(data) {
+      roleService.rolePage(data).then(res => {
         const payload = {
-          roleTotal: res.data[1],
-          roleTableData: [res.data[0]],
+          roleTotal: res.data.totalElements,
+          roleTableData: res.data.content,
           roleLoadingVisible: false
         }
         dispatch.role.setState(payload);
       })
     },
-    editrole(data) {
+    roleEdit(data) {
       if (data) {
         const payload = {
           roleFormData: data,
@@ -52,23 +53,25 @@ export default {
         dispatch.role.setState(payload);
       }
     },
-    deleterole(data) {
-      roleService.roleDelete(data).then(() => {
-        roleService.rolePage().then(res => {
+    roleDelete(data) {
+      roleService.roleDelete(data.record).then(() => {
+        roleService.rolePage(data.roleCurrent).then(res => {
           const payload = {
-            roleTotal: res.data[1],
-            roleTableData: [res.data[0]],
+            roleTotal: res.data.totalElements,
+            roleTableData: res.data.content,
+            roleLoadingVisible: false
           }
           dispatch.role.setState(payload);
         })
       })
     },
-    saverole(data) {
+    roleSave(data) {
       roleService.roleSave(data.roleFormData).then(() => {
-        roleService.rolePage().then(res => {
+        roleService.rolePage(data.roleCurrent).then(res => {
           const payload = {
-            roleTotal: res.data[1],
-            roleTableData: [res.data[0]],
+            roleTotal: res.data.totalElements,
+            roleTableData: res.data.content,
+            roleLoadingVisible: false
           }
           dispatch.role.setState(payload);
         })

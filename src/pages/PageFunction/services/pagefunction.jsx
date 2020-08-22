@@ -1,10 +1,15 @@
 import { request } from 'ice';
 
 export default {
-  pageFunctionPage() {
+  pageFunctionPage(value) {
     return request({
       url: '/ssoApi/pageFunctionPage',
-      method: 'post'
+      method: 'post',
+      params: {
+        pageNumber: value,
+        pageSize: 13,
+        sortCode: 'sortCode'
+      }
     });
   },
   pageFunctionDelete(record) {
