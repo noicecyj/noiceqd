@@ -19,6 +19,7 @@ function MenuPage() {
   const menuPageRender = (value, index, record) => {
     return <div className={styles.opt}>
       <Button type="primary" size="small" onClick={() => pagemenuDispatchers.editPageMenu(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => pagemenuDispatchers.createComponentFile(record)}> 生成组件 </Button>
       <Button type="primary" size="small" onClick={() => pagemenuDispatchers.deletePageMenu(record)} warning> 删除 </Button>
     </div>;
   };
@@ -75,9 +76,10 @@ function MenuPage() {
               <Table.Column title="菜单路径" dataIndex="path" />
               <Table.Column title="组件名称" dataIndex="componentName" />
               <Table.Column title="接口路径" dataIndex="apiPath" />
+              <Table.Column title="组件状态" dataIndex="isComponent" />
               <Table.Column title="菜单图标" dataIndex="icon" />
               <Table.Column title="排序代码" dataIndex="sortCode" width="100px" />
-              <Table.Column title="操作" lock="right" width="160px" cell={menuPageRender} />
+              <Table.Column title="操作" lock="right" width="246px" cell={menuPageRender} />
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
               <div className={styles.total}> 共 <span>{pagemenuState.pagemenuTotal}</span> 条 </div>

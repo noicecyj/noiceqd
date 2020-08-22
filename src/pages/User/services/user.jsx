@@ -16,7 +16,7 @@ export default {
       }
     })
   },
-  saveUser(data) {
+  userSave(data) {
     return request({
       url: '/ssoApi/userSave',
       method: 'post',

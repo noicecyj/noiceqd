@@ -16,9 +16,9 @@ export default {
       }
     })
   },
-  saveApi(data) {
+  apiSave(data) {
     return request({
-      url: '/ssoApi/saveApi',
+      url: '/ssoApi/apiSave',
       method: 'post',
       data
     })

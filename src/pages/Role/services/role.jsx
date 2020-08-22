@@ -16,9 +16,9 @@ export default {
       }
     })
   },
-  saveRole(data) {
+  roleSave(data) {
     return request({
-      url: '/ssoApi/saveRole',
+      url: '/ssoApi/roleSave',
       method: 'post',
       data
     })

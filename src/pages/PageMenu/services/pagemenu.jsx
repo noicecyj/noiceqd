@@ -29,4 +29,11 @@ export default {
       method: 'post',
     })
   },
+  createComponentFile(data) {
+    return request({
+      url: '/pageMenuApi/createComponentFile',
+      method: 'post',
+      data
+    })
+  },
 }

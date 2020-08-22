@@ -16,7 +16,7 @@ export default {
       }
     })
   },
-  savePageFunction(data) {
+  pageFunctionSave(data) {
     return request({
       url: '/ssoApi/pageFunctionSave',
       method: 'post',

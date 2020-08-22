@@ -79,5 +79,16 @@ export default {
     createRouteFile() {
       pagemenuService.createRouteFile();
     },
+    createComponentFile(data) {
+      pagemenuService.createComponentFile(data).then(() => {
+        pagemenuService.pageMenuPage().then(res => {
+          const payload = {
+            pagemenuTotal: res.data[1],
+            pagemenuTableData: [res.data[0]],
+          }
+          dispatch.pagemenu.setState(payload);
+        })
+      })
+    },
   })
 };
