@@ -3,6 +3,7 @@ import PageMenuPage from '@/pages/PageMenu';
 import DictionaryPage from '@/pages/Dictionary';
 import EntityCreaterPage from '@/pages/EntityCreater';
 import LogPage from '@/pages/Log';
+import SqlPage from '@/pages/Sql';
 import UserPage from '@/pages/User';
 import RolePage from '@/pages/Role';
 import ApiPage from '@/pages/Api';
@@ -28,6 +29,10 @@ const routerConfig = [
       {
         path: '/log',
         component: LogPage,
+      },
+      {
+        path: '/sql',
+        component: SqlPage,
       },
       {
         path: '/user',
