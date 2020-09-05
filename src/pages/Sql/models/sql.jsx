@@ -22,6 +22,10 @@ export default {
     sqlStr: '',
     drawerVisible: false,
     SQL_TYPE: [],
+    drawerTableData: [],
+    drawerLoadingVisible: true,
+    drawerTotal: 0,
+    drawerCurrent: 1,
   },
 
   reducers: {
@@ -108,6 +112,14 @@ export default {
     sqlExcited(data) {
       sqlService.sqlExcited(data).then(res => {
         console.log(res);
+        if (res.code === 200) {
+          const payload = {
+            drawerVisible: true,
+            drawerTableData: res.data,
+            drawerLoadingVisible: false
+          }
+          dispatch.sql.setState(payload);
+        }
       })
     },
     findCatalogByValue(data) {

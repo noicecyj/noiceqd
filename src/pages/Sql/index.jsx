@@ -11,7 +11,6 @@ const RadioGroup = Radio.Group;
 function SqlPage() {
   const [sqlState, sqlDispatchers] = pageStore.useModel('sql');
   const dispatchers = pageStore.useModelDispatchers('sql');
-  const sqlTableData = JSON.parse(JSON.stringify(sqlState.sqlTableData));
 
   useEffect(() => {
     sqlDispatchers.findCatalogByValue('SQL_TYPE');
@@ -28,6 +27,15 @@ function SqlPage() {
       })} warning> 删除 </Button>
     </div>;
   };
+
+  function renderCols() {
+    if (sqlState.drawerTableData[0]) {
+      const cols = sqlState.drawerTableData[0];
+      return Object.keys(cols).map(key => {
+        return <Table.Column title={key} dataIndex={key} key={key} />;
+      });
+    }
+  }
 
   return (
     <ResponsiveGrid gap={20}>
@@ -64,7 +72,7 @@ function SqlPage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={sqlState.sqlLoadingVisible}>
-            <Table hasBorder className={styles.Table} dataSource={sqlTableData}>
+            <Table hasBorder className={styles.Table} dataSource={sqlState.sqlTableData}>
               <Table.Column title="sql语句" dataIndex="sqlStr" key={1} />
               <Table.Column title="sql描述" dataIndex="sqlDescription" key={2} width="300px" />
               <Table.Column title="sql类型" dataIndex="sqlType" key={3} width="100px" />
@@ -77,13 +85,20 @@ function SqlPage() {
           </Loading>
         </div>
       </Cell>
-      <Drawer title="实体类代码" placement="right" width="100%"
+      <Drawer title="查询结果" placement="right" width="100%"
         visible={sqlState.drawerVisible}
         onClose={() => dispatchers.setState({ drawerVisible: false })}
         onBlur={() => dispatchers.setState({ drawerVisible: false })}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            234
+            <Loading tip="加载中..." visible={sqlState.drawerLoadingVisible}>
+              <Table className={styles.Table} dataSource={sqlState.drawerTableData}>
+                {renderCols()}
+              </Table>
+              <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
+                <div className={styles.total}> 共 <span>{sqlState.drawerTotal}</span> 条 </div>
+              </Box>
+            </Loading>
           </div>
         </div>
       </Drawer>
