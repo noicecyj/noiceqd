@@ -3,7 +3,7 @@ import { request } from 'ice';
 export default {
   logPage(value) {
     return request({
-      url: '/logApi/findAll',
+      url: '/logApi/serverPage',
       method: 'post',
       params: {
         pageNumber: value,

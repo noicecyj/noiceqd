@@ -5,9 +5,27 @@ export default {
   namespace: 'entitycreater',
 
   state: {
+    entityNameTableData: [],
+    entityNameVisible: false,
+    entityNameFormData: {},
+    entityNameTotal: 0,
+    entityNameCurrent: 1,
+    entityNameLoadingVisible: true,
+    entityTableData: [],
+    entityVisible: false,
+    entityFormData: {},
+    entityTotal: 0,
+    entityCurrent: 1,
+    entityLoadingVisible: true,
+    divVisible: true,
+    entityNameId: '',
     formItemLayout: {
-      labelCol: { fixedSpan: 8 },
-      wrapperCol: { span: 40 }
+      labelCol: {
+        fixedSpan: 5
+      },
+      wrapperCol: {
+        span: 40
+      }
     },
     ENTITY_TYPE: [],
     YES_NO: [],
@@ -15,7 +33,6 @@ export default {
     DATA_TYPE: [],
     entityData: [],
     primaryKey: 1,
-    entityFormData: {},
     drawerVisible: false,
     code: '',
     entityName: '',
@@ -28,103 +45,129 @@ export default {
   },
 
   effects: (dispatch) => ({
-    addEntityData(data) {
-      const formArr = [];
-      let index = 1;
-      const newEntity = {
-        id: index,
-        entityName: 'entityName',
-        entityProperty: 'String'
-      }
-      const entityData = [...data.entityData, newEntity]
-      entityData.forEach(item => {
-        formArr.push({
-          id: index,
-          entityName: item.entityName,
-          entityProperty: item.entityProperty
-        })
-        index++;
-      })
-      const payload = {
-        entityData: formArr
-      }
-      dispatch.entitycreater.setState(payload);
-    },
-    setEntityData(data) {
-      const formArr = [];
-      data.entityData.forEach(item => {
-        if (item.id === data.record.id) {
-          if (data.type === 'input') {
-            formArr.push({ ...data.record, entityName: data.entityName });
-          } else if (data.type === 'select') {
-            formArr.push({ ...data.record, entityProperty: data.entityProperty });
+    entityNamePage(data) {
+      entitycreaterService.entityNamePage(data).then(res => {
+        if (data === 1) {
+          const payload = {
+            entityNameTotal: res.data.totalElements,
+            entityNameTableData: res.data.content,
+            entityNameLoadingVisible: false
           }
+          dispatch.entitycreater.setState(payload);
         } else {
-          formArr.push(item);
-        }
-      })
-      const payload = {
-        entityData: formArr
-      }
-      dispatch.entitycreater.setState(payload);
-    },
-    deleteEntityData(data) {
-      const formArr = [];
-      let index = 1;
-      data.entityData.forEach(item => {
-        if (item.id !== data.index) {
-          formArr.push({
-            id: index,
-            entityName: item.entityName,
-            entityProperty: item.entityProperty,
-          })
-          index++;
-        }
-      })
-      const payload = {
-        entityData: formArr
-      }
-      dispatch.entitycreater.setState(payload);
-    },
-    createEntity(data) {
-      if (!data.errors) {
-        entitycreaterService.createEntity(data).then(res => {
           const payload = {
-            code: res.data[0],
-            entityName: res.data[1],
-            drawerVisible: true
+            entityNameTotal: res.data.totalElements,
+            entityNameTableData: res.data.content,
+            entityNameLoadingVisible: false,
+            divVisible: true
+          }
+          dispatch.entitycreater.setState(payload);
+        }
+      })
+    },
+    entityNameEdit(data) {
+      if (data) {
+        const payload = {
+          entityNameFormData: data,
+          entityNameVisible: true
+        }
+        dispatch.entitycreater.setState(payload);
+      } else {
+        const payload = {
+          entityNameFormData: {},
+          entityNameVisible: true
+        }
+        dispatch.entitycreater.setState(payload);
+      }
+    },
+    entityNameDelete(data) {
+      entitycreaterService.entityNameDelete(data.record).then(() => {
+        entitycreaterService.entityNamePage(data.entityNameCurrent).then(res => {
+          const payload = {
+            entityNameTotal: res.data.totalElements,
+            entityNameTableData: res.data.content,
+            entityNameCurrent: data.entityNameCurrent,
+            divVisible: true
           }
           dispatch.entitycreater.setState(payload);
         })
-      } else {
-        return false;
-      }
+      })
     },
-    createEntityFile(data) {
-      if (!data.errors) {
-        entitycreaterService.createEntityFile(data).then(res => {
+    entityNameSave(data) {
+      entitycreaterService.entityNameSave(data.entityNameFormData).then(() => {
+        entitycreaterService.entityNamePage(data.entityNameCurrent).then(res => {
           const payload = {
-            code: res.data[0],
-            entityName: res.data[1],
-            drawerVisible: true
+            entityNameTotal: res.data.totalElements,
+            entityNameTableData: res.data.content,
+            entityNameCurrent: data.entityNameCurrent,
+            divVisible: true
           }
           dispatch.entitycreater.setState(payload);
         })
+      })
+      const payload = { entityNameVisible: false }
+      dispatch.entitycreater.setState(payload);
+    },
+    entityPage(data) {
+      entitycreaterService.entityPage(data.id, data.current).then(res => {
+        const payload = {
+          entityTotal: res.data.totalElements,
+          entityTableData: res.data.content,
+          entityLoadingVisible: false
+        }
+        dispatch.entitycreater.setState(payload);
+      })
+    },
+    entityEdit(data) {
+      if (data) {
+        const payload = { entityFormData: data, entityVisible: true }
+        dispatch.entitycreater.setState(payload);
       } else {
-        return false;
+        const payload = { entityFormData: {}, entityVisible: true }
+        dispatch.entitycreater.setState(payload);
       }
     },
-    download(data) {
-      const pom = document.createElement('a');
-      pom.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(data.code)}`);
-      pom.setAttribute('download', data.entityName);
-      if (document.createEvent) {
-        const event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
-        pom.dispatchEvent(event);
-      } else {
-        pom.click();
+    entityDelete(data) {
+      entitycreaterService.entityDelete(data.record).then(() => {
+        entitycreaterService.entityPage(data.record.id, data.entityCurrent).then(res => {
+          const payload = {
+            entityTotal: res.data.totalElements,
+            entityTableData: res.data.content,
+            entityCurrent: data.entityCurrent
+          }
+          dispatch.entitycreater.setState(payload);
+        })
+      })
+    },
+    entitySave(data) {
+      entitycreaterService.entitySave(data.entityFormData, data.entityNameId).then(() => {
+        entitycreaterService.entityPage(data.entityNameId, data.entityCurrent).then(res => {
+          const payload = {
+            entityTotal: res.data.totalElements,
+            entityTableData: res.data.content,
+            entityCurrent: data.entityCurrent
+          }
+          dispatch.entitycreater.setState(payload);
+        })
+      })
+      const payload = { entityVisible: false }
+      dispatch.entitycreater.setState(payload);
+    },
+    onRowClick(data) {
+      entitycreaterService.entityPage(data.record.id, 1).then(res => {
+        const payload = {
+          divVisible: !data.selected,
+          entityTotal: res.data.totalElements,
+          entityTableData: res.data.content,
+          entityCurrent: 1
+        }
+        dispatch.entitycreater.setState(payload);
+      });
+      const payload = {
+        entityNameId: data.record.id,
+        entityLoadingVisible: false
       }
+      dispatch.entitycreater.setState(payload);
     },
     findCatalogByValue(data) {
       entitycreaterService.findCatalogByValue(data).then(res => {
@@ -141,65 +184,33 @@ export default {
         dispatch.entitycreater.setState(payload);
       })
     },
-    upEntityData(data) {
-      const formArr = [];
-      const formArr2 = [];
-      const temp1 = data.entityData[data.index];
-      const temp2 = data.entityData[data.index - 1];
-      if (temp2) {
-        data.entityData.forEach((item, index) => {
-          if (index === data.index - 1) {
-            formArr.push(temp1)
-          } else if (index === data.index) {
-            formArr.push(temp2)
-          } else {
-            formArr.push(item)
+    upEntity(data) {
+      entitycreaterService.upEntity(data.record.id).then(() => {
+        entitycreaterService.entityPage(data.record.pid, data.entityCurrent).then(res => {
+          const payload = {
+            entityTotal: res.data.totalElements,
+            entityTableData: res.data.content,
+            entityCurrent: data.entityCurrent
           }
+          dispatch.entitycreater.setState(payload);
         })
-        let index = 1;
-        formArr.forEach((item) => {
-          formArr2.push({
-            id: index,
-            entityName: item.entityName,
-            entityProperty: item.entityProperty,
-          })
-          index++;
-        })
-        const payload = {
-          entityData: formArr2
-        }
-        dispatch.entitycreater.setState(payload);
-      }
+      })
+      const payload = { entityVisible: false }
+      dispatch.entitycreater.setState(payload);
     },
-    downEntityData(data) {
-      const formArr = [];
-      const formArr2 = [];
-      const temp1 = data.entityData[data.index];
-      const temp2 = data.entityData[data.index + 1];
-      if (temp2) {
-        data.entityData.forEach((item, index) => {
-          if (index === data.index + 1) {
-            formArr.push(temp1)
-          } else if (index === data.index) {
-            formArr.push(temp2)
-          } else {
-            formArr.push(item)
+    downEntity(data) {
+      entitycreaterService.downEntity(data.record.id).then(() => {
+        entitycreaterService.entityPage(data.record.pid, data.entityCurrent).then(res => {
+          const payload = {
+            entityTotal: res.data.totalElements,
+            entityTableData: res.data.content,
+            entityCurrent: data.entityCurrent
           }
+          dispatch.entitycreater.setState(payload);
         })
-        let index = 1;
-        formArr.forEach((item) => {
-          formArr2.push({
-            id: index,
-            entityName: item.entityName,
-            entityProperty: item.entityProperty,
-          })
-          index++;
-        })
-        const payload = {
-          entityData: formArr2
-        }
-        dispatch.entitycreater.setState(payload);
-      }
+      })
+      const payload = { entityVisible: false }
+      dispatch.entitycreater.setState(payload);
     },
   })
 };

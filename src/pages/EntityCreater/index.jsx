@@ -1,8 +1,6 @@
-import { ResponsiveGrid, Button, Table, Form, Input, Radio, Transfer, Drawer } from '@alifd/next';
+import { ResponsiveGrid, Button, Table, Pagination, Box, Radio, Dialog, Form, Input, Loading, Select } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/EntityCreater';
-import MonacoEditor from 'react-monaco-editor';
-import EditablePane from './components/EditablePane'
 import styles from './index.module.scss';
 
 const { Cell } = ResponsiveGrid;
@@ -16,113 +14,131 @@ function EntityCreaterPage() {
 
   useEffect(() => {
     entitycreaterDispatchers.findCatalogByValue('ENTITY_TYPE');
-    entitycreaterDispatchers.findCatalogByValue('YES_NO');
-    entitycreaterDispatchers.findCatalogByValue('OVERRIDE_METHOD');
     entitycreaterDispatchers.findCatalogByValue('DATA_TYPE');
+    entitycreaterDispatchers.entityNamePage(1);
   }, [entitycreaterDispatchers]);
 
-  const entityNameCell = (value, index, record) => {
-    return <EditablePane defaultTitle={value} type='input'
-      data={entitycreaterState} setEntityData={(entityName, type) => entitycreaterDispatchers.setEntityData({
-        index, record, entityName, type, entityData: entitycreaterState.entityData
-      })} />;
-  }
-
-  const entityPropertyCell = (value, index, record) => {
-    return <EditablePane defaultTitle={value} type='select'
-      data={entitycreaterState} setEntityData={(entityProperty, type) => entitycreaterDispatchers.setEntityData({
-        index, record, entityProperty, type, entityData: entitycreaterState.entityData
-      })} />;
-  }
-
-  const operateRender = (value, index, record) => {
+  const entityNameRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.upEntityData({
-        entityData: entitycreaterState.entityData, index
-      })}> 上移 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.downEntityData({
-        entityData: entitycreaterState.entityData, index
-      })}> 下移 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.deleteEntityData({
-        entityData: entitycreaterState.entityData,
-        index: record.id
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameDelete({
+        record,
+        entityNameCurrent: entitycreaterState.entityNameCurrent
+      })} warning> 删除 </Button>
+    </div>;
+  };
+
+  const entityRender = (value, index, record) => {
+    return <div className={styles.opt}>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.upEntity({ record, entityCurrent: entitycreaterState.entityCurrent })}> 上移 </Button>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.downEntity({ record, entityCurrent: entitycreaterState.entityCurrent })}> 下移 </Button>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityDelete({
+        record,
+        entityCurrent: entitycreaterState.entityCurrent
       })} warning> 删除 </Button>
     </div>;
   };
 
   return (
     <ResponsiveGrid gap={20}>
-      <Cell colSpan={6} >
+      <Cell colSpan={12}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => entitycreaterDispatchers.addEntityData({
-              entityData: entitycreaterState.entityData,
-              index: entitycreaterState.index
-            })}> 添加属性 </Button>
-            <Button onClick={() => dispatchers.setState({ entityData: [] })}> 重置属性 </Button>
+            <Button type="primary" onClick={() => entitycreaterDispatchers.entityNameEdit()}> 添加实体 </Button>
+            <Dialog title="实体" visible={entitycreaterState.entityNameVisible}
+              onOk={() => entitycreaterDispatchers.entityNameSave({
+                entityNameFormData: entitycreaterState.entityNameFormData,
+                entityNameCurrent: entitycreaterState.entityNameCurrent
+              })}
+              onCancel={() => dispatchers.setState({ entityNameVisible: false })}
+              onClose={() => dispatchers.setState({ entityNameVisible: false })}
+              style={{ width: '30%' }}>
+              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
+                value={entitycreaterState.entityNameFormData}
+                onChange={value => dispatchers.setState({ entityNameFormData: value })}>
+                <FormItem label="实体名称：" required requiredMessage="请输入实体名称">
+                  <Input id="name" name="name" placeholder="请输入实体名称" />
+                </FormItem>
+                <FormItem label="对象类型：" required requiredMessage="请选择对象类型">
+                  <RadioGroup dataSource={entitycreaterState.ENTITY_TYPE} name="type" />
+                </FormItem>
+                <FormItem label="生成路径：" required requiredMessage="请选择生成路径">
+                  <Input id="path" name="path" placeholder="请输入生成路径" />
+                </FormItem>
+                <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
+                  <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
+                </FormItem>
+              </Form>
+            </Dialog>
           </div>
-          <Table hasBorder className={styles.Table} primaryKey='id'
-            dataSource={entitycreaterState.entityData} rowSelection={{
-              mode: 'single',
-              onChange: (selected, record) => {
-                dispatchers.setState({ primaryKey: record[0].id })
-              }
-            }}>
-            <Table.Column title="序号" dataIndex="id" key={1} width="65px" />
-            <Table.Column title="属性名" dataIndex="entityName" key={2} cell={entityNameCell} />
-            <Table.Column title="数据类型" dataIndex="entityProperty" key={3} cell={entityPropertyCell} />
-            <Table.Column title="操作" lock="right" width="222px" cell={operateRender} />
-          </Table>
+          <Loading tip="加载中..." visible={entitycreaterState.entityNameLoadingVisible}>
+            <Table hasBorder className={styles.Table} dataSource={entitycreaterState.entityNameTableData}
+              rowSelection={{
+                mode: 'single',
+                onSelect: (selected, record) => {
+                  entitycreaterDispatchers.onRowClick({ selected, record });
+                }
+              }} >
+              <Table.Column title="实体名称" dataIndex="name" key={1} width="200px" />
+              <Table.Column title="对象类型" dataIndex="type" key={2} width="100px" />
+              <Table.Column title="生成路径" dataIndex="path" key={3} />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={4} width="100px" />
+              <Table.Column title="操作" lock="right" width="160px" cell={entityNameRender} />
+            </Table>
+            <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
+              <div className={styles.total}> 共 <span>{entitycreaterState.entityNameTotal}</span> 条 </div>
+              <Pagination onChange={current => entitycreaterDispatchers.entityNamePage(current)}
+                stype="simple" pageSize={5} total={entitycreaterState.entityNameTotal} />
+            </Box>
+          </Loading>
         </div>
       </Cell>
-      <Cell colSpan={6} >
-        <div className={styles.Main}>
-          <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
-            value={entitycreaterState.catalogFormData}
-            onChange={value => dispatchers.setState({ entityFormData: value })}>
-            <FormItem>
-              <Form.Submit validate type="primary" onClick={(value, errors) => entitycreaterDispatchers.createEntity({
-                entityData: entitycreaterState.entityData, primaryKey: entitycreaterState.primaryKey, ...value, errors
-              })} htmlType="submit" style={{ margin: '0 10px' }}> 生成实体类代码 </Form.Submit>
-              <Form.Reset > 重置表单 </Form.Reset>
-              <Form.Submit validate type="primary" onClick={(value, errors) => entitycreaterDispatchers.createEntityFile({
-                entityData: entitycreaterState.entityData, primaryKey: entitycreaterState.primaryKey, ...value, errors
-              })} htmlType="submit" style={{ margin: '0 10px' }}> 下载到指定路径 </Form.Submit>
-            </FormItem>
-            <FormItem label="实体类名称：" required requiredMessage="请输入实体类名称">
-              <Input id="name" name="name" />
-            </FormItem>
-            <FormItem label="实体对象类型：" required requiredMessage="请选择实体对象类型">
-              <RadioGroup dataSource={entitycreaterState.ENTITY_TYPE} name="type" />
-            </FormItem>
-            <FormItem label="是否使用lombok：" required requiredMessage="请选择是否使用lombok">
-              <RadioGroup dataSource={entitycreaterState.YES_NO} name="lombok" />
-            </FormItem>
-            <FormItem label="重写方法：">
-              <Transfer mode="simple" dataSource={entitycreaterState.OVERRIDE_METHOD}
-                titles={['可重写方法', '需重写方法']} name="method" />
-            </FormItem>
-            <FormItem label="项目生成路径:">
-              <Input id="path" name="path" />
-            </FormItem>
-          </Form>
-        </div>
-      </Cell>
-      <Drawer title="实体类代码" placement="right" width="800px"
-        visible={entitycreaterState.drawerVisible}
-        onClose={() => dispatchers.setState({ drawerVisible: false })}
-        onBlur={() => dispatchers.setState({ drawerVisible: false })}>
+      <Cell colSpan={12} hidden={entitycreaterState.divVisible}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => entitycreaterDispatchers.download({
-              code: entitycreaterState.code,
-              entityName: entitycreaterState.entityName
-            })}> 下载文件 </Button>
+            <Button type="primary" onClick={() => entitycreaterDispatchers.entityEdit()}> 添加属性 </Button>
+            <Dialog title="属性" visible={entitycreaterState.entityVisible}
+              onOk={() => entitycreaterDispatchers.entitySave({
+                entityFormData: entitycreaterState.entityFormData,
+                entityCurrent: entitycreaterState.entityCurrent,
+                entityNameId: entitycreaterState.entityNameId
+              })}
+              onCancel={() => dispatchers.setState({ entityVisible: false })}
+              onClose={() => dispatchers.setState({ entityVisible: false })}
+              style={{ width: '30%' }}>
+              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
+                value={entitycreaterState.entityFormData}
+                onChange={value => dispatchers.setState({ entityFormData: value })}>
+                <FormItem label="属性名：" required requiredMessage="请输入属性名" >
+                  <Input id="entityName" name="entityName" placeholder="请输入属性名" />
+                </FormItem>
+                <FormItem label="数据类型：" required requiredMessage="请输入数据类型" >
+                  {/* <Input id="entityProperty" name="entityProperty" placeholder="请输入数据类型" /> */}
+                  <Select dataSource={entitycreaterState.DATA_TYPE} id="entityProperty" name="entityProperty" placeholder="请输入数据类型" style={{ width: 433 }} />
+                </FormItem>
+                <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
+                  <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
+                </FormItem>
+              </Form>
+            </Dialog>
           </div>
-          <MonacoEditor width="755" height="755" language="java" theme="vs-dark" value={entitycreaterState.code} />
+          <Loading tip="加载中..." visible={entitycreaterState.entityLoadingVisible}>
+            <Table hasBorder className={styles.Table} dataSource={entitycreaterState.entityTableData}>
+              <Table.Column title="属性名" dataIndex="entityName" key={1} />
+              <Table.Column title="数据类型" dataIndex="entityProperty" key={2} />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={3} width="100px" />
+              <Table.Column title="操作" lock="right" width="285px" cell={entityRender} />
+            </Table>
+            <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
+              <div className={styles.total}> 共 <span>{entitycreaterState.entityTotal}</span> 条 </div>
+              <Pagination onChange={current => entitycreaterDispatchers.entityPage({ id: entitycreaterState.entityNameId, current })}
+                type="simple" pageSize={5} total={entitycreaterState.entityTotal} />
+            </Box>
+          </Loading>
         </div>
-      </Drawer>
-    </ResponsiveGrid >
+      </Cell>
+    </ResponsiveGrid>
   )
 }
 

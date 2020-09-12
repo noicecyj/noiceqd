@@ -30,12 +30,6 @@ export default {
   },
 
   reducers: {
-    setCatalog(prevState, payload) {
-      return { ...prevState, ...payload }
-    },
-    setDictionary(prevState, payload) {
-      return { ...prevState, ...payload }
-    },
     setState(prevState, payload) {
       return { ...prevState, ...payload }
     }
@@ -50,7 +44,7 @@ export default {
             catalogTableData: res.data.content,
             catalogLoadingVisible: false
           }
-          dispatch.dictionary.setCatalog(payload);
+          dispatch.dictionary.setState(payload);
         } else {
           const payload = {
             catalogTotal: res.data.totalElements,
@@ -58,7 +52,7 @@ export default {
             catalogLoadingVisible: false,
             divVisible: true
           }
-          dispatch.dictionary.setCatalog(payload);
+          dispatch.dictionary.setState(payload);
         }
       })
     },
@@ -68,13 +62,13 @@ export default {
           catalogFormData: data,
           catalogVisible: true
         }
-        dispatch.dictionary.setCatalog(payload);
+        dispatch.dictionary.setState(payload);
       } else {
         const payload = {
           catalogFormData: {},
           catalogVisible: true
         }
-        dispatch.dictionary.setCatalog(payload);
+        dispatch.dictionary.setState(payload);
       }
     },
     deleteCatalog(data) {
@@ -86,7 +80,7 @@ export default {
             catalogCurrent: data.catalogCurrent,
             divVisible: true
           }
-          dispatch.dictionary.setCatalog(payload);
+          dispatch.dictionary.setState(payload);
         })
       })
     },
@@ -99,11 +93,11 @@ export default {
             catalogCurrent: data.catalogCurrent,
             divVisible: true
           }
-          dispatch.dictionary.setCatalog(payload);
+          dispatch.dictionary.setState(payload);
         })
       })
       const payload = { catalogVisible: false }
-      dispatch.dictionary.setCatalog(payload);
+      dispatch.dictionary.setState(payload);
     },
     searchCatalog(data) {
       dictionaryService.searchCatalog(data).then(res => {
@@ -111,7 +105,7 @@ export default {
           catalogTotal: res.data.totalElements,
           catalogTableData: res.data.content
         }
-        dispatch.dictionary.setCatalog(payload);
+        dispatch.dictionary.setState(payload);
       })
     },
     dictionaryPageInfo(data) {
@@ -121,16 +115,16 @@ export default {
           dictionaryTableData: res.data.content,
           dictionaryLoadingVisible: false
         }
-        dispatch.dictionary.setDictionary(payload);
+        dispatch.dictionary.setState(payload);
       })
     },
     editDictionary(data) {
       if (data) {
         const payload = { dictionaryFormData: data, dictionaryVisible: true }
-        dispatch.dictionary.setDictionary(payload);
+        dispatch.dictionary.setState(payload);
       } else {
         const payload = { dictionaryFormData: {}, dictionaryVisible: true }
-        dispatch.dictionary.setDictionary(payload);
+        dispatch.dictionary.setState(payload);
       }
     },
     deleteDictionary(data) {
@@ -141,7 +135,7 @@ export default {
             dictionaryTableData: res.data.content,
             dictionaryCurrent: data.dictionaryCurrent
           }
-          dispatch.dictionary.setDictionary(payload);
+          dispatch.dictionary.setState(payload);
         })
       })
     },
@@ -153,11 +147,11 @@ export default {
             dictionaryTableData: res.data.content,
             dictionaryCurrent: data.dictionaryCurrent
           }
-          dispatch.dictionary.setDictionary(payload);
+          dispatch.dictionary.setState(payload);
         })
       })
       const payload = { dictionaryVisible: false }
-      dispatch.dictionary.setDictionary(payload);
+      dispatch.dictionary.setState(payload);
     },
     onRowClick(data) {
       dictionaryService.getDictionaryByPage(data.record.id, 1).then(res => {
@@ -167,13 +161,13 @@ export default {
           dictionaryTableData: res.data.content,
           dictionaryCurrent: 1
         }
-        dispatch.dictionary.setDictionary(payload);
+        dispatch.dictionary.setState(payload);
       });
       const payload = {
         dictionaryId: data.record.id,
         dictionaryLoadingVisible: false
       }
-      dispatch.dictionary.setDictionary(payload);
+      dispatch.dictionary.setState(payload);
     }
   })
 };
