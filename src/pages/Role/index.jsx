@@ -32,8 +32,9 @@ function RolePage() {
           <div className={styles.add}>
             <Button type="primary" onClick={() => roleDispatchers.roleEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={roleState.roleVisible}
-              onOk={() => roleDispatchers.saverole({
-                roleFormData: roleState.roleFormData
+              onOk={() => roleDispatchers.roleSave({
+                roleFormData: roleState.roleFormData,
+                roleCurrent: roleState.roleCurrent
               })}
               onCancel={() => dispatchers.setState({ roleVisible: false })}
               onClose={() => dispatchers.setState({ roleVisible: false })}
@@ -41,7 +42,7 @@ function RolePage() {
               <Form style={{ width: '100%' }} {...roleState.formItemLayout}
                 value={roleState.roleFormData}
                 onChange={value => dispatchers.setState({ roleFormData: value })}>
-                  11111111111111111111111
+                11111111123423423423411
               </Form>
             </Dialog>
           </div>

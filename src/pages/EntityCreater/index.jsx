@@ -20,12 +20,13 @@ function EntityCreaterPage() {
 
   const entityNameRender = (value, index, record) => {
     return <div className={styles.opt}>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createEntityFile(record)}> 生成代码 </Button>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameDelete({
         record,
         entityNameCurrent: entitycreaterState.entityNameCurrent
       })} warning> 删除 </Button>
-    </div>;
+    </div >;
   };
 
   const entityRender = (value, index, record) => {
@@ -66,6 +67,9 @@ function EntityCreaterPage() {
                 <FormItem label="生成路径：" required requiredMessage="请选择生成路径">
                   <Input id="path" name="path" placeholder="请输入生成路径" />
                 </FormItem>
+                <FormItem label="接口名称：" required requiredMessage="请选择接口名称">
+                  <Input id="api" name="api" placeholder="请输入接口名称" />
+                </FormItem>
                 <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
                   <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
                 </FormItem>
@@ -83,8 +87,9 @@ function EntityCreaterPage() {
               <Table.Column title="实体名称" dataIndex="name" key={1} width="200px" />
               <Table.Column title="对象类型" dataIndex="type" key={2} width="100px" />
               <Table.Column title="生成路径" dataIndex="path" key={3} />
-              <Table.Column title="排序代码" dataIndex="sortCode" key={4} width="100px" />
-              <Table.Column title="操作" lock="right" width="160px" cell={entityNameRender} />
+              <Table.Column title="接口名称" dataIndex="api" key={4} width="150px" />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={5} width="100px" />
+              <Table.Column title="操作" lock="right" width="246px" cell={entityNameRender} />
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
               <div className={styles.total}> 共 <span>{entitycreaterState.entityNameTotal}</span> 条 </div>

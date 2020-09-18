@@ -56,20 +56,11 @@ export default {
       data: { ...entityFormData, pid: entityId }
     })
   },
-  createEntity(value) {
-    return request({
-      url: '/entityCreateApi/entity',
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      data: JSON.stringify(value),
-    });
-  },
   createEntityFile(value) {
     return request({
       url: '/entityCreateApi/createEntity',
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      data: JSON.stringify(value),
+      data: value,
     });
   },
   findCatalogByValue(value) {

@@ -23,7 +23,7 @@ export default {
   },
   saveCatalog(catalogFormData) {
     return request({
-      url: '/dictionaryApi/saveCatalog',
+      url: '/dictionaryApi/catalogSave',
       method: 'post',
       data: catalogFormData
     })
@@ -64,7 +64,7 @@ export default {
   },
   saveDictionary(dictionaryFormData, dictionaryId) {
     return request({
-      url: '/dictionaryApi/saveDictionary',
+      url: '/dictionaryApi/dictionarySave',
       method: 'post',
       data: { ...dictionaryFormData, pid: dictionaryId }
     })

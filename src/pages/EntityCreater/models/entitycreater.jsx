@@ -28,14 +28,7 @@ export default {
       }
     },
     ENTITY_TYPE: [],
-    YES_NO: [],
-    OVERRIDE_METHOD: [],
-    DATA_TYPE: [],
-    entityData: [],
-    primaryKey: 1,
-    drawerVisible: false,
-    code: '',
-    entityName: '',
+    DATA_TYPE: []
   },
 
   reducers: {
@@ -211,6 +204,9 @@ export default {
       })
       const payload = { entityVisible: false }
       dispatch.entitycreater.setState(payload);
+    },
+    createEntityFile(data) {
+      entitycreaterService.createEntityFile(data);
     },
   })
 };
