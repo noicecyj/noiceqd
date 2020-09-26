@@ -4,7 +4,7 @@ export default {
   asideMenuConfig() {
     return request({
       url: '/pageMenuApi/asideMenuConfig',
-      method: 'post'
+      method: 'post',
     });
   },
-}
+};

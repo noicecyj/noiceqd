@@ -7,7 +7,6 @@ const { Cell } = ResponsiveGrid;
 const FormItem = Form.Item;
 
 function DictionaryPage() {
-
   const [dictionaryState, dictionaryDispatchers] = pageStore.useModel('dictionary');
   const dispatchers = pageStore.useModelDispatchers('dictionary');
 
@@ -20,7 +19,7 @@ function DictionaryPage() {
       <Button type="primary" size="small" onClick={() => dictionaryDispatchers.editCatalog(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => dictionaryDispatchers.deleteCatalog({
         record,
-        catalogCurrent: dictionaryState.catalogCurrent
+        catalogCurrent: dictionaryState.catalogCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -30,7 +29,7 @@ function DictionaryPage() {
       <Button type="primary" size="small" onClick={() => dictionaryDispatchers.editDictionary(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => dictionaryDispatchers.deleteDictionary({
         record,
-        dictionaryCurrent: dictionaryState.dictionaryCurrent
+        dictionaryCurrent: dictionaryState.dictionaryCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -46,7 +45,7 @@ function DictionaryPage() {
             <Dialog title="目录" visible={dictionaryState.catalogVisible}
               onOk={() => dictionaryDispatchers.saveCatalog({
                 catalogFormData: dictionaryState.catalogFormData,
-                catalogCurrent: dictionaryState.catalogCurrent
+                catalogCurrent: dictionaryState.catalogCurrent,
               })}
               onCancel={() => dispatchers.setState({ catalogVisible: false })}
               onClose={() => dispatchers.setState({ catalogVisible: false })}
@@ -75,7 +74,7 @@ function DictionaryPage() {
                 mode: 'single',
                 onSelect: (selected, record) => {
                   dictionaryDispatchers.onRowClick({ selected, record });
-                }
+                },
               }} >
               <Table.Column title="目录名称" dataIndex="catalogName" key={1} width="200px" />
               <Table.Column title="目录代号" dataIndex="catalogValue" key={2} width="200px" />
@@ -99,7 +98,7 @@ function DictionaryPage() {
               onOk={() => dictionaryDispatchers.saveDictionary({
                 dictionaryFormData: dictionaryState.dictionaryFormData,
                 dictionaryCurrent: dictionaryState.dictionaryCurrent,
-                dictionaryId: dictionaryState.dictionaryId
+                dictionaryId: dictionaryState.dictionaryId,
               })}
               onCancel={() => dispatchers.setState({ dictionaryVisible: false })}
               onClose={() => dispatchers.setState({ dictionaryVisible: false })}
@@ -135,7 +134,7 @@ function DictionaryPage() {
         </div>
       </Cell>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default DictionaryPage;

@@ -1,4 +1,4 @@
-import userService from '../services/user'
+import userService from '../services/user';
 
 export default {
 
@@ -13,18 +13,18 @@ export default {
     userCurrent: 1,
     formItemLayout: {
       labelCol: {
-        fixedSpan: 6
+        fixedSpan: 6,
       },
       wrapperCol: {
-        span: 40
-      }
-    }
+        span: 40,
+      },
+    },
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -33,23 +33,23 @@ export default {
         const payload = {
           userTotal: res.data.totalElements,
           userTableData: res.data.content,
-          userLoadingVisible: false
-        }
+          userLoadingVisible: false,
+        };
         dispatch.user.setState(payload);
-      })
+      });
     },
     userEdit(data) {
       if (data) {
         const payload = {
           userFormData: data,
-          userVisible: true
-        }
+          userVisible: true,
+        };
         dispatch.user.setState(payload);
       } else {
         const payload = {
           userFormData: {},
-          userVisible: true
-        }
+          userVisible: true,
+        };
         dispatch.user.setState(payload);
       }
     },
@@ -59,11 +59,11 @@ export default {
           const payload = {
             userTotal: res.data.totalElements,
             userTableData: res.data.content,
-            userLoadingVisible: false
-          }
+            userLoadingVisible: false,
+          };
           dispatch.user.setState(payload);
-        })
-      })
+        });
+      });
     },
     userSave(data) {
       userService.userSave(data.userFormData).then(() => {
@@ -71,13 +71,13 @@ export default {
           const payload = {
             userTotal: res.data.totalElements,
             userTableData: res.data.content,
-            userLoadingVisible: false
-          }
+            userLoadingVisible: false,
+          };
           dispatch.user.setState(payload);
-        })
-      })
-      const payload = { userVisible: false }
+        });
+      });
+      const payload = { userVisible: false };
       dispatch.user.setState(payload);
     },
-  })
+  }),
 };

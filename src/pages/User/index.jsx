@@ -20,7 +20,7 @@ function UserPage() {
       <Button type="primary" size="small" onClick={() => userDispatchers.userEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => userDispatchers.userDelete({
         record,
-        userCurrent: userState.userCurrent
+        userCurrent: userState.userCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -33,7 +33,7 @@ function UserPage() {
             <Button type="primary" onClick={() => userDispatchers.userEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={userState.userVisible}
               onOk={() => userDispatchers.saveuser({
-                userFormData: userState.userFormData
+                userFormData: userState.userFormData,
               })}
               onCancel={() => dispatchers.setState({ userVisible: false })}
               onClose={() => dispatchers.setState({ userVisible: false })}
@@ -56,7 +56,7 @@ function UserPage() {
         </div>
       </Cell>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default UserPage;

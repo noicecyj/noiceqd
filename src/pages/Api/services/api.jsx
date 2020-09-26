@@ -8,8 +8,8 @@ export default {
       params: {
         pageNumber: value,
         pageSize: 13,
-        sortCode: 'sortCode'
-      }
+        sortCode: 'sortCode',
+      },
     });
   },
   apiDelete(record) {
@@ -17,15 +17,15 @@ export default {
       url: '/ssoApi/apiDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   apiSave(data) {
     return request({
       url: '/ssoApi/apiSave',
       method: 'post',
-      data
-    })
+      data,
+    });
   },
-}
+};

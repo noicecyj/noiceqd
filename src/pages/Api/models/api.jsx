@@ -1,4 +1,4 @@
-import apiService from '../services/api'
+import apiService from '../services/api';
 
 export default {
 
@@ -13,18 +13,18 @@ export default {
     apiCurrent: 1,
     formItemLayout: {
       labelCol: {
-        fixedSpan: 6
+        fixedSpan: 6,
       },
       wrapperCol: {
-        span: 40
-      }
-    }
+        span: 40,
+      },
+    },
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -33,23 +33,23 @@ export default {
         const payload = {
           apiTotal: res.data.totalElements,
           apiTableData: res.data.content,
-          apiLoadingVisible: false
-        }
+          apiLoadingVisible: false,
+        };
         dispatch.api.setState(payload);
-      })
+      });
     },
     apiEdit(data) {
       if (data) {
         const payload = {
           apiFormData: data,
-          apiVisible: true
-        }
+          apiVisible: true,
+        };
         dispatch.api.setState(payload);
       } else {
         const payload = {
           apiFormData: {},
-          apiVisible: true
-        }
+          apiVisible: true,
+        };
         dispatch.api.setState(payload);
       }
     },
@@ -59,11 +59,11 @@ export default {
           const payload = {
             apiTotal: res.data.totalElements,
             apiTableData: res.data.content,
-            apiLoadingVisible: false
-          }
+            apiLoadingVisible: false,
+          };
           dispatch.api.setState(payload);
-        })
-      })
+        });
+      });
     },
     apiSave(data) {
       apiService.apiSave(data.apiFormData).then(() => {
@@ -71,13 +71,13 @@ export default {
           const payload = {
             apiTotal: res.data.totalElements,
             apiTableData: res.data.content,
-            apiLoadingVisible: false
-          }
+            apiLoadingVisible: false,
+          };
           dispatch.api.setState(payload);
-        })
-      })
-      const payload = { apiVisible: false }
+        });
+      });
+      const payload = { apiVisible: false };
       dispatch.api.setState(payload);
     },
-  })
+  }),
 };

@@ -8,8 +8,8 @@ export default {
       params: {
         pageNumber: value,
         pageSize: 5,
-        sortCode: 'sortCode'
-      }
+        sortCode: 'sortCode',
+      },
     });
   },
   entityNameDelete(record) {
@@ -17,16 +17,16 @@ export default {
       url: '/entityCreateApi/entityNameDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   entityNameSave(entityNameFormData) {
     return request({
       url: '/entityCreateApi/entityNameSave',
       method: 'post',
-      data: entityNameFormData
-    })
+      data: entityNameFormData,
+    });
   },
   entityPage(id, value) {
     return request({
@@ -36,25 +36,25 @@ export default {
         id,
         pageNumber: value,
         pageSize: 5,
-        sortCode: 'sortCode'
-      }
-    })
+        sortCode: 'sortCode',
+      },
+    });
   },
   entityDelete(record) {
     return request({
       url: '/entityCreateApi/entityDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   entitySave(entityFormData, entityId) {
     return request({
       url: '/entityCreateApi/entitySave',
       method: 'post',
-      data: { ...entityFormData, pid: entityId }
-    })
+      data: { ...entityFormData, pid: entityId },
+    });
   },
   createEntityFile(value) {
     return request({
@@ -68,8 +68,8 @@ export default {
       url: '/dictionaryApi/findCatalogByValue',
       method: 'post',
       params: {
-        value
-      }
+        value,
+      },
     });
   },
   upEntity(value) {
@@ -77,8 +77,8 @@ export default {
       url: '/entityCreateApi/upEntity',
       method: 'post',
       params: {
-        id: value
-      }
+        id: value,
+      },
     });
   },
   downEntity(value) {
@@ -86,8 +86,8 @@ export default {
       url: '/entityCreateApi/downEntity',
       method: 'post',
       params: {
-        id: value
-      }
+        id: value,
+      },
     });
   },
-}
+};

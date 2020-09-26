@@ -7,7 +7,6 @@ const { Cell } = ResponsiveGrid;
 const FormItem = Form.Item;
 
 function MenuPage() {
-
   const [pagemenuState, pagemenuDispatchers] = pageStore.useModel('pagemenu');
   const dispatchers = pageStore.useModelDispatchers('pagemenu');
   const pagemenuTableData = JSON.parse(JSON.stringify(pagemenuState.pagemenuTableData));
@@ -33,7 +32,7 @@ function MenuPage() {
             <Button type="primary" onClick={() => pagemenuDispatchers.createRouteFile()}> 生成路由文件 </Button>
             <Dialog title="菜单" visible={pagemenuState.pagemenuVisible}
               onOk={() => pagemenuDispatchers.savePageMenu({
-                pagemenuFormData: pagemenuState.pagemenuFormData
+                pagemenuFormData: pagemenuState.pagemenuFormData,
               })}
               onCancel={() => dispatchers.setState({ pagemenuVisible: false })}
               onClose={() => dispatchers.setState({ pagemenuVisible: false })}
@@ -88,7 +87,7 @@ function MenuPage() {
         </div>
       </Cell>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default MenuPage;

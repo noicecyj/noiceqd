@@ -1,4 +1,4 @@
-import logService from '../services/log'
+import logService from '../services/log';
 
 export default {
 
@@ -17,18 +17,18 @@ export default {
     logText: '',
     formItemLayout: {
       labelCol: {
-        fixedSpan: 6
+        fixedSpan: 6,
       },
       wrapperCol: {
-        span: 40
-      }
-    }
+        span: 40,
+      },
+    },
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -37,23 +37,23 @@ export default {
         const payload = {
           logTotal: res.data.totalElements,
           logTableData: res.data.content,
-          logLoadingVisible: false
-        }
+          logLoadingVisible: false,
+        };
         dispatch.log.setState(payload);
-      })
+      });
     },
     editLog(data) {
       if (data) {
         const payload = {
           logFormData: data,
-          logVisible: true
-        }
+          logVisible: true,
+        };
         dispatch.log.setState(payload);
       } else {
         const payload = {
           logFormData: {},
-          logVisible: true
-        }
+          logVisible: true,
+        };
         dispatch.log.setState(payload);
       }
     },
@@ -63,11 +63,11 @@ export default {
           const payload = {
             logTotal: res.data.totalElements,
             logTableData: res.data.content,
-            logLoadingVisible: false
-          }
+            logLoadingVisible: false,
+          };
           dispatch.log.setState(payload);
-        })
-      })
+        });
+      });
     },
     logSave(data) {
       logService.logSave(data.logFormData).then(() => {
@@ -75,12 +75,12 @@ export default {
           const payload = {
             logTotal: res.data.totalElements,
             logTableData: res.data.content,
-            logLoadingVisible: false
-          }
+            logLoadingVisible: false,
+          };
           dispatch.log.setState(payload);
-        })
-      })
-      const payload = { logVisible: false }
+        });
+      });
+      const payload = { logVisible: false };
       dispatch.log.setState(payload);
     },
     findLogsByPort(data) {
@@ -89,15 +89,15 @@ export default {
         res.forEach(item => {
           const log = `${item.createDate}  [ ${item.threadName} ]  ${item.msgLevel}  ${item.classpath} - ${item.msg}`;
           logArr.push(log);
-        })
+        });
         const payload = {
           logText: logArr.join(' \n'),
           drawerVisible: true,
           logName: data.record.serverName,
           logPort: data.record.serverPort,
-        }
+        };
         dispatch.log.setState(payload);
-      })
+      });
     },
     deleteLogsByPort(data) {
       logService.deleteLogsByPort(data).then(() => {
@@ -106,14 +106,14 @@ export default {
           res.forEach(item => {
             const log = `${item.createDate}  [ ${item.threadName} ]  ${item.msgLevel}  ${item.classpath} - ${item.msg}`;
             logArr.push(log);
-          })
+          });
           const payload = {
             logText: logArr.join(' \n'),
             drawerVisible: true,
-          }
+          };
           dispatch.log.setState(payload);
-        })
-      })
-    }
-  })
+        });
+      });
+    },
+  }),
 };

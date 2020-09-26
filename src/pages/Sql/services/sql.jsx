@@ -8,8 +8,8 @@ export default {
       params: {
         pageNumber: value,
         pageSize: 13,
-        sortCode: 'sortCode'
-      }
+        sortCode: 'sortCode',
+      },
     });
   },
   sqlDelete(record) {
@@ -17,16 +17,16 @@ export default {
       url: '/sqlApi/sqlDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   sqlSave(data) {
     return request({
       url: '/sqlApi/sqlSave',
       method: 'post',
-      data
-    })
+      data,
+    });
   },
   sqlExcited(data) {
     return request({
@@ -34,17 +34,17 @@ export default {
       method: 'post',
       params: {
         sqlStr: data.sqlStr,
-        sqlType: data.sqlType
-      }
-    })
+        sqlType: data.sqlType,
+      },
+    });
   },
   findCatalogByValue(value) {
     return request({
       url: '/dictionaryApi/findCatalogByValue',
       method: 'post',
       params: {
-        value
-      }
+        value,
+      },
     });
-  }
-}
+  },
+};

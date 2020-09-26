@@ -1,4 +1,4 @@
-import pagemenuService from '../services/pagemenu'
+import pagemenuService from '../services/pagemenu';
 
 export default {
 
@@ -12,18 +12,18 @@ export default {
     pagemenuTotal: 0,
     formItemLayout: {
       labelCol: {
-        fixedSpan: 6
+        fixedSpan: 6,
       },
       wrapperCol: {
-        span: 40
-      }
-    }
+        span: 40,
+      },
+    },
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -32,23 +32,23 @@ export default {
         const payload = {
           pagemenuTotal: res.data[1],
           pagemenuTableData: [res.data[0]],
-          pagemenuLoadingVisible: false
-        }
+          pagemenuLoadingVisible: false,
+        };
         dispatch.pagemenu.setState(payload);
-      })
+      });
     },
     editPageMenu(data) {
       if (data) {
         const payload = {
           pagemenuFormData: data,
-          pagemenuVisible: true
-        }
+          pagemenuVisible: true,
+        };
         dispatch.pagemenu.setState(payload);
       } else {
         const payload = {
           pagemenuFormData: {},
-          pagemenuVisible: true
-        }
+          pagemenuVisible: true,
+        };
         dispatch.pagemenu.setState(payload);
       }
     },
@@ -58,10 +58,10 @@ export default {
           const payload = {
             pagemenuTotal: res.data[1],
             pagemenuTableData: [res.data[0]],
-          }
+          };
           dispatch.pagemenu.setState(payload);
-        })
-      })
+        });
+      });
     },
     savePageMenu(data) {
       pagemenuService.pageMenuSave(data.pagemenuFormData).then(() => {
@@ -69,11 +69,11 @@ export default {
           const payload = {
             pagemenuTotal: res.data[1],
             pagemenuTableData: [res.data[0]],
-          }
+          };
           dispatch.pagemenu.setState(payload);
-        })
-      })
-      const payload = { pagemenuVisible: false }
+        });
+      });
+      const payload = { pagemenuVisible: false };
       dispatch.pagemenu.setState(payload);
     },
     createRouteFile() {
@@ -85,10 +85,10 @@ export default {
           const payload = {
             pagemenuTotal: res.data[1],
             pagemenuTableData: [res.data[0]],
-          }
+          };
           dispatch.pagemenu.setState(payload);
-        })
-      })
+        });
+      });
     },
-  })
+  }),
 };

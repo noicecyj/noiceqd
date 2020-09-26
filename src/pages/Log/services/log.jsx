@@ -8,8 +8,8 @@ export default {
       params: {
         pageNumber: value,
         pageSize: 13,
-        sortCode: 'sortCode'
-      }
+        sortCode: 'sortCode',
+      },
     });
   },
   logDelete(record) {
@@ -17,33 +17,33 @@ export default {
       url: '/logApi/serverDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   logSave(data) {
     return request({
       url: '/logApi/saveServer',
       method: 'post',
-      data
-    })
+      data,
+    });
   },
   findLogsByPort(data) {
     return request({
       url: '/logApi/findLogsByPort',
       method: 'post',
       params: {
-        port: data
-      }
-    })
+        port: data,
+      },
+    });
   },
   deleteLogsByPort(data) {
     return request({
       url: '/logApi/deleteLogsByPort',
       method: 'post',
       params: {
-        port: data
-      }
-    })
+        port: data,
+      },
+    });
   },
-}
+};

@@ -20,7 +20,7 @@ function ApiPage() {
       <Button type="primary" size="small" onClick={() => apiDispatchers.apiEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => apiDispatchers.apiDelete({
         record,
-        apiCurrent: apiState.apiCurrent
+        apiCurrent: apiState.apiCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -33,7 +33,7 @@ function ApiPage() {
             <Button type="primary" onClick={() => apiDispatchers.apiEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={apiState.apiVisible}
               onOk={() => apiDispatchers.saveapi({
-                apiFormData: apiState.apiFormData
+                apiFormData: apiState.apiFormData,
               })}
               onCancel={() => dispatchers.setState({ apiVisible: false })}
               onClose={() => dispatchers.setState({ apiVisible: false })}
@@ -56,7 +56,7 @@ function ApiPage() {
         </div>
       </Cell>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default ApiPage;

@@ -1,4 +1,4 @@
-import dictionaryService from '../services/dictionary'
+import dictionaryService from '../services/dictionary';
 
 export default {
 
@@ -21,18 +21,18 @@ export default {
     dictionaryId: '',
     formItemLayout: {
       labelCol: {
-        fixedSpan: 5
+        fixedSpan: 5,
       },
       wrapperCol: {
-        span: 40
-      }
-    }
+        span: 40,
+      },
+    },
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -42,32 +42,32 @@ export default {
           const payload = {
             catalogTotal: res.data.totalElements,
             catalogTableData: res.data.content,
-            catalogLoadingVisible: false
-          }
+            catalogLoadingVisible: false,
+          };
           dispatch.dictionary.setState(payload);
         } else {
           const payload = {
             catalogTotal: res.data.totalElements,
             catalogTableData: res.data.content,
             catalogLoadingVisible: false,
-            divVisible: true
-          }
+            divVisible: true,
+          };
           dispatch.dictionary.setState(payload);
         }
-      })
+      });
     },
     editCatalog(data) {
       if (data) {
         const payload = {
           catalogFormData: data,
-          catalogVisible: true
-        }
+          catalogVisible: true,
+        };
         dispatch.dictionary.setState(payload);
       } else {
         const payload = {
           catalogFormData: {},
-          catalogVisible: true
-        }
+          catalogVisible: true,
+        };
         dispatch.dictionary.setState(payload);
       }
     },
@@ -78,11 +78,11 @@ export default {
             catalogTotal: res.data.totalElements,
             catalogTableData: res.data.content,
             catalogCurrent: data.catalogCurrent,
-            divVisible: true
-          }
+            divVisible: true,
+          };
           dispatch.dictionary.setState(payload);
-        })
-      })
+        });
+      });
     },
     saveCatalog(data) {
       dictionaryService.saveCatalog(data.catalogFormData).then(() => {
@@ -91,39 +91,39 @@ export default {
             catalogTotal: res.data.totalElements,
             catalogTableData: res.data.content,
             catalogCurrent: data.catalogCurrent,
-            divVisible: true
-          }
+            divVisible: true,
+          };
           dispatch.dictionary.setState(payload);
-        })
-      })
-      const payload = { catalogVisible: false }
+        });
+      });
+      const payload = { catalogVisible: false };
       dispatch.dictionary.setState(payload);
     },
     searchCatalog(data) {
       dictionaryService.searchCatalog(data).then(res => {
         const payload = {
           catalogTotal: res.data.totalElements,
-          catalogTableData: res.data.content
-        }
+          catalogTableData: res.data.content,
+        };
         dispatch.dictionary.setState(payload);
-      })
+      });
     },
     dictionaryPageInfo(data) {
       dictionaryService.getDictionaryByPage(data.id, data.current).then(res => {
         const payload = {
           dictionaryTotal: res.data.totalElements,
           dictionaryTableData: res.data.content,
-          dictionaryLoadingVisible: false
-        }
+          dictionaryLoadingVisible: false,
+        };
         dispatch.dictionary.setState(payload);
-      })
+      });
     },
     editDictionary(data) {
       if (data) {
-        const payload = { dictionaryFormData: data, dictionaryVisible: true }
+        const payload = { dictionaryFormData: data, dictionaryVisible: true };
         dispatch.dictionary.setState(payload);
       } else {
-        const payload = { dictionaryFormData: {}, dictionaryVisible: true }
+        const payload = { dictionaryFormData: {}, dictionaryVisible: true };
         dispatch.dictionary.setState(payload);
       }
     },
@@ -133,11 +133,11 @@ export default {
           const payload = {
             dictionaryTotal: res.data.totalElements,
             dictionaryTableData: res.data.content,
-            dictionaryCurrent: data.dictionaryCurrent
-          }
+            dictionaryCurrent: data.dictionaryCurrent,
+          };
           dispatch.dictionary.setState(payload);
-        })
-      })
+        });
+      });
     },
     saveDictionary(data) {
       dictionaryService.saveDictionary(data.dictionaryFormData, data.dictionaryId).then(() => {
@@ -145,12 +145,12 @@ export default {
           const payload = {
             dictionaryTotal: res.data.totalElements,
             dictionaryTableData: res.data.content,
-            dictionaryCurrent: data.dictionaryCurrent
-          }
+            dictionaryCurrent: data.dictionaryCurrent,
+          };
           dispatch.dictionary.setState(payload);
-        })
-      })
-      const payload = { dictionaryVisible: false }
+        });
+      });
+      const payload = { dictionaryVisible: false };
       dispatch.dictionary.setState(payload);
     },
     onRowClick(data) {
@@ -159,15 +159,15 @@ export default {
           divVisible: !data.selected,
           dictionaryTotal: res.data.totalElements,
           dictionaryTableData: res.data.content,
-          dictionaryCurrent: 1
-        }
+          dictionaryCurrent: 1,
+        };
         dispatch.dictionary.setState(payload);
       });
       const payload = {
         dictionaryId: data.record.id,
-        dictionaryLoadingVisible: false
-      }
+        dictionaryLoadingVisible: false,
+      };
       dispatch.dictionary.setState(payload);
-    }
-  })
+    },
+  }),
 };

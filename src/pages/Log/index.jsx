@@ -7,7 +7,6 @@ const { Cell } = ResponsiveGrid;
 const FormItem = Form.Item;
 
 function MenuPage() {
-
   const [logState, logDispatchers] = pageStore.useModel('log');
   const dispatchers = pageStore.useModelDispatchers('log');
   const logTableData = JSON.parse(JSON.stringify(logState.logTableData));
@@ -21,7 +20,7 @@ function MenuPage() {
       <Button type="primary" size="small" onClick={() => logDispatchers.editLog(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => logDispatchers.deleteLog({
         record,
-        logCurrent: logState.logCurrent
+        logCurrent: logState.logCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -35,7 +34,7 @@ function MenuPage() {
             <Dialog title="服务" visible={logState.logVisible}
               onOk={() => logDispatchers.logSave({
                 logFormData: logState.logFormData,
-                logCurrent: logState.logCurrent
+                logCurrent: logState.logCurrent,
               })}
               onCancel={() => dispatchers.setState({ logVisible: false })}
               onClose={() => dispatchers.setState({ logVisible: false })}
@@ -64,7 +63,7 @@ function MenuPage() {
                 mode: 'single',
                 onSelect: (selected, record) => {
                   logDispatchers.findLogsByPort({ selected, record });
-                }
+                },
               }}>
               <Table.Column title="服务名称" dataIndex="serverName" width="200px" />
               <Table.Column title="服务端口" dataIndex="serverPort" width="200px" />
@@ -93,7 +92,7 @@ function MenuPage() {
         </div>
       </Drawer>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default MenuPage;

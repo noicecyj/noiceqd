@@ -23,7 +23,7 @@ function SqlPage() {
       <Button type="primary" size="small" onClick={() => sqlDispatchers.sqlEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => sqlDispatchers.sqlDelete({
         record,
-        sqlCurrent: sqlState.sqlCurrent
+        sqlCurrent: sqlState.sqlCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -46,7 +46,7 @@ function SqlPage() {
             <Dialog title="菜单" visible={sqlState.sqlVisible}
               onOk={() => sqlDispatchers.sqlSave({
                 sqlFormData: sqlState.sqlFormData,
-                sqlCurrent: sqlState.sqlCurrent
+                sqlCurrent: sqlState.sqlCurrent,
               })}
               onCancel={() => dispatchers.setState({ sqlVisible: false, sqlStr: '' })}
               onClose={() => dispatchers.setState({ sqlVisible: false, sqlStr: '' })}
@@ -103,7 +103,7 @@ function SqlPage() {
         </div>
       </Drawer>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default SqlPage;

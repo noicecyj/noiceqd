@@ -8,8 +8,8 @@ export default {
       params: {
         pageNumber: value,
         pageSize: 13,
-        sortCode: 'sortCode'
-      }
+        sortCode: 'sortCode',
+      },
     });
   },
   roleDelete(record) {
@@ -17,15 +17,15 @@ export default {
       url: '/ssoApi/roleDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   roleSave(data) {
     return request({
       url: '/ssoApi/roleSave',
       method: 'post',
-      data
-    })
+      data,
+    });
   },
-}
+};

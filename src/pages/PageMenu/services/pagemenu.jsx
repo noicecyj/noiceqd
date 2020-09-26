@@ -4,7 +4,7 @@ export default {
   pageMenuPage() {
     return request({
       url: '/pageMenuApi/findAll',
-      method: 'post'
+      method: 'post',
     });
   },
   pageMenuDelete(record) {
@@ -12,28 +12,28 @@ export default {
       url: '/pageMenuApi/menuPageDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   pageMenuSave(data) {
     return request({
       url: '/pageMenuApi/saveMenuPage',
       method: 'post',
-      data
-    })
+      data,
+    });
   },
   createRouteFile() {
     return request({
       url: '/pageMenuApi/createRouteFile',
       method: 'post',
-    })
+    });
   },
   createComponentFile(data) {
     return request({
       url: '/pageMenuApi/createComponentFile',
       method: 'post',
-      data
-    })
+      data,
+    });
   },
-}
+};

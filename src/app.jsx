@@ -11,6 +11,6 @@ const appConfig = {
   },
   router: {
     type: 'browser',
-  }
+  },
 };
 createApp(appConfig);

@@ -8,7 +8,6 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 function EntityCreaterPage() {
-
   const [entitycreaterState, entitycreaterDispatchers] = pageStore.useModel('entitycreater');
   const dispatchers = pageStore.useModelDispatchers('entitycreater');
 
@@ -24,7 +23,7 @@ function EntityCreaterPage() {
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameDelete({
         record,
-        entityNameCurrent: entitycreaterState.entityNameCurrent
+        entityNameCurrent: entitycreaterState.entityNameCurrent,
       })} warning> 删除 </Button>
     </div >;
   };
@@ -36,7 +35,7 @@ function EntityCreaterPage() {
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityDelete({
         record,
-        entityCurrent: entitycreaterState.entityCurrent
+        entityCurrent: entitycreaterState.entityCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -50,7 +49,7 @@ function EntityCreaterPage() {
             <Dialog title="实体" visible={entitycreaterState.entityNameVisible}
               onOk={() => entitycreaterDispatchers.entityNameSave({
                 entityNameFormData: entitycreaterState.entityNameFormData,
-                entityNameCurrent: entitycreaterState.entityNameCurrent
+                entityNameCurrent: entitycreaterState.entityNameCurrent,
               })}
               onCancel={() => dispatchers.setState({ entityNameVisible: false })}
               onClose={() => dispatchers.setState({ entityNameVisible: false })}
@@ -82,7 +81,7 @@ function EntityCreaterPage() {
                 mode: 'single',
                 onSelect: (selected, record) => {
                   entitycreaterDispatchers.onRowClick({ selected, record });
-                }
+                },
               }} >
               <Table.Column title="实体名称" dataIndex="name" key={1} width="200px" />
               <Table.Column title="对象类型" dataIndex="type" key={2} width="100px" />
@@ -107,7 +106,7 @@ function EntityCreaterPage() {
               onOk={() => entitycreaterDispatchers.entitySave({
                 entityFormData: entitycreaterState.entityFormData,
                 entityCurrent: entitycreaterState.entityCurrent,
-                entityNameId: entitycreaterState.entityNameId
+                entityNameId: entitycreaterState.entityNameId,
               })}
               onCancel={() => dispatchers.setState({ entityVisible: false })}
               onClose={() => dispatchers.setState({ entityVisible: false })}
@@ -144,7 +143,7 @@ function EntityCreaterPage() {
         </div>
       </Cell>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default EntityCreaterPage;

@@ -20,7 +20,7 @@ function PageFunctionPage() {
       <Button type="primary" size="small" onClick={() => pageFunctionDispatchers.pageFunctionEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => pageFunctionDispatchers.pageFunctionDelete({
         record,
-        pageFunctionCurrent: pageFunctionState.pageFunctionCurrent
+        pageFunctionCurrent: pageFunctionState.pageFunctionCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -33,7 +33,7 @@ function PageFunctionPage() {
             <Button type="primary" onClick={() => pageFunctionDispatchers.pageFunctionEdit()}> 添加菜单 </Button>
             <Dialog title="菜单" visible={pageFunctionState.pageFunctionVisible}
               onOk={() => pageFunctionDispatchers.savepageFunction({
-                pageFunctionFormData: pageFunctionState.pageFunctionFormData
+                pageFunctionFormData: pageFunctionState.pageFunctionFormData,
               })}
               onCancel={() => dispatchers.setState({ pageFunctionVisible: false })}
               onClose={() => dispatchers.setState({ pageFunctionVisible: false })}
@@ -56,7 +56,7 @@ function PageFunctionPage() {
         </div>
       </Cell>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default PageFunctionPage;

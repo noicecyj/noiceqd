@@ -20,7 +20,7 @@ function RolePage() {
       <Button type="primary" size="small" onClick={() => roleDispatchers.roleEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => roleDispatchers.roleDelete({
         record,
-        roleCurrent: roleState.roleCurrent
+        roleCurrent: roleState.roleCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -34,7 +34,7 @@ function RolePage() {
             <Dialog title="菜单" visible={roleState.roleVisible}
               onOk={() => roleDispatchers.roleSave({
                 roleFormData: roleState.roleFormData,
-                roleCurrent: roleState.roleCurrent
+                roleCurrent: roleState.roleCurrent,
               })}
               onCancel={() => dispatchers.setState({ roleVisible: false })}
               onClose={() => dispatchers.setState({ roleVisible: false })}
@@ -42,7 +42,7 @@ function RolePage() {
               <Form style={{ width: '100%' }} {...roleState.formItemLayout}
                 value={roleState.roleFormData}
                 onChange={value => dispatchers.setState({ roleFormData: value })}>
-                11111111123423423423411
+                  11111111111111111111111
               </Form>
             </Dialog>
           </div>
@@ -57,7 +57,7 @@ function RolePage() {
         </div>
       </Cell>
     </ResponsiveGrid>
-  )
+  );
 }
 
 export default RolePage;

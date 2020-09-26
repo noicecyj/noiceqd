@@ -8,8 +8,8 @@ export default {
       params: {
         pageNumber: value,
         pageSize: 5,
-        sortCode: 'sortCode'
-      }
+        sortCode: 'sortCode',
+      },
     });
   },
   catalogDelete(record) {
@@ -17,16 +17,16 @@ export default {
       url: '/dictionaryApi/catalogDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   saveCatalog(catalogFormData) {
     return request({
       url: '/dictionaryApi/catalogSave',
       method: 'post',
-      data: catalogFormData
-    })
+      data: catalogFormData,
+    });
   },
   searchCatalog(value) {
     return request({
@@ -37,18 +37,18 @@ export default {
         catalogValue: value,
         pageNumber: 1,
         pageSize: 5,
-        sortCode: 'sortCode'
-      }
-    })
+        sortCode: 'sortCode',
+      },
+    });
   },
   deleteDictionary(record) {
     return request({
       url: '/dictionaryApi/dictionaryDelete',
       method: 'post',
       params: {
-        id: record.id
-      }
-    })
+        id: record.id,
+      },
+    });
   },
   getDictionaryByPage(id, value) {
     return request({
@@ -58,15 +58,15 @@ export default {
         id,
         pageNumber: value,
         pageSize: 5,
-        sortCode: 'sortCode'
-      }
-    })
+        sortCode: 'sortCode',
+      },
+    });
   },
   saveDictionary(dictionaryFormData, dictionaryId) {
     return request({
       url: '/dictionaryApi/dictionarySave',
       method: 'post',
-      data: { ...dictionaryFormData, pid: dictionaryId }
-    })
-  }
-}
+      data: { ...dictionaryFormData, pid: dictionaryId },
+    });
+  },
+};

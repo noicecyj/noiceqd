@@ -1,4 +1,4 @@
-import entitycreaterService from '../services/entitycreater'
+import entitycreaterService from '../services/entitycreater';
 
 export default {
 
@@ -21,20 +21,20 @@ export default {
     entityNameId: '',
     formItemLayout: {
       labelCol: {
-        fixedSpan: 5
+        fixedSpan: 5,
       },
       wrapperCol: {
-        span: 40
-      }
+        span: 40,
+      },
     },
     ENTITY_TYPE: [],
-    DATA_TYPE: []
+    DATA_TYPE: [],
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -44,32 +44,32 @@ export default {
           const payload = {
             entityNameTotal: res.data.totalElements,
             entityNameTableData: res.data.content,
-            entityNameLoadingVisible: false
-          }
+            entityNameLoadingVisible: false,
+          };
           dispatch.entitycreater.setState(payload);
         } else {
           const payload = {
             entityNameTotal: res.data.totalElements,
             entityNameTableData: res.data.content,
             entityNameLoadingVisible: false,
-            divVisible: true
-          }
+            divVisible: true,
+          };
           dispatch.entitycreater.setState(payload);
         }
-      })
+      });
     },
     entityNameEdit(data) {
       if (data) {
         const payload = {
           entityNameFormData: data,
-          entityNameVisible: true
-        }
+          entityNameVisible: true,
+        };
         dispatch.entitycreater.setState(payload);
       } else {
         const payload = {
           entityNameFormData: {},
-          entityNameVisible: true
-        }
+          entityNameVisible: true,
+        };
         dispatch.entitycreater.setState(payload);
       }
     },
@@ -80,11 +80,11 @@ export default {
             entityNameTotal: res.data.totalElements,
             entityNameTableData: res.data.content,
             entityNameCurrent: data.entityNameCurrent,
-            divVisible: true
-          }
+            divVisible: true,
+          };
           dispatch.entitycreater.setState(payload);
-        })
-      })
+        });
+      });
     },
     entityNameSave(data) {
       entitycreaterService.entityNameSave(data.entityNameFormData).then(() => {
@@ -93,12 +93,12 @@ export default {
             entityNameTotal: res.data.totalElements,
             entityNameTableData: res.data.content,
             entityNameCurrent: data.entityNameCurrent,
-            divVisible: true
-          }
+            divVisible: true,
+          };
           dispatch.entitycreater.setState(payload);
-        })
-      })
-      const payload = { entityNameVisible: false }
+        });
+      });
+      const payload = { entityNameVisible: false };
       dispatch.entitycreater.setState(payload);
     },
     entityPage(data) {
@@ -106,17 +106,17 @@ export default {
         const payload = {
           entityTotal: res.data.totalElements,
           entityTableData: res.data.content,
-          entityLoadingVisible: false
-        }
+          entityLoadingVisible: false,
+        };
         dispatch.entitycreater.setState(payload);
-      })
+      });
     },
     entityEdit(data) {
       if (data) {
-        const payload = { entityFormData: data, entityVisible: true }
+        const payload = { entityFormData: data, entityVisible: true };
         dispatch.entitycreater.setState(payload);
       } else {
-        const payload = { entityFormData: {}, entityVisible: true }
+        const payload = { entityFormData: {}, entityVisible: true };
         dispatch.entitycreater.setState(payload);
       }
     },
@@ -126,11 +126,11 @@ export default {
           const payload = {
             entityTotal: res.data.totalElements,
             entityTableData: res.data.content,
-            entityCurrent: data.entityCurrent
-          }
+            entityCurrent: data.entityCurrent,
+          };
           dispatch.entitycreater.setState(payload);
-        })
-      })
+        });
+      });
     },
     entitySave(data) {
       entitycreaterService.entitySave(data.entityFormData, data.entityNameId).then(() => {
@@ -138,12 +138,12 @@ export default {
           const payload = {
             entityTotal: res.data.totalElements,
             entityTableData: res.data.content,
-            entityCurrent: data.entityCurrent
-          }
+            entityCurrent: data.entityCurrent,
+          };
           dispatch.entitycreater.setState(payload);
-        })
-      })
-      const payload = { entityVisible: false }
+        });
+      });
+      const payload = { entityVisible: false };
       dispatch.entitycreater.setState(payload);
     },
     onRowClick(data) {
@@ -152,14 +152,14 @@ export default {
           divVisible: !data.selected,
           entityTotal: res.data.totalElements,
           entityTableData: res.data.content,
-          entityCurrent: 1
-        }
+          entityCurrent: 1,
+        };
         dispatch.entitycreater.setState(payload);
       });
       const payload = {
         entityNameId: data.record.id,
-        entityLoadingVisible: false
-      }
+        entityLoadingVisible: false,
+      };
       dispatch.entitycreater.setState(payload);
     },
     findCatalogByValue(data) {
@@ -169,13 +169,13 @@ export default {
           formArr.push({
             label: item.dictionaryName,
             value: item.dictionaryValue,
-          })
-        })
+          });
+        });
         const payload = JSON.parse(JSON.stringify({
           data: formArr,
         }).replace(/data/g, data));
         dispatch.entitycreater.setState(payload);
-      })
+      });
     },
     upEntity(data) {
       entitycreaterService.upEntity(data.record.id).then(() => {
@@ -183,12 +183,12 @@ export default {
           const payload = {
             entityTotal: res.data.totalElements,
             entityTableData: res.data.content,
-            entityCurrent: data.entityCurrent
-          }
+            entityCurrent: data.entityCurrent,
+          };
           dispatch.entitycreater.setState(payload);
-        })
-      })
-      const payload = { entityVisible: false }
+        });
+      });
+      const payload = { entityVisible: false };
       dispatch.entitycreater.setState(payload);
     },
     downEntity(data) {
@@ -197,16 +197,16 @@ export default {
           const payload = {
             entityTotal: res.data.totalElements,
             entityTableData: res.data.content,
-            entityCurrent: data.entityCurrent
-          }
+            entityCurrent: data.entityCurrent,
+          };
           dispatch.entitycreater.setState(payload);
-        })
-      })
-      const payload = { entityVisible: false }
+        });
+      });
+      const payload = { entityVisible: false };
       dispatch.entitycreater.setState(payload);
     },
     createEntityFile(data) {
       entitycreaterService.createEntityFile(data);
     },
-  })
+  }),
 };

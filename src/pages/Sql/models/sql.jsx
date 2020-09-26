@@ -1,4 +1,4 @@
-import sqlService from '../services/sql'
+import sqlService from '../services/sql';
 
 export default {
 
@@ -13,11 +13,11 @@ export default {
     sqlCurrent: 1,
     formItemLayout: {
       labelCol: {
-        fixedSpan: 5
+        fixedSpan: 5,
       },
       wrapperCol: {
-        span: 40
-      }
+        span: 40,
+      },
     },
     sqlStr: '',
     drawerVisible: false,
@@ -30,8 +30,8 @@ export default {
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -40,25 +40,25 @@ export default {
         const payload = {
           sqlTotal: res.data.totalElements,
           sqlTableData: res.data.content,
-          sqlLoadingVisible: false
-        }
+          sqlLoadingVisible: false,
+        };
         dispatch.sql.setState(payload);
-      })
+      });
     },
     sqlEdit(data) {
       if (data) {
         const payload = {
           sqlFormData: data,
           sqlStr: data.sqlStr,
-          sqlVisible: true
-        }
+          sqlVisible: true,
+        };
         dispatch.sql.setState(payload);
       } else {
         const payload = {
           sqlFormData: {},
           sqlStr: '',
-          sqlVisible: true
-        }
+          sqlVisible: true,
+        };
         dispatch.sql.setState(payload);
       }
     },
@@ -68,11 +68,11 @@ export default {
           const payload = {
             sqlTotal: res.data.totalElements,
             sqlTableData: res.data.content,
-            sqlLoadingVisible: false
-          }
+            sqlLoadingVisible: false,
+          };
           dispatch.sql.setState(payload);
-        })
-      })
+        });
+      });
     },
     sqlSave(data) {
       sqlService.sqlSave(data.sqlFormData).then(() => {
@@ -80,12 +80,12 @@ export default {
           const payload = {
             sqlTotal: res.data.totalElements,
             sqlTableData: res.data.content,
-            sqlLoadingVisible: false
-          }
+            sqlLoadingVisible: false,
+          };
           dispatch.sql.setState(payload);
-        })
-      })
-      const payload = { sqlVisible: false }
+        });
+      });
+      const payload = { sqlVisible: false };
       dispatch.sql.setState(payload);
     },
     setInputValue(value, data) {
@@ -96,16 +96,16 @@ export default {
             sqlStr: value,
             sqlDescription: data.sql.sqlFormData.sqlDescription,
             sqlType: data.sql.sqlFormData.sqlType,
-            sortCode: data.sql.sqlFormData.sortCode
+            sortCode: data.sql.sqlFormData.sortCode,
           },
-          sqlStr: value
-        }
+          sqlStr: value,
+        };
         dispatch.sql.setState(payload);
       } else {
         const payload = {
           sqlFormData: { id: data.sql.sqlFormData.id, sqlStr: value },
-          sqlStr: value
-        }
+          sqlStr: value,
+        };
         dispatch.sql.setState(payload);
       }
     },
@@ -116,11 +116,11 @@ export default {
           const payload = {
             drawerVisible: true,
             drawerTableData: res.data,
-            drawerLoadingVisible: false
-          }
+            drawerLoadingVisible: false,
+          };
           dispatch.sql.setState(payload);
         }
-      })
+      });
     },
     findCatalogByValue(data) {
       sqlService.findCatalogByValue(data).then(res => {
@@ -129,13 +129,13 @@ export default {
           formArr.push({
             label: item.dictionaryName,
             value: item.dictionaryValue,
-          })
-        })
+          });
+        });
         const payload = JSON.parse(JSON.stringify({
           data: formArr,
         }).replace(/data/g, data));
         dispatch.sql.setState(payload);
-      })
+      });
     },
-  })
+  }),
 };

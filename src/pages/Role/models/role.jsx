@@ -1,4 +1,4 @@
-import roleService from '../services/role'
+import roleService from '../services/role';
 
 export default {
 
@@ -13,18 +13,18 @@ export default {
     roleCurrent: 1,
     formItemLayout: {
       labelCol: {
-        fixedSpan: 6
+        fixedSpan: 6,
       },
       wrapperCol: {
-        span: 40
-      }
-    }
+        span: 40,
+      },
+    },
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -33,23 +33,23 @@ export default {
         const payload = {
           roleTotal: res.data.totalElements,
           roleTableData: res.data.content,
-          roleLoadingVisible: false
-        }
+          roleLoadingVisible: false,
+        };
         dispatch.role.setState(payload);
-      })
+      });
     },
     roleEdit(data) {
       if (data) {
         const payload = {
           roleFormData: data,
-          roleVisible: true
-        }
+          roleVisible: true,
+        };
         dispatch.role.setState(payload);
       } else {
         const payload = {
           roleFormData: {},
-          roleVisible: true
-        }
+          roleVisible: true,
+        };
         dispatch.role.setState(payload);
       }
     },
@@ -59,11 +59,11 @@ export default {
           const payload = {
             roleTotal: res.data.totalElements,
             roleTableData: res.data.content,
-            roleLoadingVisible: false
-          }
+            roleLoadingVisible: false,
+          };
           dispatch.role.setState(payload);
-        })
-      })
+        });
+      });
     },
     roleSave(data) {
       roleService.roleSave(data.roleFormData).then(() => {
@@ -71,13 +71,13 @@ export default {
           const payload = {
             roleTotal: res.data.totalElements,
             roleTableData: res.data.content,
-            roleLoadingVisible: false
-          }
+            roleLoadingVisible: false,
+          };
           dispatch.role.setState(payload);
-        })
-      })
-      const payload = { roleVisible: false }
+        });
+      });
+      const payload = { roleVisible: false };
       dispatch.role.setState(payload);
     },
-  })
+  }),
 };

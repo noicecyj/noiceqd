@@ -1,4 +1,4 @@
-import pageFunctionService from '../services/pagefunction'
+import pageFunctionService from '../services/pagefunction';
 
 export default {
 
@@ -13,18 +13,18 @@ export default {
     pageFunctionCurrent: 1,
     formItemLayout: {
       labelCol: {
-        fixedSpan: 6
+        fixedSpan: 6,
       },
       wrapperCol: {
-        span: 40
-      }
-    }
+        span: 40,
+      },
+    },
   },
 
   reducers: {
     setState(prevState, payload) {
-      return { ...prevState, ...payload }
-    }
+      return { ...prevState, ...payload };
+    },
   },
 
   effects: (dispatch) => ({
@@ -33,23 +33,23 @@ export default {
         const payload = {
           pageFunctionTotal: res.data.totalElements,
           pageFunctionTableData: res.data.content,
-          pageFunctionLoadingVisible: false
-        }
+          pageFunctionLoadingVisible: false,
+        };
         dispatch.pagefunction.setState(payload);
-      })
+      });
     },
     pageFunctionEdit(data) {
       if (data) {
         const payload = {
           pageFunctionFormData: data,
-          pageFunctionVisible: true
-        }
+          pageFunctionVisible: true,
+        };
         dispatch.pagefunction.setState(payload);
       } else {
         const payload = {
           pageFunctionFormData: {},
-          pageFunctionVisible: true
-        }
+          pageFunctionVisible: true,
+        };
         dispatch.pagefunction.setState(payload);
       }
     },
@@ -59,11 +59,11 @@ export default {
           const payload = {
             pageFunctionTotal: res.data.totalElements,
             pageFunctionTableData: res.data.content,
-            pageFunctionLoadingVisible: false
-          }
+            pageFunctionLoadingVisible: false,
+          };
           dispatch.pagefunction.setState(payload);
-        })
-      })
+        });
+      });
     },
     pageFunctionSave(data) {
       pageFunctionService.pageFunctionSave(data.pageFunctionFormData).then(() => {
@@ -71,13 +71,13 @@ export default {
           const payload = {
             pageFunctionTotal: res.data.totalElements,
             pageFunctionTableData: res.data.content,
-            pageFunctionLoadingVisible: false
-          }
+            pageFunctionLoadingVisible: false,
+          };
           dispatch.pagefunction.setState(payload);
-        })
-      })
-      const payload = { pageFunctionVisible: false }
+        });
+      });
+      const payload = { pageFunctionVisible: false };
       dispatch.pagefunction.setState(payload);
     },
-  })
+  }),
 };

@@ -2,13 +2,12 @@ import { Input, Select } from '@alifd/next';
 import React, { useEffect, useState } from 'react';
 
 function EditablePane(props) {
-
   const [editable, setEditable] = useState(false);
   const [cellTitle, setCellTitle] = useState(props.defaultTitle);
   const [selectValue, setSelectValue] = useState();
 
   useEffect(() => {
-    setCellTitle(props.defaultTitle)
+    setCellTitle(props.defaultTitle);
   }, [props.defaultTitle]);
 
   function onKeyDown(e) {
