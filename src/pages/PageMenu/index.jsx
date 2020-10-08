@@ -75,7 +75,6 @@ function MenuPage() {
               <Table.Column title="菜单路径" dataIndex="path" />
               <Table.Column title="组件名称" dataIndex="componentName" />
               <Table.Column title="接口路径" dataIndex="apiPath" />
-              <Table.Column title="组件状态" dataIndex="isComponent" />
               <Table.Column title="菜单图标" dataIndex="icon" />
               <Table.Column title="排序代码" dataIndex="sortCode" width="100px" />
               <Table.Column title="操作" lock="right" width="246px" cell={menuPageRender} />

@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Table, Box, Dialog, Form, Input, Loading } from '@alifd/next';
+import { ResponsiveGrid, Button, Table, Box, Dialog, Form, Loading } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/Role';
 import styles from './index.module.scss';
@@ -9,13 +9,12 @@ const FormItem = Form.Item;
 function RolePage() {
   const [roleState, roleDispatchers] = pageStore.useModel('role');
   const dispatchers = pageStore.useModelDispatchers('role');
-  const roleTableData = JSON.parse(JSON.stringify(roleState.roleTableData));
 
   useEffect(() => {
     roleDispatchers.rolePage(1);
   }, [roleDispatchers]);
 
-  const RolePageRender = (value, index, record) => {
+  const rolePageRender = (value, index, record) => {
     return <div className={styles.opt}>
       <Button type="primary" size="small" onClick={() => roleDispatchers.roleEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => roleDispatchers.roleDelete({
@@ -47,8 +46,8 @@ function RolePage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={roleState.roleLoadingVisible}>
-            <Table hasBorder className={styles.Table} dataSource={roleTableData} isTree primaryKey="id">
-              <Table.Column title="操作" lock="right" width="160px" cell={RolePageRender} />
+            <Table hasBorder className={styles.Table} dataSource={roleState.roleTableData} isTree primaryKey="id">
+              <Table.Column title="操作" lock="right" width="160px" cell={rolePageRender} />
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
               <div className={styles.total}> 共 <span>{roleState.roleTotal}</span> 条 </div>

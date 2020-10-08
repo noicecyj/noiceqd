@@ -7,7 +7,7 @@ export default {
       method: 'post',
       params: {
         pageNumber: value,
-        pageSize: 13,
+        pageSize: 5,
         sortCode: 'sortCode',
       },
     });

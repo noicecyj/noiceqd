@@ -111,7 +111,6 @@ export default {
     },
     sqlExcited(data) {
       sqlService.sqlExcited(data).then(res => {
-        console.log(res);
         if (res.code === 200) {
           const payload = {
             drawerVisible: true,

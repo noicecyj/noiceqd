@@ -120,10 +120,16 @@ export default {
     },
     editDictionary(data) {
       if (data) {
-        const payload = { dictionaryFormData: data, dictionaryVisible: true };
+        const payload = {
+          dictionaryFormData: data,
+          dictionaryVisible: true,
+        };
         dispatch.dictionary.setState(payload);
       } else {
-        const payload = { dictionaryFormData: {}, dictionaryVisible: true };
+        const payload = {
+          dictionaryFormData: {},
+          dictionaryVisible: true,
+        };
         dispatch.dictionary.setState(payload);
       }
     },
@@ -170,4 +176,6 @@ export default {
       dispatch.dictionary.setState(payload);
     },
   }),
+  // 自定义方法
+
 };

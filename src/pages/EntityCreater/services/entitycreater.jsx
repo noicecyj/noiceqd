@@ -63,6 +63,19 @@ export default {
       data: value,
     });
   },
+  createComponentFile(value) {
+    return request({
+      url: '/entityCreateApi/createComponentFile',
+      method: 'post',
+      data: value,
+    });
+  },
+  selectEntityFindAll() {
+    return request({
+      url: '/entityCreateApi/selectEntityFindAll',
+      method: 'post',
+    });
+  },
   findCatalogByValue(value) {
     return request({
       url: '/dictionaryApi/findCatalogByValue',

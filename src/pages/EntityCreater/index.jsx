@@ -14,12 +14,14 @@ function EntityCreaterPage() {
   useEffect(() => {
     entitycreaterDispatchers.findCatalogByValue('ENTITY_TYPE');
     entitycreaterDispatchers.findCatalogByValue('DATA_TYPE');
+    entitycreaterDispatchers.selectEntityFindAll('SELECT_ENTITY');
     entitycreaterDispatchers.entityNamePage(1);
   }, [entitycreaterDispatchers]);
 
   const entityNameRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createEntityFile(record)}> 生成代码 </Button>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createEntityFile(record)}> 生成后端代码 </Button>
+      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createComponentFile(record)}> 生成前端代码 </Button>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameDelete({
         record,
@@ -66,6 +68,10 @@ function EntityCreaterPage() {
                 <FormItem label="生成路径：" required requiredMessage="请选择生成路径">
                   <Input id="path" name="path" placeholder="请输入生成路径" />
                 </FormItem>
+                <FormItem label="关联实体：" requiredMessage="请选择关联实体">
+                  <Select mode="tag" dataSource={entitycreaterState.SELECT_ENTITY} id="relEntity" filterLocal={false}
+                    name="relEntity" style={{ width: 433 }} placeholder="请输入关联实体" />
+                </FormItem>
                 <FormItem label="接口名称：" required requiredMessage="请选择接口名称">
                   <Input id="api" name="api" placeholder="请输入接口名称" />
                 </FormItem>
@@ -83,12 +89,13 @@ function EntityCreaterPage() {
                   entitycreaterDispatchers.onRowClick({ selected, record });
                 },
               }} >
-              <Table.Column title="实体名称" dataIndex="name" key={1} width="200px" />
+              <Table.Column title="实体名称" dataIndex="name" key={1} width="150px" />
               <Table.Column title="对象类型" dataIndex="type" key={2} width="100px" />
               <Table.Column title="生成路径" dataIndex="path" key={3} />
               <Table.Column title="接口名称" dataIndex="api" key={4} width="150px" />
+              <Table.Column title="关联实体" dataIndex="relEntity" key={4} width="100px" />
               <Table.Column title="排序代码" dataIndex="sortCode" key={5} width="100px" />
-              <Table.Column title="操作" lock="right" width="246px" cell={entityNameRender} />
+              <Table.Column title="操作" lock="right" width="381px" cell={entityNameRender} />
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
               <div className={styles.total}> 共 <span>{entitycreaterState.entityNameTotal}</span> 条 </div>
@@ -118,7 +125,6 @@ function EntityCreaterPage() {
                   <Input id="entityName" name="entityName" placeholder="请输入属性名" />
                 </FormItem>
                 <FormItem label="数据类型：" required requiredMessage="请输入数据类型" >
-                  {/* <Input id="entityProperty" name="entityProperty" placeholder="请输入数据类型" /> */}
                   <Select dataSource={entitycreaterState.DATA_TYPE} id="entityProperty" name="entityProperty" placeholder="请输入数据类型" style={{ width: 433 }} />
                 </FormItem>
                 <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >

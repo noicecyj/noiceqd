@@ -29,6 +29,7 @@ export default {
     },
     ENTITY_TYPE: [],
     DATA_TYPE: [],
+    SELECT_ENTITY: [],
   },
 
   reducers: {
@@ -40,28 +41,26 @@ export default {
   effects: (dispatch) => ({
     entityNamePage(data) {
       entitycreaterService.entityNamePage(data).then(res => {
-        if (data === 1) {
-          const payload = {
-            entityNameTotal: res.data.totalElements,
-            entityNameTableData: res.data.content,
-            entityNameLoadingVisible: false,
-          };
-          dispatch.entitycreater.setState(payload);
-        } else {
-          const payload = {
-            entityNameTotal: res.data.totalElements,
-            entityNameTableData: res.data.content,
-            entityNameLoadingVisible: false,
+        const payload = {
+          entityNameTotal: res.data.totalElements,
+          entityNameTableData: res.data.content,
+          entityNameCurrent: data,
+          entityNameLoadingVisible: false,
+        };
+        dispatch.entitycreater.setState(payload);
+        if (data !== 1) {
+          const payload2 = {
             divVisible: true,
           };
-          dispatch.entitycreater.setState(payload);
+          dispatch.entitycreater.setState(payload2);
         }
       });
     },
     entityNameEdit(data) {
       if (data) {
+        const fromData = { ...data, relEntity: data.relEntity === null ? null : data.relEntity.split(',') }
         const payload = {
-          entityNameFormData: data,
+          entityNameFormData: fromData,
           entityNameVisible: true,
         };
         dispatch.entitycreater.setState(payload);
@@ -177,6 +176,21 @@ export default {
         dispatch.entitycreater.setState(payload);
       });
     },
+    selectEntityFindAll(data) {
+      entitycreaterService.selectEntityFindAll().then(res => {
+        const formArr = [];
+        res.data.forEach(item => {
+          formArr.push({
+            label: item.name,
+            value: item.name,
+          });
+        });
+        const payload = JSON.parse(JSON.stringify({
+          datas: formArr,
+        }).replace(/datas/g, data));
+        dispatch.entitycreater.setState(payload);
+      });
+    },
     upEntity(data) {
       entitycreaterService.upEntity(data.record.id).then(() => {
         entitycreaterService.entityPage(data.record.pid, data.entityCurrent).then(res => {
@@ -207,6 +221,9 @@ export default {
     },
     createEntityFile(data) {
       entitycreaterService.createEntityFile(data);
+    },
+    createComponentFile(data) {
+      entitycreaterService.createComponentFile(data);
     },
   }),
 };
