@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Table, Box, Dialog, Form, Loading, Pagination } from '@alifd/next';
+import { ResponsiveGrid, Button, Table, Box, Dialog, Form, Loading, Pagination, Input } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/DataForm';
 import styles from './index.module.scss';
@@ -51,12 +51,29 @@ function DataFormPage() {
               <Form style={{ width: '100%' }} {...dataFormState.formItemLayout}
                 value={dataFormState.dataFormFormData}
                 onChange={value => dispatchers.setState({ dataFormFormData: value })}>
-                  11111111111111111111111
+                <FormItem label="模板名称：" required requiredMessage="请输入模板名称">
+                  <Input id="dataFormName" name="dataFormName" placeholder="请输入模板名称" />
+                </FormItem>
+                <FormItem label="模板描述：" required requiredMessage="请选择模板描述">
+                  <Input id="description" name="description" placeholder="请输入模板描述" />
+                </FormItem>
+                <FormItem label="排序代码：" required requiredMessage="请选择排序代码">
+                  <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
+                </FormItem>
               </Form>
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={dataFormState.dataFormLoadingVisible}>
-            <Table hasBorder className={styles.Table} dataSource={dataFormState.dataFormTableData} isTree primaryKey="id">
+            <Table hasBorder className={styles.Table} dataSource={dataFormState.dataFormTableData}
+              rowSelection={{
+                mode: 'single',
+                onSelect: (selected, record) => {
+                  dataFormDispatchers.dataItemOnRowClick({ selected, record });
+                },
+              }} >
+              <Table.Column title="模板名称" dataIndex="dataFormName" key={1} />
+              <Table.Column title="模板描述" dataIndex="description" key={2} />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={3} />
               <Table.Column title="操作" lock="right" width="160px" cell={dataFormPageRender} />
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
@@ -83,7 +100,7 @@ function DataFormPage() {
               <Form style={{ width: '100%' }} {...dataFormState.formItemLayout}
                 value={dataFormState.dataItemFormData}
                 onChange={value => dispatchers.setState({ dataItemFormData: value })}>
-                  11111111111111111111111
+                11111111111111111111111
               </Form>
             </Dialog>
           </div>

@@ -9,35 +9,40 @@ const RadioGroup = Radio.Group;
 
 function EntityCreaterPage() {
   const [entitycreaterState, entitycreaterDispatchers] = pageStore.useModel('entitycreater');
-  const dispatchers = pageStore.useModelDispatchers('entitycreater');
+
+  const [entityNameState, entityNameDispatchers] = pageStore.useModel('entityName');
+  const entityName = pageStore.useModelDispatchers('entityName');
+
+  const [entityState, entityDispatchers] = pageStore.useModel('entity');
+  const entity = pageStore.useModelDispatchers('entity');
 
   useEffect(() => {
     entitycreaterDispatchers.findCatalogByValue('ENTITY_TYPE');
     entitycreaterDispatchers.findCatalogByValue('DATA_TYPE');
     entitycreaterDispatchers.selectEntityFindAll('SELECT_ENTITY');
-    entitycreaterDispatchers.entityNamePage(1);
-  }, [entitycreaterDispatchers]);
+    entityNameDispatchers.entityNamePage(1);
+  }, [entityNameDispatchers, entitycreaterDispatchers]);
 
   const entityNameRender = (value, index, record) => {
     return <div className={styles.opt}>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createEntityFile(record)}> 生成后端代码 </Button>
       <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createComponentFile(record)}> 生成前端代码 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameEdit(record)}> 编辑 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityNameDelete({
+      <Button type="primary" size="small" onClick={() => entityNameDispatchers.entityNameEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => entityNameDispatchers.entityNameDelete({
         record,
-        entityNameCurrent: entitycreaterState.entityNameCurrent,
+        entityNameCurrent: entityNameState.entityNameCurrent,
       })} warning> 删除 </Button>
     </div >;
   };
 
   const entityRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.upEntity({ record, entityCurrent: entitycreaterState.entityCurrent })}> 上移 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.downEntity({ record, entityCurrent: entitycreaterState.entityCurrent })}> 下移 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityEdit(record)}> 编辑 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.entityDelete({
+      <Button type="primary" size="small" onClick={() => entityDispatchers.upEntity({ record, entityCurrent: entityState.entityCurrent })}> 上移 </Button>
+      <Button type="primary" size="small" onClick={() => entityDispatchers.downEntity({ record, entityCurrent: entityState.entityCurrent })}> 下移 </Button>
+      <Button type="primary" size="small" onClick={() => entityDispatchers.entityEdit(record)}> 编辑 </Button>
+      <Button type="primary" size="small" onClick={() => entityDispatchers.entityDelete({
         record,
-        entityCurrent: entitycreaterState.entityCurrent,
+        entityCurrent: entityState.entityCurrent,
       })} warning> 删除 </Button>
     </div>;
   };
@@ -47,18 +52,18 @@ function EntityCreaterPage() {
       <Cell colSpan={12}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => entitycreaterDispatchers.entityNameEdit()}> 添加实体 </Button>
-            <Dialog title="实体" visible={entitycreaterState.entityNameVisible}
-              onOk={() => entitycreaterDispatchers.entityNameSave({
-                entityNameFormData: entitycreaterState.entityNameFormData,
-                entityNameCurrent: entitycreaterState.entityNameCurrent,
+            <Button type="primary" onClick={() => entityNameDispatchers.entityNameEdit()}> 添加实体 </Button>
+            <Dialog title="实体" visible={entityNameState.entityNameVisible}
+              onOk={() => entityNameDispatchers.entityNameSave({
+                entityNameFormData: entityNameState.entityNameFormData,
+                entityNameCurrent: entityNameState.entityNameCurrent,
               })}
-              onCancel={() => dispatchers.setState({ entityNameVisible: false })}
-              onClose={() => dispatchers.setState({ entityNameVisible: false })}
+              onCancel={() => entityName.setState({ entityNameVisible: false })}
+              onClose={() => entityName.setState({ entityNameVisible: false })}
               style={{ width: '30%' }}>
-              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
-                value={entitycreaterState.entityNameFormData}
-                onChange={value => dispatchers.setState({ entityNameFormData: value })}>
+              <Form style={{ width: '100%' }} {...entityNameState.formItemLayout}
+                value={entityNameState.entityNameFormData}
+                onChange={value => entityName.setState({ entityNameFormData: value })}>
                 <FormItem label="实体名称：" required requiredMessage="请输入实体名称">
                   <Input id="name" name="name" placeholder="请输入实体名称" />
                 </FormItem>
@@ -71,6 +76,7 @@ function EntityCreaterPage() {
                 <FormItem label="关联实体：" requiredMessage="请选择关联实体">
                   <Select mode="tag" dataSource={entitycreaterState.SELECT_ENTITY} id="relEntity" filterLocal={false}
                     name="relEntity" style={{ width: 433 }} placeholder="请输入关联实体" />
+                  <Input id="relEntityId" name="relEntityId" htmlType="hidden" />
                 </FormItem>
                 <FormItem label="接口名称：" required requiredMessage="请选择接口名称">
                   <Input id="api" name="api" placeholder="请输入接口名称" />
@@ -81,46 +87,45 @@ function EntityCreaterPage() {
               </Form>
             </Dialog>
           </div>
-          <Loading tip="加载中..." visible={entitycreaterState.entityNameLoadingVisible}>
-            <Table hasBorder className={styles.Table} dataSource={entitycreaterState.entityNameTableData}
+          <Loading tip="加载中..." visible={entityNameState.entityNameLoadingVisible}>
+            <Table hasBorder className={styles.Table} dataSource={entityNameState.entityNameTableData}
               rowSelection={{
                 mode: 'single',
                 onSelect: (selected, record) => {
-                  entitycreaterDispatchers.onRowClick({ selected, record });
+                  entityDispatchers.onRowClick({ selected, record });
                 },
               }} >
               <Table.Column title="实体名称" dataIndex="name" key={1} width="150px" />
               <Table.Column title="对象类型" dataIndex="type" key={2} width="100px" />
               <Table.Column title="生成路径" dataIndex="path" key={3} />
               <Table.Column title="接口名称" dataIndex="api" key={4} width="150px" />
-              <Table.Column title="关联实体" dataIndex="relEntity" key={4} width="100px" />
               <Table.Column title="排序代码" dataIndex="sortCode" key={5} width="100px" />
               <Table.Column title="操作" lock="right" width="381px" cell={entityNameRender} />
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
-              <div className={styles.total}> 共 <span>{entitycreaterState.entityNameTotal}</span> 条 </div>
-              <Pagination onChange={current => entitycreaterDispatchers.entityNamePage(current)}
-                stype="simple" pageSize={5} total={entitycreaterState.entityNameTotal} />
+              <div className={styles.total}> 共 <span>{entityNameState.entityNameTotal}</span> 条 </div>
+              <Pagination onChange={current => entityNameDispatchers.entityNamePage(current)}
+                stype="simple" pageSize={5} total={entityNameState.entityNameTotal} />
             </Box>
           </Loading>
         </div>
       </Cell>
-      <Cell colSpan={12} hidden={entitycreaterState.divVisible}>
+      <Cell colSpan={12} hidden={entityState.divVisible}>
         <div className={styles.Main}>
           <div className={styles.add}>
-            <Button type="primary" onClick={() => entitycreaterDispatchers.entityEdit()}> 添加属性 </Button>
-            <Dialog title="属性" visible={entitycreaterState.entityVisible}
-              onOk={() => entitycreaterDispatchers.entitySave({
-                entityFormData: entitycreaterState.entityFormData,
-                entityCurrent: entitycreaterState.entityCurrent,
-                entityNameId: entitycreaterState.entityNameId,
+            <Button type="primary" onClick={() => entityDispatchers.entityEdit()}> 添加属性 </Button>
+            <Dialog title="属性" visible={entityState.entityVisible}
+              onOk={() => entityDispatchers.entitySave({
+                entityFormData: entityState.entityFormData,
+                entityCurrent: entityState.entityCurrent,
+                entityNameId: entityState.entityNameId,
               })}
-              onCancel={() => dispatchers.setState({ entityVisible: false })}
-              onClose={() => dispatchers.setState({ entityVisible: false })}
+              onCancel={() => entity.setState({ entityVisible: false })}
+              onClose={() => entity.setState({ entityVisible: false })}
               style={{ width: '30%' }}>
-              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
-                value={entitycreaterState.entityFormData}
-                onChange={value => dispatchers.setState({ entityFormData: value })}>
+              <Form style={{ width: '100%' }} {...entityState.formItemLayout}
+                value={entityState.entityFormData}
+                onChange={value => entity.setState({ entityFormData: value })}>
                 <FormItem label="属性名：" required requiredMessage="请输入属性名" >
                   <Input id="entityName" name="entityName" placeholder="请输入属性名" />
                 </FormItem>
@@ -133,17 +138,17 @@ function EntityCreaterPage() {
               </Form>
             </Dialog>
           </div>
-          <Loading tip="加载中..." visible={entitycreaterState.entityLoadingVisible}>
-            <Table hasBorder className={styles.Table} dataSource={entitycreaterState.entityTableData}>
+          <Loading tip="加载中..." visible={entityState.entityLoadingVisible}>
+            <Table hasBorder className={styles.Table} dataSource={entityState.entityTableData}>
               <Table.Column title="属性名" dataIndex="entityName" key={1} />
               <Table.Column title="数据类型" dataIndex="entityProperty" key={2} />
               <Table.Column title="排序代码" dataIndex="sortCode" key={3} width="100px" />
               <Table.Column title="操作" lock="right" width="285px" cell={entityRender} />
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
-              <div className={styles.total}> 共 <span>{entitycreaterState.entityTotal}</span> 条 </div>
-              <Pagination onChange={current => entitycreaterDispatchers.entityPage({ id: entitycreaterState.entityNameId, current })}
-                type="simple" pageSize={5} total={entitycreaterState.entityTotal} />
+              <div className={styles.total}> 共 <span>{entityState.entityTotal}</span> 条 </div>
+              <Pagination onChange={current => entityDispatchers.entityPage({ id: entityState.entityNameId, current })}
+                type="simple" pageSize={5} total={entityState.entityTotal} />
             </Box>
           </Loading>
         </div>
