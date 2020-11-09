@@ -61,7 +61,7 @@ function EntityCreaterPage() {
               onCancel={() => entityName.setState({ entityNameVisible: false })}
               onClose={() => entityName.setState({ entityNameVisible: false })}
               style={{ width: '30%' }}>
-              <Form style={{ width: '100%' }} {...entityNameState.formItemLayout}
+              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
                 value={entityNameState.entityNameFormData}
                 onChange={value => entityName.setState({ entityNameFormData: value })}>
                 <FormItem label="实体名称：" required requiredMessage="请输入实体名称">
@@ -123,7 +123,7 @@ function EntityCreaterPage() {
               onCancel={() => entity.setState({ entityVisible: false })}
               onClose={() => entity.setState({ entityVisible: false })}
               style={{ width: '30%' }}>
-              <Form style={{ width: '100%' }} {...entityState.formItemLayout}
+              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
                 value={entityState.entityFormData}
                 onChange={value => entity.setState({ entityFormData: value })}>
                 <FormItem label="属性名：" required requiredMessage="请输入属性名" >

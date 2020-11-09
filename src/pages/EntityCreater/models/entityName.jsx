@@ -11,14 +11,6 @@ export default {
     entityNameTotal: 0,
     entityNameCurrent: 1,
     entityNameLoadingVisible: true,
-    formItemLayout: {
-      labelCol: {
-        fixedSpan: 5,
-      },
-      wrapperCol: {
-        span: 40,
-      },
-    },
   },
 
   reducers: {

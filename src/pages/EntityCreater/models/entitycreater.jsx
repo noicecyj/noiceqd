@@ -1,3 +1,4 @@
+import { Message } from '@alifd/next';
 import entitycreaterService from '../services/entitycreater';
 
 export default {
@@ -5,6 +6,14 @@ export default {
   namespace: 'entitycreater',
 
   state: {
+    formItemLayout: {
+      labelCol: {
+        fixedSpan: 5,
+      },
+      wrapperCol: {
+        span: 40,
+      },
+    },
     ENTITY_TYPE: [],
     DATA_TYPE: [],
     SELECT_ENTITY: [],
@@ -48,10 +57,22 @@ export default {
       });
     },
     createEntityFile(data) {
-      entitycreaterService.createEntityFile(data);
+      entitycreaterService.createEntityFile(data).then(res => {
+        if (res.code === 200) {
+          Message.success('生成成功');
+        } else {
+          Message.error('生成失败');
+        }
+      });
     },
     createComponentFile(data) {
-      entitycreaterService.createComponentFile(data);
+      entitycreaterService.createComponentFile(data).then(res => {
+        if (res.code === 200) {
+          Message.success('生成成功');
+        } else {
+          Message.error('生成失败');
+        }
+      });
     },
   }),
 };
