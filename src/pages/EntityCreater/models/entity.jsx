@@ -22,6 +22,11 @@ export default {
   },
 
   effects: (dispatch) => ({
+    /**
+     *数据
+     *
+     * @param {*} data
+     */
     entityPage(data) {
       entityService.entityPage(data.id, data.current).then(res => {
         const payload = {
@@ -32,6 +37,11 @@ export default {
         dispatch.entity.setState(payload);
       });
     },
+    /**
+     *数据
+     *
+     * @param {*} data
+     */
     entityEdit(data) {
       if (data) {
         const payload = { entityFormData: data, entityVisible: true };
@@ -41,6 +51,11 @@ export default {
         dispatch.entity.setState(payload);
       }
     },
+    /**
+     *删除
+     *
+     * @param {*} data
+     */
     entityDelete(data) {
       entityService.entityDelete(data.record).then(() => {
         entityService.entityPage(data.record.id, data.entityCurrent).then(res => {
@@ -53,6 +68,11 @@ export default {
         });
       });
     },
+    /**
+     *保存
+     *
+     * @param {*} data
+     */
     entitySave(data) {
       entityService.entitySave(data.entityFormData, data.entityNameId).then(() => {
         entityService.entityPage(data.entityNameId, data.entityCurrent).then(res => {
@@ -67,6 +87,7 @@ export default {
       const payload = { entityVisible: false };
       dispatch.entity.setState(payload);
     },
+    // <=============================可选方法 start =============================>
     onRowClick(data) {
       entityService.entityPage(data.record.id, 1).then(res => {
         const payload = {
@@ -111,5 +132,9 @@ export default {
       const payload = { entityVisible: false };
       dispatch.entity.setState(payload);
     },
+    // <=============================可选方法 end   =============================>
+    // <=============================自定义方法 start =============================>
+
+    // <=============================自定义方法 end   =============================>
   }),
 };

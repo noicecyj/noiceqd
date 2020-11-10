@@ -29,35 +29,6 @@ export default {
       data: { ...entityFormData, pid: entityId },
     });
   },
-  createEntityFile(value) {
-    return request({
-      url: '/entityCreateApi/createEntity',
-      method: 'post',
-      data: value,
-    });
-  },
-  createComponentFile(value) {
-    return request({
-      url: '/entityCreateApi/createComponentFile',
-      method: 'post',
-      data: value,
-    });
-  },
-  selectEntityFindAll() {
-    return request({
-      url: '/entityCreateApi/selectEntityFindAll',
-      method: 'post',
-    });
-  },
-  findCatalogByValue(value) {
-    return request({
-      url: '/dictionaryApi/findCatalogByValue',
-      method: 'post',
-      params: {
-        value,
-      },
-    });
-  },
   upEntity(value) {
     return request({
       url: '/entityCreateApi/upEntity',

@@ -8,7 +8,6 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 function EntityCreaterPage() {
-  const [entitycreaterState, entitycreaterDispatchers] = pageStore.useModel('entitycreater');
 
   const [entityNameState, entityNameDispatchers] = pageStore.useModel('entityName');
   const entityName = pageStore.useModelDispatchers('entityName');
@@ -17,16 +16,18 @@ function EntityCreaterPage() {
   const entity = pageStore.useModelDispatchers('entity');
 
   useEffect(() => {
-    entitycreaterDispatchers.findCatalogByValue('ENTITY_TYPE');
-    entitycreaterDispatchers.findCatalogByValue('DATA_TYPE');
-    entitycreaterDispatchers.selectEntityFindAll('SELECT_ENTITY');
+    // <=============================自定义初始化数据 start =============================>
+    entityNameDispatchers.findCatalogByValue('ENTITY_TYPE');
+    entityNameDispatchers.findCatalogByValue('DATA_TYPE');
+    entityNameDispatchers.selectEntityFindAll('SELECT_ENTITY');
+    // <=============================自定义初始化数据 end   =============================>
     entityNameDispatchers.entityNamePage(1);
-  }, [entityNameDispatchers, entitycreaterDispatchers]);
+  }, [entityNameDispatchers]);
 
   const entityNameRender = (value, index, record) => {
     return <div className={styles.opt}>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createEntityFile(record)}> 生成后端代码 </Button>
-      <Button type="primary" size="small" onClick={() => entitycreaterDispatchers.createComponentFile(record)}> 生成前端代码 </Button>
+      <Button type="primary" size="small" onClick={() => entityNameDispatchers.createEntityFile(record)}> 生成后端代码 </Button>
+      <Button type="primary" size="small" onClick={() => entityNameDispatchers.createComponentFile(record)}> 生成前端代码 </Button>
       <Button type="primary" size="small" onClick={() => entityNameDispatchers.entityNameEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => entityNameDispatchers.entityNameDelete({
         record,
@@ -61,20 +62,20 @@ function EntityCreaterPage() {
               onCancel={() => entityName.setState({ entityNameVisible: false })}
               onClose={() => entityName.setState({ entityNameVisible: false })}
               style={{ width: '30%' }}>
-              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
+              <Form style={{ width: '100%' }} {...entityNameState.formItemLayout}
                 value={entityNameState.entityNameFormData}
                 onChange={value => entityName.setState({ entityNameFormData: value })}>
                 <FormItem label="实体名称：" required requiredMessage="请输入实体名称">
                   <Input id="name" name="name" placeholder="请输入实体名称" />
                 </FormItem>
                 <FormItem label="对象类型：" required requiredMessage="请选择对象类型">
-                  <RadioGroup dataSource={entitycreaterState.ENTITY_TYPE} name="type" />
+                  <RadioGroup dataSource={entityNameState.ENTITY_TYPE} name="type" />
                 </FormItem>
                 <FormItem label="生成路径：" required requiredMessage="请选择生成路径">
                   <Input id="path" name="path" placeholder="请输入生成路径" />
                 </FormItem>
                 <FormItem label="关联实体：" requiredMessage="请选择关联实体">
-                  <Select mode="tag" dataSource={entitycreaterState.SELECT_ENTITY} id="relEntity" filterLocal={false}
+                  <Select mode="tag" dataSource={entityNameState.SELECT_ENTITY} id="relEntity" filterLocal={false}
                     name="relEntity" style={{ width: 433 }} placeholder="请输入关联实体" />
                   <Input id="relEntityId" name="relEntityId" htmlType="hidden" />
                 </FormItem>
@@ -123,14 +124,14 @@ function EntityCreaterPage() {
               onCancel={() => entity.setState({ entityVisible: false })}
               onClose={() => entity.setState({ entityVisible: false })}
               style={{ width: '30%' }}>
-              <Form style={{ width: '100%' }} {...entitycreaterState.formItemLayout}
+              <Form style={{ width: '100%' }} {...entityNameState.formItemLayout}
                 value={entityState.entityFormData}
                 onChange={value => entity.setState({ entityFormData: value })}>
                 <FormItem label="属性名：" required requiredMessage="请输入属性名" >
                   <Input id="entityName" name="entityName" placeholder="请输入属性名" />
                 </FormItem>
                 <FormItem label="数据类型：" required requiredMessage="请输入数据类型" >
-                  <Select dataSource={entitycreaterState.DATA_TYPE} id="entityProperty" name="entityProperty" placeholder="请输入数据类型" style={{ width: 433 }} />
+                  <Select dataSource={entityNameState.DATA_TYPE} id="entityProperty" name="entityProperty" placeholder="请输入数据类型" style={{ width: 433 }} />
                 </FormItem>
                 <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
                   <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />

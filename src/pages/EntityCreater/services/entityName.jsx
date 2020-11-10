@@ -28,4 +28,35 @@ export default {
       data: entityNameFormData,
     });
   },
+  findCatalogByValue(value) {
+    return request({
+      url: '/dictionaryApi/findCatalogByValue',
+      method: 'post',
+      params: {
+        value,
+      },
+    });
+  },
+  // <=============================自定义请求 start =============================>
+  createEntityFile(value) {
+    return request({
+      url: '/entityCreateApi/createEntity',
+      method: 'post',
+      data: value,
+    });
+  },
+  createComponentFile(value) {
+    return request({
+      url: '/entityCreateApi/createComponentFile',
+      method: 'post',
+      data: value,
+    });
+  },
+  selectEntityFindAll() {
+    return request({
+      url: '/entityCreateApi/selectEntityFindAll',
+      method: 'post',
+    });
+  },
+  // <=============================自定义请求 end   =============================>
 };
