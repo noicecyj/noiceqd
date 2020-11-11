@@ -35,7 +35,7 @@ export default {
 
   effects: (dispatch) => ({
     /**
-     *数据
+     * 数据
      *
      * @param {*} data
      */
@@ -51,7 +51,7 @@ export default {
       });
     },
     /**
-     *编辑
+     * 编辑
      *
      * @param {*} data
      */
@@ -73,7 +73,7 @@ export default {
       }
     },
     /**
-     *删除
+     * 删除
      *
      * @param {*} data
      */
@@ -90,7 +90,7 @@ export default {
       });
     },
     /**
-     *保存
+     * 保存
      *
      * @param {*} data
      */
@@ -109,7 +109,7 @@ export default {
       dispatch.entityName.setState(payload);
     },
     /**
-     *获取字典
+     * 获取字典
      *
      * @param {*} data
      */
@@ -125,7 +125,7 @@ export default {
         const payload = JSON.parse(JSON.stringify({
           data: formArr,
         }).replace(/data/g, data));
-        dispatch.entitycreater.setState(payload);
+        dispatch.entityName.setState(payload);
       });
     },
     // <=============================自定义方法 start =============================>
@@ -141,7 +141,7 @@ export default {
         const payload = JSON.parse(JSON.stringify({
           datas: formArr,
         }).replace(/datas/g, data));
-        dispatch.entitycreater.setState(payload);
+        dispatch.entityName.setState(payload);
       });
     },
     createEntityFile(data) {

@@ -1,6 +1,12 @@
 import { request } from 'ice';
 
 export default {
+  /**
+   * 数据
+   *
+   * @param {*} value
+   * @return {*} 
+   */
   entityNamePage(value) {
     return request({
       url: '/entityCreateApi/entityNamePage',
@@ -12,6 +18,25 @@ export default {
       },
     });
   },
+  /**
+   * 保存
+   *
+   * @param {*} entityNameFormData
+   * @return {*} 
+   */
+  entityNameSave(entityNameFormData) {
+    return request({
+      url: '/entityCreateApi/entityNameSave',
+      method: 'post',
+      data: entityNameFormData,
+    });
+  },
+  /**
+   * 删除
+   *
+   * @param {*} record
+   * @return {*} 
+   */
   entityNameDelete(record) {
     return request({
       url: '/entityCreateApi/entityNameDelete',
@@ -21,13 +46,12 @@ export default {
       },
     });
   },
-  entityNameSave(entityNameFormData) {
-    return request({
-      url: '/entityCreateApi/entityNameSave',
-      method: 'post',
-      data: entityNameFormData,
-    });
-  },
+  /**
+   * 获取字典
+   *
+   * @param {*} value
+   * @return {*} 
+   */
   findCatalogByValue(value) {
     return request({
       url: '/dictionaryApi/findCatalogByValue',

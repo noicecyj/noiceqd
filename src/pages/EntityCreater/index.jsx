@@ -26,8 +26,13 @@ function EntityCreaterPage() {
 
   const entityNameRender = (value, index, record) => {
     return <div className={styles.opt}>
+      {/* <=============================自定义组件 start =============================> */}
       <Button type="primary" size="small" onClick={() => entityNameDispatchers.createEntityFile(record)}> 生成后端代码 </Button>
       <Button type="primary" size="small" onClick={() => entityNameDispatchers.createComponentFile(record)}> 生成前端代码 </Button>
+      {/* <=============================自定义组件 end   =============================> */}
+      {/* <=============================可选组件 start =============================> */}
+
+      {/* <=============================可选组件 end   =============================> */}
       <Button type="primary" size="small" onClick={() => entityNameDispatchers.entityNameEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => entityNameDispatchers.entityNameDelete({
         record,
@@ -38,8 +43,13 @@ function EntityCreaterPage() {
 
   const entityRender = (value, index, record) => {
     return <div className={styles.opt}>
+      {/* <=============================自定义组件 start =============================> */}
+
+      {/* <=============================自定义组件 end   =============================> */}
+      {/* <=============================可选组件 start =============================> */}
       <Button type="primary" size="small" onClick={() => entityDispatchers.upEntity({ record, entityCurrent: entityState.entityCurrent })}> 上移 </Button>
       <Button type="primary" size="small" onClick={() => entityDispatchers.downEntity({ record, entityCurrent: entityState.entityCurrent })}> 下移 </Button>
+      {/* <=============================可选组件 end   =============================> */}
       <Button type="primary" size="small" onClick={() => entityDispatchers.entityEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => entityDispatchers.entityDelete({
         record,
@@ -65,6 +75,7 @@ function EntityCreaterPage() {
               <Form style={{ width: '100%' }} {...entityNameState.formItemLayout}
                 value={entityNameState.entityNameFormData}
                 onChange={value => entityName.setState({ entityNameFormData: value })}>
+                {/* <=============================自定义表单 start =============================> */}
                 <FormItem label="实体名称：" required requiredMessage="请输入实体名称">
                   <Input id="name" name="name" placeholder="请输入实体名称" />
                 </FormItem>
@@ -85,6 +96,7 @@ function EntityCreaterPage() {
                 <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
                   <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
                 </FormItem>
+                {/* <=============================自定义表单 end   =============================> */}
               </Form>
             </Dialog>
           </div>
@@ -96,12 +108,14 @@ function EntityCreaterPage() {
                   entityDispatchers.onRowClick({ selected, record });
                 },
               }} >
+              {/* <=============================自定义表单 start =============================> */}
               <Table.Column title="实体名称" dataIndex="name" key={1} width="150px" />
               <Table.Column title="对象类型" dataIndex="type" key={2} width="100px" />
               <Table.Column title="生成路径" dataIndex="path" key={3} />
               <Table.Column title="接口名称" dataIndex="api" key={4} width="150px" />
               <Table.Column title="排序代码" dataIndex="sortCode" key={5} width="100px" />
               <Table.Column title="操作" lock="right" width="381px" cell={entityNameRender} />
+              {/* <=============================自定义表单 end   =============================> */}
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
               <div className={styles.total}> 共 <span>{entityNameState.entityNameTotal}</span> 条 </div>
@@ -124,9 +138,11 @@ function EntityCreaterPage() {
               onCancel={() => entity.setState({ entityVisible: false })}
               onClose={() => entity.setState({ entityVisible: false })}
               style={{ width: '30%' }}>
+
               <Form style={{ width: '100%' }} {...entityNameState.formItemLayout}
                 value={entityState.entityFormData}
                 onChange={value => entity.setState({ entityFormData: value })}>
+                {/* <=============================自定义表单 start =============================> */}
                 <FormItem label="属性名：" required requiredMessage="请输入属性名" >
                   <Input id="entityName" name="entityName" placeholder="请输入属性名" />
                 </FormItem>
@@ -136,15 +152,18 @@ function EntityCreaterPage() {
                 <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
                   <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
                 </FormItem>
+                {/* <=============================自定义表单 end   =============================> */}
               </Form>
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={entityState.entityLoadingVisible}>
             <Table hasBorder className={styles.Table} dataSource={entityState.entityTableData}>
+              {/* <=============================自定义表单 start =============================> */}
               <Table.Column title="属性名" dataIndex="entityName" key={1} />
               <Table.Column title="数据类型" dataIndex="entityProperty" key={2} />
               <Table.Column title="排序代码" dataIndex="sortCode" key={3} width="100px" />
               <Table.Column title="操作" lock="right" width="285px" cell={entityRender} />
+              {/* <=============================自定义表单 end   =============================> */}
             </Table>
             <Box margin={[15, 0, 0, 0]} direction="row" align="center" justify="space-between">
               <div className={styles.total}> 共 <span>{entityState.entityTotal}</span> 条 </div>

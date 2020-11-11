@@ -1,6 +1,13 @@
 import { request } from 'ice';
 
 export default {
+  /**
+   * 数据
+   *
+   * @param {*} id
+   * @param {*} value
+   * @return {*} 
+   */
   entityPage(id, value) {
     return request({
       url: '/entityCreateApi/entityPage',
@@ -13,6 +20,26 @@ export default {
       },
     });
   },
+  /**
+   *保存
+   *
+   * @param {*} entityFormData
+   * @param {*} entityId
+   * @return {*} 
+   */
+  entitySave(entityFormData, entityId) {
+    return request({
+      url: '/entityCreateApi/entitySave',
+      method: 'post',
+      data: { ...entityFormData, pid: entityId },
+    });
+  },
+  /**
+   * 删除
+   *
+   * @param {*} record
+   * @return {*} 
+   */
   entityDelete(record) {
     return request({
       url: '/entityCreateApi/entityDelete',
@@ -22,13 +49,12 @@ export default {
       },
     });
   },
-  entitySave(entityFormData, entityId) {
-    return request({
-      url: '/entityCreateApi/entitySave',
-      method: 'post',
-      data: { ...entityFormData, pid: entityId },
-    });
-  },
+  /**
+   * 上移
+   *
+   * @param {*} value
+   * @return {*} 
+   */
   upEntity(value) {
     return request({
       url: '/entityCreateApi/upEntity',
@@ -38,6 +64,12 @@ export default {
       },
     });
   },
+  /**
+   * 下移
+   *
+   * @param {*} value
+   * @return {*} 
+   */
   downEntity(value) {
     return request({
       url: '/entityCreateApi/downEntity',
