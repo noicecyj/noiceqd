@@ -23,7 +23,7 @@ export default {
 
   effects: (dispatch) => ({
     /**
-     *数据
+     * 数据
      *
      * @param {*} data
      */
@@ -38,7 +38,7 @@ export default {
       });
     },
     /**
-     *数据
+     * 数据
      *
      * @param {*} data
      */
@@ -52,7 +52,7 @@ export default {
       }
     },
     /**
-     *删除
+     * 删除
      *
      * @param {*} data
      */
@@ -69,7 +69,7 @@ export default {
       });
     },
     /**
-     *保存
+     * 保存
      *
      * @param {*} data
      */
@@ -88,6 +88,11 @@ export default {
       dispatch.entity.setState(payload);
     },
     // <=============================可选方法 start =============================>
+    /**
+     * 点击行
+     *
+     * @param {*} data
+     */
     onRowClick(data) {
       entityService.entityPage(data.record.id, 1).then(res => {
         const payload = {
@@ -104,6 +109,11 @@ export default {
       };
       dispatch.entity.setState(payload);
     },
+    /**
+     * 上移
+     *
+     * @param {*} data
+     */
     upEntity(data) {
       entityService.upEntity(data.record.id).then(() => {
         entityService.entityPage(data.record.pid, data.entityCurrent).then(res => {
@@ -118,11 +128,16 @@ export default {
       const payload = { entityVisible: false };
       dispatch.entity.setState(payload);
     },
+    /**
+     * 下移
+     *
+     * @param {*} data
+     */
     downEntity(data) {
       entityService.downEntity(data.record.id).then(() => {
         entityService.entityPage(data.record.pid, data.entityCurrent).then(res => {
           const payload = {
-            Total: res.data.totalElements,
+            entityTotal: res.data.totalElements,
             entityTableData: res.data.content,
             entityCurrent: data.entityCurrent,
           };
