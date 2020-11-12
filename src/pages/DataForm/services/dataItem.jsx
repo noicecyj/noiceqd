@@ -8,9 +8,9 @@ export default {
    * @param {*} value
    * @return {*} 
    */
-  entityPage(id, value) {
+  dataItemPage(id, value) {
     return request({
-      url: '/entityCreateApi/entityPage',
+      url: '/pageMenuApi/dataItemPage',
       method: 'post',
       params: {
         id,
@@ -21,17 +21,17 @@ export default {
     });
   },
   /**
-   *保存
+   * 保存
    *
-   * @param {*} entityFormData
-   * @param {*} entityNameId
+   * @param {*} dataItemFormData
+   * @param {*} dataFormId
    * @return {*} 
    */
-  entitySave(entityFormData, entityNameId) {
+  entitySave(dataItemFormData, dataFormId) {
     return request({
-      url: '/entityCreateApi/entitySave',
+      url: '/pageMenuApi/dataItemSave',
       method: 'post',
-      data: { ...entityFormData, pid: entityNameId },
+      data: { ...dataItemFormData, pid: dataFormId },
     });
   },
   /**
@@ -40,9 +40,9 @@ export default {
    * @param {*} record
    * @return {*} 
    */
-  entityDelete(record) {
+  dataItemDelete(record) {
     return request({
-      url: '/entityCreateApi/entityDelete',
+      url: '/pageMenuApi/dataItemDelete',
       method: 'post',
       params: {
         id: record.id,
@@ -50,33 +50,21 @@ export default {
     });
   },
   /**
-   * 上移
+   * 获取字典
    *
    * @param {*} value
    * @return {*} 
    */
-  upEntity(value) {
+  findCatalogByValue(value) {
     return request({
-      url: '/entityCreateApi/upEntity',
+      url: '/dictionaryApi/findCatalogByValue',
       method: 'post',
       params: {
-        id: value,
+        value,
       },
     });
   },
-  /**
-   * 下移
-   *
-   * @param {*} value
-   * @return {*} 
-   */
-  downEntity(value) {
-    return request({
-      url: '/entityCreateApi/downEntity',
-      method: 'post',
-      params: {
-        id: value,
-      },
-    });
-  },
+  // <=============================自定义请求 start =============================>
+
+  // <=============================自定义请求 end   =============================>
 };

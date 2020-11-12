@@ -1,17 +1,42 @@
 import { request } from 'ice';
 
 export default {
+  /**
+   * 数据
+   *
+   * @param {*} value
+   * @return {*} 
+   */
   dataFormPage(value) {
     return request({
       url: '/pageMenuApi/dataFormPage',
       method: 'post',
       params: {
         pageNumber: value,
-        pageSize: 5,
+        pageSize: 13,
         sortCode: 'sortCode',
       },
     });
   },
+  /**
+   * 保存
+   *
+   * @param {*} dataFormFormData
+   * @return {*} 
+   */
+  dataFormSave(data) {
+    return request({
+      url: '/pageMenuApi/dataFormSave',
+      method: 'post',
+      data,
+    });
+  },
+  /**
+   * 删除
+   *
+   * @param {*} record
+   * @return {*} 
+   */
   dataFormDelete(record) {
     return request({
       url: '/pageMenuApi/dataFormDelete',
@@ -21,39 +46,22 @@ export default {
       },
     });
   },
-  dataFormSave(data) {
+  /**
+   * 获取字典
+   *
+   * @param {*} value
+   * @return {*} 
+   */
+  findCatalogByValue(value) {
     return request({
-      url: '/pageMenuApi/dataFormSave',
-      method: 'post',
-      data,
-    });
-  },
-  dataItemPage(id, value) {
-    return request({
-      url: '/pageMenuApi/dataItemPage',
+      url: '/dictionaryApi/findCatalogByValue',
       method: 'post',
       params: {
-        id,
-        pageNumber: value,
-        pageSize: 5,
-        sortCode: 'sortCode',
+        value,
       },
     });
   },
-  dataItemDelete(record) {
-    return request({
-      url: '/pageMenuApi/dataItemDelete',
-      method: 'post',
-      params: {
-        id: record.id,
-      },
-    });
-  },
-  dataItemSave(data, id) {
-    return request({
-      url: '/pageMenuApi/dataItemSave',
-      method: 'post',
-      data: { ...data, pid: id },
-    });
-  },
+  // <=============================自定义请求 start =============================>
+
+  // <=============================自定义请求 end   =============================>
 };
