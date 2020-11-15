@@ -54,8 +54,11 @@ export default {
      */
     dataFormEdit(data) {
       if (data) {
+        const fromData = {
+          ...data,
+        }
         const payload = {
-          dataFormFormData: data,
+          dataFormFormData: fromData,
           dataFormVisible: true,
         };
         dispatch.dataForm.setState(payload);

@@ -36,11 +36,11 @@ export default {
      * @param {*} data
      */
     dataItemPage(data) {
-      dataItemService.dataItemPage(data).then(res => {
+      dataItemService.dataItemPage(data.id, data.current).then(res => {
         const payload = {
           dataItemTotal: res.data.totalElements,
           dataItemTableData: res.data.content,
-          dataItemCurrent: data,
+          dataItemCurrent: data.current,
           dataItemLoadingVisible: false,
         };
         dispatch.dataItem.setState(payload);
@@ -53,8 +53,11 @@ export default {
      */
     dataItemEdit(data) {
       if (data) {
+        const fromData = {
+          ...data,
+        }
         const payload = {
-          dataItemFormData: data,
+          dataItemFormData: fromData,
           dataItemVisible: true,
         };
         dispatch.dataItem.setState(payload);
@@ -73,7 +76,7 @@ export default {
      */
     dataItemDelete(data) {
       dataItemService.dataItemDelete(data.record).then(() => {
-        dataItemService.dataItemPage(data.dataItemCurrent).then(res => {
+        dataItemService.dataItemPage(data.record.id, data.dataItemCurrent).then(res => {
           const payload = {
             dataItemTotal: res.data.totalElements,
             dataItemTableData: res.data.content,
@@ -89,8 +92,8 @@ export default {
      * @param {*} data
      */
     dataItemSave(data) {
-      dataItemService.dataItemSave(data.dataItemFormData).then(() => {
-        dataItemService.dataItemPage(data.dataItemCurrent).then(res => {
+      dataItemService.dataItemSave(data.dataItemFormData, data.dataFormId).then(() => {
+        dataItemService.dataItemPage(data.dataFormId, data.dataItemCurrent).then(res => {
           const payload = {
             dataItemTotal: res.data.totalElements,
             dataItemTableData: res.data.content,
