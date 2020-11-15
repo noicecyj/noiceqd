@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Table, Box, Dialog, Form, Loading, Pagination } from '@alifd/next';
+import { ResponsiveGrid, Button, Table, Box, Dialog, Form, Loading, Pagination, Input, Select } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/DataForm';
 import styles from './index.module.scss';
@@ -15,7 +15,7 @@ function DataFormPage() {
 
   useEffect(() => {
     // <=============================自定义初始化数据 start =============================>
-
+    dataFormDispatchers.findCatalogByValue('SELECT_DATAFORMTYPE');
     // <=============================自定义初始化数据 end   =============================>
     dataFormDispatchers.dataFormPage(1);
   }, [dataFormDispatchers]);
@@ -70,7 +70,18 @@ function DataFormPage() {
                 value={dataFormState.dataFormFormData}
                 onChange={value => dataForm.setState({ dataFormFormData: value })}>
                 {/* <=============================自定义表单 start =============================> */}
-                  11111111111111111111111
+                <FormItem label="模板名称：" required requiredMessage="请输入模板名称">
+                  <Input id="dataFormName" name="dataFormName" placeholder="请输入模板名称" />
+                </FormItem>
+                <FormItem label="模板类型：" required requiredMessage="请输入模板类型">
+                  <Select dataSource={dataFormState.SELECT_DATAFORMTYPE} id="dataFormType" name="dataFormType" placeholder="请输入模板类型" />
+                </FormItem>
+                <FormItem label="模板描述：" required requiredMessage="请选择模板描述">
+                  <Input id="description" name="description" placeholder="请输入模板描述" />
+                </FormItem>
+                <FormItem label="排序代码：" required requiredMessage="请选择排序代码">
+                  <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
+                </FormItem>
                 {/* <=============================自定义表单 end   =============================> */}
               </Form>
             </Dialog>
@@ -84,6 +95,10 @@ function DataFormPage() {
                 },
               }} >
               {/* <=============================自定义表单 start =============================> */}
+              <Table.Column title="模板名称" dataIndex="dataFormName" key={1} />
+              <Table.Column title="模板类型" dataIndex="dataFormType" key={2} />
+              <Table.Column title="模板描述" dataIndex="description" key={3} />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={4} />
               <Table.Column title="操作" lock="right" width="160px" cell={dataFormPageRender} />
               {/* <=============================自定义表单 end   =============================> */}
             </Table>
@@ -112,7 +127,21 @@ function DataFormPage() {
                 value={dataItemState.dataItemFormData}
                 onChange={value => dataItem.setState({ dataItemFormData: value })}>
                 {/* <=============================自定义表单 start =============================> */}
-                  11111111111111111111111
+                <FormItem label="标签名称：" required requiredMessage="请输入标签名称">
+                  <Input id="label" name="label" placeholder="请输入标签名称" />
+                </FormItem>
+                <FormItem label="字段名称：" required requiredMessage="请输入字段名称">
+                  <Input id="name" name="name" placeholder="请输入字段名称" />
+                </FormItem>
+                <FormItem label="是否必输：" required requiredMessage="请选择是否必输">
+                  <Input id="required" name="required" placeholder="请输入是否必输" />
+                </FormItem>
+                <FormItem label="字段类型：" required requiredMessage="请选择字段类型">
+                  <Input id="type" name="type" placeholder="请输入字段类型" />
+                </FormItem>
+                <FormItem label="排序代码：" required requiredMessage="请选择排序代码">
+                  <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
+                </FormItem>
                 {/* <=============================自定义表单 end   =============================> */}
               </Form>
             </Dialog>
@@ -120,6 +149,11 @@ function DataFormPage() {
           <Loading tip="加载中..." visible={dataItemState.dataItemLoadingVisible}>
             <Table hasBorder className={styles.Table} dataSource={dataItemState.dataItemTableData}>
               {/* <=============================自定义表单 start =============================> */}
+              <Table.Column title="标签名称" dataIndex="label" key={1} />
+              <Table.Column title="字段名称" dataIndex="name" key={2} />
+              <Table.Column title="是否必输" dataIndex="required" key={3} />
+              <Table.Column title="字段类型" dataIndex="type" key={4} />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={5} />
               <Table.Column title="操作" lock="right" width="160px" cell={dataItemPageRender} />
               {/* <=============================自定义表单 end   =============================> */}
             </Table>

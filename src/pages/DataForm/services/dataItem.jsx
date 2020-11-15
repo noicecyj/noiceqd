@@ -27,7 +27,7 @@ export default {
    * @param {*} dataFormId
    * @return {*} 
    */
-  entitySave(dataItemFormData, dataFormId) {
+  dataItemSave(dataItemFormData, dataFormId) {
     return request({
       url: '/pageMenuApi/dataItemSave',
       method: 'post',

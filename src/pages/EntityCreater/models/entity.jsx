@@ -32,6 +32,7 @@ export default {
         const payload = {
           entityTotal: res.data.totalElements,
           entityTableData: res.data.content,
+          entityCurrent: data.current,
           entityLoadingVisible: false,
         };
         dispatch.entity.setState(payload);
@@ -44,10 +45,19 @@ export default {
      */
     entityEdit(data) {
       if (data) {
-        const payload = { entityFormData: data, entityVisible: true };
+        const fromData = {
+          ...data,
+        }
+        const payload = {
+          entityFormData: fromData,
+          entityVisible: true
+        };
         dispatch.entity.setState(payload);
       } else {
-        const payload = { entityFormData: {}, entityVisible: true };
+        const payload = {
+          entityFormData: {},
+          entityVisible: true
+        };
         dispatch.entity.setState(payload);
       }
     },

@@ -58,7 +58,10 @@ export default {
     entityNameEdit(data) {
       if (data) {
         const reg = /\[(.+?)\]/g;
-        const fromData = { ...data, relEntity: data.relEntity === null ? null : data.relEntity.match(reg)[0].replace(reg, '$1').split(', ') }
+        const fromData = {
+          ...data,
+          relEntity: data.relEntity === null ? null : data.relEntity.match(reg)[0].replace(reg, '$1').split(', ')
+        }
         const payload = {
           entityNameFormData: fromData,
           entityNameVisible: true,

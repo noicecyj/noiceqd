@@ -11,6 +11,14 @@ export default {
     dataItemLoadingVisible: true,
     dataItemTotal: 0,
     dataItemCurrent: 1,
+    formItemLayout: {
+      labelCol: {
+        fixedSpan: 6,
+      },
+      wrapperCol: {
+        span: 40,
+      },
+    },
     divVisible: true,
     dataFormId: '',
   },
