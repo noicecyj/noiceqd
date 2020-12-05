@@ -20,7 +20,7 @@ export default {
       },
     },
     // <=============================自定义状态 start =============================>
-    
+
     // <=============================自定义状态 end   =============================>
   },
 
@@ -56,7 +56,7 @@ export default {
       if (data) {
         const fromData = {
           ...data,
-        }
+        };
         const payload = {
           dataTableFormData: fromData,
           dataTableVisible: true,

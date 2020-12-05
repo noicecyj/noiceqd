@@ -60,8 +60,8 @@ export default {
         const reg = /\[(.+?)\]/g;
         const fromData = {
           ...data,
-          relEntity: data.relEntity === null ? null : data.relEntity.match(reg)[0].replace(reg, '$1').split(', ')
-        }
+          relEntity: data.relEntity === null ? null : data.relEntity.match(reg)[0].replace(reg, '$1').split(', '),
+        };
         const payload = {
           entityNameFormData: fromData,
           entityNameVisible: true,
@@ -166,5 +166,5 @@ export default {
       });
     },
     // <=============================自定义方法 end   =============================>
-  })
+  }),
 };

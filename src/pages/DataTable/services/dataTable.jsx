@@ -5,7 +5,7 @@ export default {
    * 数据
    *
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   dataTablePage(value) {
     return request({
@@ -22,7 +22,7 @@ export default {
    * 保存
    *
    * @param {*} dataTableFormData
-   * @return {*} 
+   * @return {*}
    */
   dataTableSave(data) {
     return request({
@@ -35,7 +35,7 @@ export default {
    * 删除
    *
    * @param {*} record
-   * @return {*} 
+   * @return {*}
    */
   dataTableDelete(record) {
     return request({
@@ -50,7 +50,7 @@ export default {
    * 获取字典
    *
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   findCatalogByValue(value) {
     return request({

@@ -5,7 +5,7 @@ export default {
    * 数据
    *
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   entityNamePage(value) {
     return request({
@@ -22,7 +22,7 @@ export default {
    * 保存
    *
    * @param {*} entityNameFormData
-   * @return {*} 
+   * @return {*}
    */
   entityNameSave(entityNameFormData) {
     return request({
@@ -35,7 +35,7 @@ export default {
    * 删除
    *
    * @param {*} record
-   * @return {*} 
+   * @return {*}
    */
   entityNameDelete(record) {
     return request({
@@ -50,7 +50,7 @@ export default {
    * 获取字典
    *
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   findCatalogByValue(value) {
     return request({

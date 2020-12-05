@@ -8,7 +8,6 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 function EntityCreaterPage() {
-
   const [entityNameState, entityNameDispatchers] = pageStore.useModel('entityName');
   const entityName = pageStore.useModelDispatchers('entityName');
 

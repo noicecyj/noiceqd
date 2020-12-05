@@ -6,7 +6,7 @@ export default {
    *
    * @param {*} id
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   dataTableItemPage(id, value) {
     return request({
@@ -25,7 +25,7 @@ export default {
    *
    * @param {*} dataTableItemFormData
    * @param {*} dataTableId
-   * @return {*} 
+   * @return {*}
    */
   dataTableItemSave(dataTableItemFormData, dataTableId) {
     return request({
@@ -38,7 +38,7 @@ export default {
    * 删除
    *
    * @param {*} record
-   * @return {*} 
+   * @return {*}
    */
   dataTableItemDelete(record) {
     return request({
@@ -53,7 +53,7 @@ export default {
    * 获取字典
    *
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   findCatalogByValue(value) {
     return request({

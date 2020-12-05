@@ -9,10 +9,9 @@ const formItemLayout = {
   wrapperCol: {
     span: 40,
   },
-}
+};
 
 function DataForm(props) {
-
   const { items, dispatchers, formDataValue } = props;
   return (
     <Form style={ { width: '100%' } } { ...formItemLayout }

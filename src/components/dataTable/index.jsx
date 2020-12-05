@@ -3,7 +3,6 @@ import { Table } from '@alifd/next';
 import styles from './index.module.scss';
 
 function DataTable(props) {
-
   const { items, pageRender, formTableValue } = props;
   console.log(items);
   return (

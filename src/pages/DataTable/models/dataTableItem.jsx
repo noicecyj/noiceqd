@@ -55,7 +55,7 @@ export default {
       if (data) {
         const fromData = {
           ...data,
-        }
+        };
         const payload = {
           dataTableItemFormData: fromData,
           dataTableItemVisible: true,

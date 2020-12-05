@@ -49,7 +49,7 @@ export default {
       if (data) {
         const fromData = {
           ...data,
-        }
+        };
         const payload = {
           dataItemFormData: fromData,
           dataItemVisible: true,
@@ -156,7 +156,7 @@ export default {
           formArray.push(dataFormRes.data[i]);
         }
       }
-      await Promise.all(results)
+      await Promise.all(results);
       const payload = {
         dataItemDataForm: formArray,
       };

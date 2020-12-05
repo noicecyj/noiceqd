@@ -6,7 +6,7 @@ export default {
    *
    * @param {*} id
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   entityPage(id, value) {
     return request({
@@ -25,7 +25,7 @@ export default {
    *
    * @param {*} entityFormData
    * @param {*} entityNameId
-   * @return {*} 
+   * @return {*}
    */
   entitySave(entityFormData, entityNameId) {
     return request({
@@ -38,7 +38,7 @@ export default {
    * 删除
    *
    * @param {*} record
-   * @return {*} 
+   * @return {*}
    */
   entityDelete(record) {
     return request({
@@ -53,7 +53,7 @@ export default {
    * 上移
    *
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   upEntity(value) {
     return request({
@@ -68,7 +68,7 @@ export default {
    * 下移
    *
    * @param {*} value
-   * @return {*} 
+   * @return {*}
    */
   downEntity(value) {
     return request({

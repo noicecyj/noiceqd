@@ -47,16 +47,16 @@ export default {
       if (data) {
         const fromData = {
           ...data,
-        }
+        };
         const payload = {
           entityFormData: fromData,
-          entityVisible: true
+          entityVisible: true,
         };
         dispatch.entity.setState(payload);
       } else {
         const payload = {
           entityFormData: {},
-          entityVisible: true
+          entityVisible: true,
         };
         dispatch.entity.setState(payload);
       }

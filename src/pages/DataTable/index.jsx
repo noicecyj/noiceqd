@@ -47,7 +47,7 @@ function DataTablePage() {
       <Button type="primary" size="small" onClick={() => dataTableItemDispatchers.dataTableItemEdit(record)}> 编辑 </Button>
       <Button type="primary" size="small" onClick={() => dataTableItemDispatchers.dataTableItemDelete({
         record,
-        dataTableItemCurrent: dataTableItemState.dataTableItemCurrent
+        dataTableItemCurrent: dataTableItemState.dataTableItemCurrent,
       })} warning> 删除 </Button>
     </div>;
   };

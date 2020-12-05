@@ -20,7 +20,6 @@ function DataFormPage() {
     dataFormDispatchers.findDataFormByName('dataFormForm');
     dataFormDispatchers.findDataTableByName('dataFormTable');
     dataItemDispatchers.findDataFormByName('dataItemForm');
-
   }, [dataFormDispatchers, dataItemDispatchers]);
   console.log(dataItemState.dataItemFormData);
   const dataFormPageRender = (value, index, record) => {
@@ -50,7 +49,7 @@ function DataFormPage() {
       <Button type="primary" size="small" onClick={ () => dataItemDispatchers.dataItemEdit(record) }> 编辑 </Button>
       <Button type="primary" size="small" onClick={ () => dataItemDispatchers.dataItemDelete({
         record,
-        dataItemCurrent: dataItemState.dataItemCurrent
+        dataItemCurrent: dataItemState.dataItemCurrent,
       }) } warning> 删除 </Button>
     </div>;
   };
