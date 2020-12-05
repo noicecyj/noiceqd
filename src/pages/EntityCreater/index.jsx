@@ -93,6 +93,12 @@ function EntityCreaterPage() {
                 <FormItem label="接口名称：" required requiredMessage="请选择接口名称">
                   <Input id="api" name="api" placeholder="请输入接口名称" />
                 </FormItem>
+                <FormItem label="表单模板：">
+                  <Input id="formModelCode" name="formModelCode" placeholder="请输入模板代码" />
+                </FormItem>
+                <FormItem label="表格模板：">
+                  <Input id="tableModelCode" name="tableModelCode" placeholder="请输入模板代码" />
+                </FormItem>
                 <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
                   <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
                 </FormItem>
@@ -113,7 +119,9 @@ function EntityCreaterPage() {
               <Table.Column title="对象类型" dataIndex="type" key={2} width="100px" />
               <Table.Column title="生成路径" dataIndex="path" key={3} />
               <Table.Column title="接口名称" dataIndex="api" key={4} width="150px" />
-              <Table.Column title="排序代码" dataIndex="sortCode" key={5} width="100px" />
+              <Table.Column title="表单模板" dataIndex="formModelCode" key={5} width="150px" />
+              <Table.Column title="表格模板" dataIndex="tableModelCode" key={6} width="150px" />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={7} width="100px" />
               <Table.Column title="操作" lock="right" width="381px" cell={entityNameRender} />
               {/* <=============================自定义表单 end   =============================> */}
             </Table>

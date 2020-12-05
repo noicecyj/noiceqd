@@ -11,17 +11,8 @@ export default {
     dataFormLoadingVisible: true,
     dataFormTotal: 0,
     dataFormCurrent: 1,
-    formItemLayout: {
-      labelCol: {
-        fixedSpan: 6,
-      },
-      wrapperCol: {
-        span: 40,
-      },
-    },
-    // <=============================自定义状态 start =============================>
-    SELECT_DATAFORMTYPE: [],
-    // <=============================自定义状态 end   =============================>
+    dataFormDataForm: [],
+    dataFormDataTable: [],
   },
 
   reducers: {
@@ -123,6 +114,62 @@ export default {
         const payload = JSON.parse(JSON.stringify({
           data: formArr,
         }).replace(/data/g, data));
+        dispatch.dataForm.setState(payload);
+      });
+    },
+    /**
+     * 设置表单数据
+     *
+     * @param {*} data
+     */
+    setDataForm(data) {
+      const payload = {
+        dataFormFormData: data,
+      };
+      dispatch.dataForm.setState(payload);
+    },
+    /**
+     * 获取表单
+     *
+     * @param {*} data
+     */
+    async findDataFormByName(data) {
+      const formArray = [];
+      const results = [];
+      const dataFormRes = await dataFormService.findDataFormByName(data);
+      console.log(dataFormRes);
+      for (let i = 0; i < dataFormRes.data.length; i++) {
+        if (dataFormRes.data[i].type === 'Select' && dataFormRes.data[i].dataSource !== null) {
+          results.push(dataFormService.findCatalogByValue(dataFormRes.data[i].dataSource).then(res => {
+            const formArr = [];
+            res.forEach(item => {
+              formArr.push({
+                label: item.dictionaryName,
+                value: item.dictionaryValue,
+              });
+            });
+            formArray.push({ ...dataFormRes.data[i], dataSource: formArr });
+          }));
+        } else {
+          formArray.push(dataFormRes.data[i]);
+        }
+      }
+      await Promise.all(results)
+      const payload = {
+        dataFormDataForm: formArray,
+      };
+      dispatch.dataForm.setState(payload);
+    },
+    /**
+     * 获取表格
+     *
+     * @param {*} data
+     */
+    findDataTableByName(data) {
+      dataFormService.findDataTableByName(data).then(res => {
+        const payload = {
+          dataFormDataTable: res.data,
+        };
         dispatch.dataForm.setState(payload);
       });
     },

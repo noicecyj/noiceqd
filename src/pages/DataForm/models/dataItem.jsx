@@ -11,6 +11,8 @@ export default {
     dataItemLoadingVisible: true,
     dataItemTotal: 0,
     dataItemCurrent: 1,
+    dataItemDataForm: [],
+    dataItemDataTable: [],
     formItemLayout: {
       labelCol: {
         fixedSpan: 6,
@@ -122,6 +124,32 @@ export default {
         const payload = JSON.parse(JSON.stringify({
           data: formArr,
         }).replace(/data/g, data));
+        dispatch.dataItem.setState(payload);
+      });
+    },
+    /**
+     * 获取表单
+     *
+     * @param {*} data
+     */
+    findDataFormByName(data) {
+      dataItemService.findDataFormByName(data).then(res => {
+        const payload = {
+          dataItemDataForm: res.data,
+        };
+        dispatch.dataItem.setState(payload);
+      });
+    },
+    /**
+     * 获取表格
+     *
+     * @param {*} data
+     */
+    findDataTableByName(data) {
+      dataItemService.findDataTableByName(data).then(res => {
+        const payload = {
+          dataItemDataTable: res.data,
+        };
         dispatch.dataItem.setState(payload);
       });
     },

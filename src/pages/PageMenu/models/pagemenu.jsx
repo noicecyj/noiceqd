@@ -38,6 +38,7 @@ export default {
       });
     },
     editPageMenu(data) {
+      console.log(data);
       if (data) {
         const payload = {
           pagemenuFormData: data,

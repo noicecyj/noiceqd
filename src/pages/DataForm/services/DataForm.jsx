@@ -61,6 +61,37 @@ export default {
       },
     });
   },
+  /**
+   * 获取表单
+   *
+   * @param {*} name
+   * @return {*} 
+   */
+  findDataFormByName(name) {
+    console.log(name);
+    return request({
+      url: '/pageMenuApi/findDataFormByName',
+      method: 'post',
+      params: {
+        name,
+      },
+    });
+  },
+  /**
+   * 获取表单
+   *
+   * @param {*} name
+   * @return {*} 
+   */
+  findDataTableByName(name) {
+    return request({
+      url: '/pageMenuApi/findDataTableByName',
+      method: 'post',
+      params: {
+        name,
+      },
+    });
+  },
   // <=============================自定义请求 start =============================>
 
   // <=============================自定义请求 end   =============================>

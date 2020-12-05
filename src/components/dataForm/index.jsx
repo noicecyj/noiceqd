@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input } from '@alifd/next';
+import { Form, Input, Select } from '@alifd/next';
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -11,25 +11,54 @@ const formItemLayout = {
   },
 }
 
-function dataForm(props) {
+function DataForm(props) {
 
-  const { items } = props;
-
-  const formItem = () => {
-    items.map((item) => {
-      return (
-        <FormItem label={item.label} required={item.required} requiredMessage={item.requiredMessage}>
-          <Input id={item.id} name={item.name} placeholder={item.placeholder} />
-        </FormItem>);
-    })
-  };
+  const { items, dispatchers, formDataValue } = props;
+  console.log(items);
   return (
-    <Form style={{ width: '100%' }} {...formItemLayout}
-      value={props.pagemenuFormData}
-      onChange={value => props.dispatchers.setState({ pagemenuFormData: value })}>
-      {formItem}
+    <Form style={ { width: '100%' } } { ...formItemLayout }
+      value={ formDataValue } onChange={ value => dispatchers(value) }>
+      {items.map(item => {
+        if (item.type === 'Input') {
+          if (item.required === 'true') {
+            return (
+              <FormItem label={ `${item.label}：` } required requiredMessage={ `请输入${item.label}` } key={ item.id }>
+                <Input id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } defaultValue="" />
+              </FormItem>);
+          } else {
+            return (
+              <FormItem label={ `${item.label}：` } key={ item.id }>
+                <Input id={ item.name } name={ item.name } defaultValue="" />
+              </FormItem>);
+          }
+        } else if (item.type === 'Select') {
+          if (item.dataSource != null) {
+            if (item.required === 'true') {
+              return (
+                <FormItem label={ `${item.label}：` } required requiredMessage={ `请输入${item.label}` } key={ item.id }>
+                  <Select id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } dataSource={ item.dataSource } style={ { width: 414 } } defaultValue="" />
+                </FormItem>);
+            } else {
+              return (
+                <FormItem label={ `${item.label}：` } key={ item.id }>
+                  <Select id={ item.name } name={ item.name } dataSource={ item.dataSource } style={ { width: 414 } } defaultValue="" />
+                </FormItem>);
+            }
+          } else {
+            return (
+              <FormItem label={ `${item.label}：` } key={ item.id }>
+                <Select id={ item.name } name={ item.name } dataSource={ item.dataSource } style={ { width: 414 } } defaultValue="" />
+              </FormItem>);
+          }
+        } else {
+          return (
+            <FormItem label={ `${item.label}：` } key={ item.id }>
+              <Input id={ item.name } name={ item.name } defaultValue="" />
+            </FormItem>);
+        }
+      }) }
     </Form>
   );
 }
 
-export default dataForm;
+export default DataForm;
