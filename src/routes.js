@@ -5,6 +5,7 @@ import EntityCreaterPage from '@/pages/EntityCreater';
 import LogPage from '@/pages/Log';
 import SqlPage from '@/pages/Sql';
 import DataFormPage from '@/pages/DataForm';
+import DataTablePage from '@/pages/DataTable';
 import UserPage from '@/pages/User';
 import RolePage from '@/pages/Role';
 import ApiPage from '@/pages/Api';
@@ -38,6 +39,10 @@ const routerConfig = [
       {
         path: '/dataform',
         component: DataFormPage,
+      },
+      {
+        path: '/dataTable',
+        component: DataTablePage,
       },
       {
         path: '/user',

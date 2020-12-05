@@ -13,14 +13,6 @@ export default {
     dataItemCurrent: 1,
     dataItemDataForm: [],
     dataItemDataTable: [],
-    formItemLayout: {
-      labelCol: {
-        fixedSpan: 6,
-      },
-      wrapperCol: {
-        span: 40,
-      },
-    },
     divVisible: true,
     dataFormId: '',
   },
@@ -128,17 +120,48 @@ export default {
       });
     },
     /**
+     * 设置表单数据
+     *
+     * @param {*} data
+     */
+    setDataForm(data) {
+      const payload = {
+        dataItemFormData: data,
+      };
+      dispatch.dataItem.setState(payload);
+    },
+    /**
      * 获取表单
      *
      * @param {*} data
      */
-    findDataFormByName(data) {
-      dataItemService.findDataFormByName(data).then(res => {
-        const payload = {
-          dataItemDataForm: res.data,
-        };
-        dispatch.dataItem.setState(payload);
-      });
+    async findDataFormByName(data) {
+      const formArray = [];
+      const results = [];
+      const dataFormRes = await dataItemService.findDataFormByName(data);
+      console.log(dataFormRes);
+      for (let i = 0; i < dataFormRes.data.length; i++) {
+        if (dataFormRes.data[i].type === 'Select' && dataFormRes.data[i].dataSource !== null) {
+          results.push(dataItemService.findCatalogByValue(dataFormRes.data[i].dataSource).then(res => {
+            const formArr = [];
+            res.forEach(item => {
+              formArr.push({
+                label: item.dictionaryName,
+                value: item.dictionaryValue,
+              });
+            });
+            formArray.push({ ...dataFormRes.data[i], dataSource: formArr });
+          }));
+        } else {
+          formArray.push(dataFormRes.data[i]);
+        }
+      }
+      await Promise.all(results)
+      const payload = {
+        dataItemDataForm: formArray,
+      };
+      console.log(payload);
+      dispatch.dataItem.setState(payload);
     },
     /**
      * 获取表格

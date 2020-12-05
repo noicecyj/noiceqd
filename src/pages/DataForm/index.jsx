@@ -19,8 +19,10 @@ function DataFormPage() {
     dataFormDispatchers.dataFormPage(1);
     dataFormDispatchers.findDataFormByName('dataFormForm');
     dataFormDispatchers.findDataTableByName('dataFormTable');
-  }, [dataFormDispatchers]);
+    dataItemDispatchers.findDataFormByName('dataItemForm');
 
+  }, [dataFormDispatchers, dataItemDispatchers]);
+  console.log(dataItemState.dataItemFormData);
   const dataFormPageRender = (value, index, record) => {
     return <div className={ styles.opt }>
       {/* <=============================自定义组件 start =============================> */ }
@@ -85,9 +87,8 @@ function DataFormPage() {
               } } >
               {/* <=============================自定义表单 start =============================> */ }
               <Table.Column title="模板名称" dataIndex="dataFormName" key={ 1 } />
-              <Table.Column title="模板类型" dataIndex="dataFormType" key={ 2 } />
-              <Table.Column title="模板描述" dataIndex="description" key={ 3 } />
-              <Table.Column title="排序代码" dataIndex="sortCode" key={ 4 } />
+              <Table.Column title="模板描述" dataIndex="description" key={ 2 } />
+              <Table.Column title="排序代码" dataIndex="sortCode" key={ 3 } />
               <Table.Column title="操作" lock="right" width="160px" cell={ dataFormPageRender } />
               {/* <=============================自定义表单 end   =============================> */ }
             </Table>
@@ -112,30 +113,9 @@ function DataFormPage() {
               onCancel={ () => dataItem.setState({ dataItemVisible: false }) }
               onClose={ () => dataItem.setState({ dataItemVisible: false }) }
               style={ { width: '30%' } }>
-              <Form style={ { width: '100%' } } { ...dataItemState.formItemLayout }
-                value={ dataItemState.dataItemFormData }
-                onChange={ value => dataItem.setState({ dataItemFormData: value }) }>
-                {/* <=============================自定义表单 start =============================> */ }
-                <FormItem label="标签名称：" required requiredMessage="请输入标签名称">
-                  <Input id="label" name="label" placeholder="请输入标签名称" />
-                </FormItem>
-                <FormItem label="字段名称：" required requiredMessage="请输入字段名称">
-                  <Input id="name" name="name" placeholder="请输入字段名称" />
-                </FormItem>
-                <FormItem label="是否必输：">
-                  <Input id="required" name="required" placeholder="请输入是否必输" />
-                </FormItem>
-                <FormItem label="字段类型：">
-                  <Input id="type" name="type" placeholder="请输入字段类型" />
-                </FormItem>
-                <FormItem label="数据源：">
-                  <Input id="dataSource" name="dataSource" placeholder="请输入字段类型" />
-                </FormItem>
-                <FormItem label="排序代码：" required requiredMessage="请选择排序代码">
-                  <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
-                </FormItem>
-                {/* <=============================自定义表单 end   =============================> */ }
-              </Form>
+              <DataFormTemple items={ dataItemState.dataItemDataForm }
+                dispatchers={ value => dataItemDispatchers.setDataForm(value) }
+                formDataValue={ dataItemState.dataItemFormData } />
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataItemState.dataItemLoadingVisible }>
