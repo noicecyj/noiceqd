@@ -24,12 +24,6 @@ function DataTablePage() {
 
   const dataTablePageRender = (value, index, record) => {
     return <div className={ styles.opt }>
-      {/* <=============================自定义组件 start =============================> */ }
-
-      {/* <=============================自定义组件 end   =============================> */ }
-      {/* <=============================可选组件 start =============================> */ }
-
-      {/* <=============================可选组件 end   =============================> */ }
       <Button type="primary" size="small" onClick={ () => dataTableDispatchers.dataTableEdit(record) }> 编辑 </Button>
       <Button type="primary" size="small" onClick={ () => dataTableDispatchers.dataTableDelete({
         record,
@@ -40,12 +34,6 @@ function DataTablePage() {
 
   const dataTableItemPageRender = (value, index, record) => {
     return <div className={ styles.opt }>
-      {/* <=============================自定义组件 start =============================> */ }
-
-      {/* <=============================自定义组件 end   =============================> */ }
-      {/* <=============================可选组件 start =============================> */ }
-
-      {/* <=============================可选组件 end   =============================> */ }
       <Button type="primary" size="small" onClick={ () => dataTableItemDispatchers.dataTableItemEdit(record) }> 编辑 </Button>
       <Button type="primary" size="small" onClick={ () => dataTableItemDispatchers.dataTableItemDelete({
         record,
