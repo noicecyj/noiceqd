@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Table, Box, Dialog, Form, Loading, Pagination, Input } from '@alifd/next';
+import { ResponsiveGrid, Button, Table, Box, Dialog, Loading, Pagination } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/DataForm';
 import DataFormTemple from '@/components/dataForm';
@@ -6,7 +6,6 @@ import DataTableTemple from '@/components/dataTable';
 import styles from './index.module.scss';
 
 const { Cell } = ResponsiveGrid;
-const FormItem = Form.Item;
 
 function DataFormPage() {
   const [dataFormState, dataFormDispatchers] = pageStore.useModel('dataForm');
@@ -20,8 +19,9 @@ function DataFormPage() {
     dataFormDispatchers.findDataFormByName('dataFormForm');
     dataFormDispatchers.findDataTableByName('dataFormTable');
     dataItemDispatchers.findDataFormByName('dataItemForm');
+    dataItemDispatchers.findDataTableByName('dataItemTable');
   }, [dataFormDispatchers, dataItemDispatchers]);
-  console.log(dataItemState.dataItemFormData);
+
   const dataFormPageRender = (value, index, record) => {
     return <div className={ styles.opt }>
       {/* <=============================自定义组件 start =============================> */ }
@@ -74,9 +74,7 @@ function DataFormPage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataFormState.dataFormLoadingVisible }>
-            {/* <DataTableTemple items={ dataFormState.dataFormDataTable }
-              pageRender={ dataFormPageRender }
-              formTableValue={ dataFormState.dataFormTableData } /> */}
+            {/* <DataTableTemple dataSource={ dataFormState.dataFormDataTable } pageRender={ dataFormPageRender } /> */ }
             <Table hasBorder className={ styles.Table } dataSource={ dataFormState.dataFormTableData }
               rowSelection={ {
                 mode: 'single',
@@ -131,9 +129,9 @@ function DataFormPage() {
             </Table>
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataItemState.dataItemTotal }</span> 条 </div>
+              <Pagination onChange={ current => dataItemDispatchers.dataItemPage({ id: dataItemState.dataFormId, current }) }
+                stype="simple" pageSize={ 5 } total={ dataItemState.dataItemTotal } />
             </Box>
-            <Pagination onChange={ current => dataItemDispatchers.dataItemPage({ id: dataItemState.dataFormId, current }) }
-              stype="simple" pageSize={ 5 } total={ dataItemState.dataItemTotal } />
           </Loading>
         </div>
       </Cell>

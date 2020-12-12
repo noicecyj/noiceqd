@@ -11,14 +11,6 @@ export default {
     dataTableItemLoadingVisible: true,
     dataTableItemTotal: 0,
     dataTableItemCurrent: 1,
-    formItemLayout: {
-      labelCol: {
-        fixedSpan: 6,
-      },
-      wrapperCol: {
-        span: 40,
-      },
-    },
     divVisible: true,
     dataTableId: '',
   },
@@ -55,7 +47,7 @@ export default {
       if (data) {
         const fromData = {
           ...data,
-        };
+        }
         const payload = {
           dataTableItemFormData: fromData,
           dataTableItemVisible: true,
@@ -122,6 +114,61 @@ export default {
         const payload = JSON.parse(JSON.stringify({
           data: formArr,
         }).replace(/data/g, data));
+        dispatch.dataTableItem.setState(payload);
+      });
+    },
+    /**
+     * 设置表单数据
+     *
+     * @param {*} data
+     */
+    setDataForm(data) {
+      const payload = {
+        dataTableItemFormData: data,
+      };
+      dispatch.dataTableItem.setState(payload);
+    },
+    /**
+     * 获取表单
+     *
+     * @param {*} data
+     */
+    async findDataFormByName(data) {
+      const formArray = [];
+      const results = [];
+      const dataTableItemRes = await dataTableItemService.findDataFormByName(data);
+      for (let i = 0; i < dataTableItemRes.data.length; i++) {
+        if (dataTableItemRes.data[i].type === 'Select' && dataTableItemRes.data[i].dataSource !== null) {
+          results.push(dataTableItemService.findCatalogByValue(dataTableItemRes.data[i].dataSource).then(res => {
+            const formArr = [];
+            res.forEach(item => {
+              formArr.push({
+                label: item.dictionaryName,
+                value: item.dictionaryValue,
+              });
+            });
+            formArray.push({ ...dataTableItemRes.data[i], dataSource: formArr });
+          }));
+        } else {
+          formArray.push(dataTableItemRes.data[i]);
+        }
+      }
+      await Promise.all(results);
+      const payload = {
+        dataTableItemDataForm: formArray,
+      };
+      dispatch.dataTableItem.setState(payload);
+    },
+    /**
+     * 获取表格
+     *
+     * @param {*} data
+     */
+    findDataTableByName(data) {
+      dataTableItemService.findDataTableByName(data).then(res => {
+        const payload = {
+          dataTableItemDataTable: res.data,
+        };
         dispatch.dataTableItem.setState(payload);
       });
     },

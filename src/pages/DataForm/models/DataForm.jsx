@@ -137,7 +137,6 @@ export default {
       const formArray = [];
       const results = [];
       const dataFormRes = await dataFormService.findDataFormByName(data);
-      console.log(dataFormRes);
       for (let i = 0; i < dataFormRes.data.length; i++) {
         if (dataFormRes.data[i].type === 'Select' && dataFormRes.data[i].dataSource !== null) {
           results.push(dataFormService.findCatalogByValue(dataFormRes.data[i].dataSource).then(res => {
