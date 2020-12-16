@@ -24,6 +24,9 @@ export default {
     ENTITY_TYPE: [],
     DATA_TYPE: [],
     SELECT_ENTITY: [],
+    chooseVisible: false,
+    chooseFormData: {},
+    LEVEL_ENTITY_TYPE: [],
     // <=============================自定义状态 end   =============================>
   },
 
@@ -155,6 +158,11 @@ export default {
           Message.error('生成失败');
         }
       });
+      const payload = {
+        chooseVisible: false,
+        entityNameFormData: {},
+      };
+      dispatch.entityName.setState(payload);
     },
     createComponentFile(data) {
       entityNameService.createComponentFile(data).then(res => {
@@ -164,6 +172,18 @@ export default {
           Message.error('生成失败');
         }
       });
+    },
+    chooseEntityFile(data) {
+      const reg = /\[(.+?)\]/g;
+      const fromData = {
+        ...data,
+        relEntity: data.relEntity === null ? null : data.relEntity.match(reg)[0].replace(reg, '$1').split(', '),
+      };
+      const payload = {
+        chooseVisible: true,
+        entityNameFormData: fromData,
+      };
+      dispatch.entityName.setState(payload);
     },
     // <=============================自定义方法 end   =============================>
   }),

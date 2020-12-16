@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Table, Pagination, Box, Radio, Dialog, Form, Input, Loading, Select } from '@alifd/next';
+import { ResponsiveGrid, Button, Table, Pagination, Box, Radio, Dialog, Form, Input, Loading, Select, Checkbox } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/EntityCreater';
 import styles from './index.module.scss';
@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 const { Cell } = ResponsiveGrid;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
+const { Group: CheckboxGroup } = Checkbox;
 
 function EntityCreaterPage() {
   const [entityNameState, entityNameDispatchers] = pageStore.useModel('entityName');
@@ -18,6 +19,7 @@ function EntityCreaterPage() {
     // <=============================自定义初始化数据 start =============================>
     entityNameDispatchers.findCatalogByValue('ENTITY_TYPE');
     entityNameDispatchers.findCatalogByValue('DATA_TYPE');
+    entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE');
     entityNameDispatchers.selectEntityFindAll('SELECT_ENTITY');
     // <=============================自定义初始化数据 end   =============================>
     entityNameDispatchers.entityNamePage(1);
@@ -26,7 +28,7 @@ function EntityCreaterPage() {
   const entityNameRender = (value, index, record) => {
     return <div className={ styles.opt }>
       {/* <=============================自定义组件 start =============================> */ }
-      <Button type="primary" size="small" onClick={ () => entityNameDispatchers.createEntityFile(record) }> 生成后端代码 </Button>
+      <Button type="primary" size="small" onClick={ () => entityNameDispatchers.chooseEntityFile(record) }> 生成后端代码 </Button>
       <Button type="primary" size="small" onClick={ () => entityNameDispatchers.createComponentFile(record) }> 生成前端代码 </Button>
       {/* <=============================自定义组件 end   =============================> */ }
       {/* <=============================可选组件 start =============================> */ }
@@ -86,8 +88,7 @@ function EntityCreaterPage() {
                 </FormItem>
                 <FormItem label="关联实体：" requiredMessage="请选择关联实体">
                   <Select mode="tag" dataSource={ entityNameState.SELECT_ENTITY } id="relEntity" filterLocal={ false }
-                    name="relEntity" style={ { width: 433 } } placeholder="请输入关联实体" />
-                  <Input id="relEntityId" name="relEntityId" htmlType="hidden" />
+                    name="relEntity" style={ { width: 414 } } placeholder="请输入关联实体" />
                 </FormItem>
                 <FormItem label="接口名称：" required requiredMessage="请选择接口名称">
                   <Input id="api" name="api" placeholder="请输入接口名称" />
@@ -100,6 +101,21 @@ function EntityCreaterPage() {
                 </FormItem>
                 <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
                   <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
+                </FormItem>
+                {/* <=============================自定义表单 end   =============================> */ }
+              </Form>
+            </Dialog>
+            <Dialog title="选择生成类" visible={ entityNameState.chooseVisible }
+              onOk={ () => entityNameDispatchers.createEntityFile({ ...entityNameState.chooseFormData, ...entityNameState.entityNameFormData }) }
+              onCancel={ () => entityName.setState({ chooseVisible: false }) }
+              onClose={ () => entityName.setState({ chooseVisible: false }) }
+              style={ { width: '30%' } }>
+              <Form style={ { width: '100%' } } { ...entityNameState.formItemLayout }
+                value={ entityNameState.chooseFormData }
+                onChange={ value => entityName.setState({ chooseFormData: value }) }>
+                {/* <=============================自定义表单 start =============================> */ }
+                <FormItem label="选择生成：" required requiredMessage="请选择生成类" >
+                  <CheckboxGroup dataSource={ entityNameState.LEVEL_ENTITY_TYPE } itemDirection="ver" id="choose" name="choose" />
                 </FormItem>
                 {/* <=============================自定义表单 end   =============================> */ }
               </Form>
