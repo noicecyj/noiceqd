@@ -56,7 +56,7 @@ function DataFormPage() {
               onCancel={ () => dataForm.setState({ dataFormVisible: false }) }
               onClose={ () => dataForm.setState({ dataFormVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ dataFormState.dataFormDataForm }
+              <DataFormTemple items={ dataFormState.dataFormForm }
                 dispatchers={ value => dataFormDispatchers.setDataForm(value) }
                 formDataValue={ dataFormState.dataFormFormData } />
             </Dialog>
@@ -92,7 +92,7 @@ function DataFormPage() {
               onCancel={ () => dataFormItem.setState({ dataFormItemVisible: false }) }
               onClose={ () => dataFormItem.setState({ dataFormItemVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ dataFormItemState.dataFormItemDataForm }
+              <DataFormTemple items={ dataFormItemState.dataFormItemForm }
                 dispatchers={ value => dataFormItemDispatchers.setDataForm(value) }
                 formDataValue={ dataFormItemState.dataFormItemFormData } />
             </Dialog>

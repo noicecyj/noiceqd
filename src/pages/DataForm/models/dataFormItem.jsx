@@ -126,7 +126,7 @@ export default {
      */
     setDataForm(data) {
       const payload = {
-        dataFormItemForm: data,
+        dataFormItemFormData: data,
       };
       dispatch.dataFormItem.setState(payload);
     },
