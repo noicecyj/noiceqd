@@ -6,11 +6,11 @@ export default {
    *
    * @param {*} id
    * @param {*} value
-   * @return {*}
+   * @return {*} 
    */
-  dataItemPage(id, value) {
+  dataFormItemPage(id, value) {
     return request({
-      url: '/pageMenuApi/dataItemPage',
+      url: '/pageMenuApi/dataFormItemPage',
       method: 'post',
       params: {
         id,
@@ -23,26 +23,26 @@ export default {
   /**
    * 保存
    *
-   * @param {*} dataItemFormData
+   * @param {*} dataFormItemFormData
    * @param {*} dataFormId
-   * @return {*}
+   * @return {*} 
    */
-  dataItemSave(dataItemFormData, dataFormId) {
+  dataFormItemSave(dataFormItemFormData, dataFormId) {
     return request({
-      url: '/pageMenuApi/dataItemSave',
+      url: '/pageMenuApi/dataFormItemSave',
       method: 'post',
-      data: { ...dataItemFormData, pid: dataFormId },
+      data: { ...dataFormItemFormData, pid: dataFormId },
     });
   },
   /**
    * 删除
    *
    * @param {*} record
-   * @return {*}
+   * @return {*} 
    */
-  dataItemDelete(record) {
+  dataFormItemDelete(record) {
     return request({
-      url: '/pageMenuApi/dataItemDelete',
+      url: '/pageMenuApi/dataFormItemDelete',
       method: 'post',
       params: {
         id: record.id,
@@ -53,7 +53,7 @@ export default {
    * 获取字典
    *
    * @param {*} value
-   * @return {*}
+   * @return {*} 
    */
   findCatalogByValue(value) {
     return request({
@@ -68,7 +68,7 @@ export default {
    * 获取表单
    *
    * @param {*} name
-   * @return {*}
+   * @return {*} 
    */
   findDataFormByName(name) {
     return request({
@@ -80,10 +80,10 @@ export default {
     });
   },
   /**
-   * 获取表单
+   * 获取表格
    *
    * @param {*} name
-   * @return {*}
+   * @return {*} 
    */
   findDataTableByName(name) {
     return request({

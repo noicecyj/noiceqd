@@ -17,6 +17,7 @@
     "react-codemirror2": "^7.2.1",
     "react-dom": "^16.4.1",
     "react-intl": "^2.8.0",
+    "react-json-view": "^1.19.1",
     "react-monaco-editor": "^0.36.0"
   },
   "devDependencies": {

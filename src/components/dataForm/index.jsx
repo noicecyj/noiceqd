@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactJson from 'react-json-view'
 import { Form, Input, Select } from '@alifd/next';
 
 const FormItem = Form.Item;
@@ -17,47 +18,49 @@ function DataForm(props) {
     <Form style={ { width: '100%' } } { ...formItemLayout }
       value={ formDataValue } onChange={ value => dispatchers(value) }>
       {items.map(item => {
-        if (item.type === 'Input' || item.type == null) {
-          if (item.required === 'true') {
+        const obj = JSON.parse(item.jsonData);
+        if (obj.type === 'Input' || obj.type == null) {
+          if (obj.required === 'true') {
             return (
-              <FormItem label={ `${item.label}：` } required requiredMessage={ `请输入${item.label}` } key={ item.id }>
-                <Input id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } defaultValue="" />
+              <FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+                <Input id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } defaultValue="" />
               </FormItem>);
           } else {
             return (
-              <FormItem label={ `${item.label}：` } key={ item.id }>
-                <Input id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } defaultValue="" />
+              <FormItem label={ `${obj.label}：` } key={ item.id }>
+                <Input id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } defaultValue="" />
               </FormItem>);
           }
-        } else if (item.type === 'Select') {
-          if (item.dataSource != null) {
-            if (item.required === 'true') {
+        } else if (obj.type === 'Select') {
+          if (obj.dataSource != null) {
+            if (obj.required === 'true') {
               return (
-                <FormItem label={ `${item.label}：` } required requiredMessage={ `请输入${item.label}` } key={ item.id }>
-                  <Select id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } filterLocal={ false }
-                    dataSource={ item.dataSource } style={ { width: 414 } } defaultValue="" />
+                <FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+                  <Select id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } filterLocal={ false }
+                    dataSource={ obj.dataSource } style={ { width: 414 } } defaultValue="" />
                 </FormItem>);
             } else {
               return (
-                <FormItem label={ `${item.label}：` } key={ item.id }>
-                  <Select id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } filterLocal={ false }
-                    dataSource={ item.dataSource } style={ { width: 414 } } defaultValue="" />
+                <FormItem label={ `${obj.label}：` } key={ item.id }>
+                  <Select id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } filterLocal={ false }
+                    dataSource={ obj.dataSource } style={ { width: 414 } } defaultValue="" />
                 </FormItem>);
             }
           } else {
             return (
-              <FormItem label={ `${item.label}：` } key={ item.id } requiredMessage={ `请输入${item.label}` }>
-                <Select id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } filterLocal={ false }
-                  dataSource={ item.dataSource } style={ { width: 414 } } defaultValue="" />
+              <FormItem label={ `${obj.label}：` } key={ item.id } requiredMessage={ `请输入${obj.label}` }>
+                <Select id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } filterLocal={ false }
+                  dataSource={ obj.dataSource } style={ { width: 414 } } defaultValue="" />
               </FormItem>);
           }
         } else {
           return (
-            <FormItem label={ `${item.label}：` } key={ item.id }>
-              <Input id={ item.name } name={ item.name } placeholder={ `请输入${item.label}` } defaultValue="" />
+            <FormItem label={ `${obj.label}：` } key={ item.id }>
+              <Input id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } defaultValue="" />
             </FormItem>);
         }
       }) }
+      <ReactJson src={ { 'qwret': 'asd' } } />
     </Form>
   );
 }

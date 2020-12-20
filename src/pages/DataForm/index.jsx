@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Table, Box, Dialog, Loading, Pagination } from '@alifd/next';
+import { ResponsiveGrid, Button, Box, Dialog, Loading, Pagination } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/DataForm';
 import DataFormTemple from '@/components/dataForm';
@@ -11,25 +11,19 @@ function DataFormPage() {
   const [dataFormState, dataFormDispatchers] = pageStore.useModel('dataForm');
   const dataForm = pageStore.useModelDispatchers('dataForm');
 
-  const [dataItemState, dataItemDispatchers] = pageStore.useModel('dataItem');
-  const dataItem = pageStore.useModelDispatchers('dataItem');
+  const [dataFormItemState, dataFormItemDispatchers] = pageStore.useModel('dataFormItem');
+  const dataFormItem = pageStore.useModelDispatchers('dataFormItem');
 
   useEffect(() => {
     dataFormDispatchers.dataFormPage(1);
     dataFormDispatchers.findDataFormByName('dataFormForm');
     dataFormDispatchers.findDataTableByName('dataFormTable');
-    dataItemDispatchers.findDataFormByName('dataItemForm');
-    dataItemDispatchers.findDataTableByName('dataItemTable');
-  }, [dataFormDispatchers, dataItemDispatchers]);
+    dataFormItemDispatchers.findDataFormByName('dataFormItemForm');
+    dataFormItemDispatchers.findDataTableByName('dataFormItemTable');
+  }, [dataFormDispatchers, dataFormItemDispatchers]);
 
   const dataFormPageRender = (value, index, record) => {
     return <div className={ styles.opt }>
-      {/* <=============================自定义组件 start =============================> */ }
-
-      {/* <=============================自定义组件 end   =============================> */ }
-      {/* <=============================可选组件 start =============================> */ }
-
-      {/* <=============================可选组件 end   =============================> */ }
       <Button type="primary" size="small" onClick={ () => dataFormDispatchers.dataFormEdit(record) }> 编辑 </Button>
       <Button type="primary" size="small" onClick={ () => dataFormDispatchers.dataFormDelete({
         record,
@@ -38,18 +32,12 @@ function DataFormPage() {
     </div>;
   };
 
-  const dataItemPageRender = (value, index, record) => {
+  const dataFormItemPageRender = (value, index, record) => {
     return <div className={ styles.opt }>
-      {/* <=============================自定义组件 start =============================> */ }
-
-      {/* <=============================自定义组件 end   =============================> */ }
-      {/* <=============================可选组件 start =============================> */ }
-
-      {/* <=============================可选组件 end   =============================> */ }
-      <Button type="primary" size="small" onClick={ () => dataItemDispatchers.dataItemEdit(record) }> 编辑 </Button>
-      <Button type="primary" size="small" onClick={ () => dataItemDispatchers.dataItemDelete({
+      <Button type="primary" size="small" onClick={ () => dataFormItemDispatchers.dataFormItemEdit(record) }> 编辑 </Button>
+      <Button type="primary" size="small" onClick={ () => dataFormItemDispatchers.dataFormItemDelete({
         record,
-        dataItemCurrent: dataItemState.dataItemCurrent,
+        dataFormItemCurrent: dataFormItemState.dataFormItemCurrent,
       }) } warning> 删除 </Button>
     </div>;
   };
@@ -74,21 +62,7 @@ function DataFormPage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataFormState.dataFormLoadingVisible }>
-            {/* <DataTableTemple dataSource={ dataFormState.dataFormDataTable } pageRender={ dataFormPageRender } /> */ }
-            <Table hasBorder className={ styles.Table } dataSource={ dataFormState.dataFormTableData }
-              rowSelection={ {
-                mode: 'single',
-                onSelect: (selected, record) => {
-                  dataItemDispatchers.onRowClick({ selected, record });
-                },
-              } } >
-              {/* <=============================自定义表单 start =============================> */ }
-              <Table.Column title="模板名称" dataIndex="dataFormName" key={ 1 } />
-              <Table.Column title="模板描述" dataIndex="description" key={ 2 } />
-              <Table.Column title="排序代码" dataIndex="sortCode" key={ 3 } />
-              <Table.Column title="操作" lock="right" width="160px" cell={ dataFormPageRender } />
-              {/* <=============================自定义表单 end   =============================> */ }
-            </Table>
+            <DataTableTemple dataSource={ dataFormState.dataFormTableData } items={ dataFormState.dataFormTable } pageRender={ dataFormPageRender } />
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataFormState.dataFormTotal }</span> 条 </div>
               <Pagination onChange={ current => dataFormDispatchers.dataFormPage(current) }
@@ -97,45 +71,35 @@ function DataFormPage() {
           </Loading>
         </div>
       </Cell>
-      <Cell colSpan={ 12 } hidden={ dataItemState.divVisible }>
+      <Cell colSpan={ 12 } hidden={ dataFormItemState.divVisible }>
         <div className={ styles.Main }>
           <div className={ styles.add }>
-            <Button type="primary" onClick={ () => dataItemDispatchers.dataItemEdit() }> 添加菜单 </Button>
-            <Dialog title="菜单" visible={ dataItemState.dataItemVisible }
-              onOk={ () => dataItemDispatchers.dataItemSave({
-                dataItemFormData: dataItemState.dataItemFormData,
-                dataItemCurrent: dataItemState.dataItemCurrent,
-                dataFormId: dataItemState.dataFormId,
+            <Button type="primary" onClick={ () => dataFormItemDispatchers.dataFormItemEdit() }> 添加菜单 </Button>
+            <Dialog title="菜单" visible={ dataFormItemState.dataFormItemVisible }
+              onOk={ () => dataFormItemDispatchers.dataFormItemSave({
+                dataFormItemFormData: dataFormItemState.dataFormItemFormData,
+                dataFormItemCurrent: dataFormItemState.dataFormItemCurrent,
+                dataFormId: dataFormItemState.dataFormId,
               }) }
-              onCancel={ () => dataItem.setState({ dataItemVisible: false }) }
-              onClose={ () => dataItem.setState({ dataItemVisible: false }) }
+              onCancel={ () => dataFormItem.setState({ dataFormItemVisible: false }) }
+              onClose={ () => dataFormItem.setState({ dataFormItemVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ dataItemState.dataItemDataForm }
-                dispatchers={ value => dataItemDispatchers.setDataForm(value) }
-                formDataValue={ dataItemState.dataItemFormData } />
+              <DataFormTemple items={ dataFormItemState.dataFormItemDataForm }
+                dispatchers={ value => dataFormItemDispatchers.setDataForm(value) }
+                formDataValue={ dataFormItemState.dataFormItemFormData } />
             </Dialog>
           </div>
-          <Loading tip="加载中..." visible={ dataItemState.dataItemLoadingVisible }>
-            <Table hasBorder className={ styles.Table } dataSource={ dataItemState.dataItemTableData }>
-              {/* <=============================自定义表单 start =============================> */ }
-              <Table.Column title="标签名称" dataIndex="label" key={ 1 } />
-              <Table.Column title="字段名称" dataIndex="name" key={ 2 } />
-              <Table.Column title="是否必输" dataIndex="required" key={ 3 } />
-              <Table.Column title="字段类型" dataIndex="type" key={ 4 } />
-              <Table.Column title="数据源" dataIndex="dataSource" key={ 5 } />
-              <Table.Column title="排序代码" dataIndex="sortCode" key={ 6 } />
-              <Table.Column title="操作" lock="right" width="160px" cell={ dataItemPageRender } />
-              {/* <=============================自定义表单 end   =============================> */ }
-            </Table>
+          <Loading tip="加载中..." visible={ dataFormItemState.dataFormItemLoadingVisible }>
+            <DataTableTemple dataSource={ dataFormItemState.dataFormItemDataTable } pageRender={ dataFormItemPageRender } />
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ dataItemState.dataItemTotal }</span> 条 </div>
-              <Pagination onChange={ current => dataItemDispatchers.dataItemPage({ id: dataItemState.dataFormId, current }) }
-                stype="simple" pageSize={ 5 } total={ dataItemState.dataItemTotal } />
+              <div className={ styles.total }> 共 <span>{ dataFormItemState.dataFormItemTotal }</span> 条 </div>
+              <Pagination onChange={ current => dataFormItemDispatchers.dataFormItemPage({ id: dataFormItemState.dataFormId, current }) }
+                stype="simple" pageSize={ 5 } total={ dataFormItemState.dataFormItemTotal } />
             </Box>
           </Loading>
         </div>
       </Cell>
-    </ResponsiveGrid >
+    </ResponsiveGrid>
   );
 }
 

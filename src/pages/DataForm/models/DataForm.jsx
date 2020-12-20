@@ -11,8 +11,11 @@ export default {
     dataFormLoadingVisible: true,
     dataFormTotal: 0,
     dataFormCurrent: 1,
-    dataFormDataForm: [],
-    dataFormDataTable: [],
+    dataFormForm: [],
+    dataFormTable: [],
+    // <=============================自定义状态 start =============================>
+    
+    // <=============================自定义状态 end   =============================>
   },
 
   reducers: {

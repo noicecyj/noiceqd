@@ -5,7 +5,7 @@ export default {
    * 数据
    *
    * @param {*} value
-   * @return {*}
+   * @return {*} 
    */
   dataFormPage(value) {
     return request({
@@ -22,7 +22,7 @@ export default {
    * 保存
    *
    * @param {*} dataFormFormData
-   * @return {*}
+   * @return {*} 
    */
   dataFormSave(data) {
     return request({
@@ -35,7 +35,7 @@ export default {
    * 删除
    *
    * @param {*} record
-   * @return {*}
+   * @return {*} 
    */
   dataFormDelete(record) {
     return request({
@@ -50,7 +50,7 @@ export default {
    * 获取字典
    *
    * @param {*} value
-   * @return {*}
+   * @return {*} 
    */
   findCatalogByValue(value) {
     return request({
@@ -65,10 +65,9 @@ export default {
    * 获取表单
    *
    * @param {*} name
-   * @return {*}
+   * @return {*} 
    */
   findDataFormByName(name) {
-    console.log(name);
     return request({
       url: '/pageMenuApi/findDataFormByName',
       method: 'post',
@@ -78,10 +77,10 @@ export default {
     });
   },
   /**
-   * 获取表单
+   * 获取表格
    *
    * @param {*} name
-   * @return {*}
+   * @return {*} 
    */
   findDataTableByName(name) {
     return request({
