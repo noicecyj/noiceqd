@@ -11,8 +11,10 @@ export default {
     dataTableLoadingVisible: true,
     dataTableTotal: 0,
     dataTableCurrent: 1,
+    dataTableForm: [],
+    dataTableTable: [],
     // <=============================自定义状态 start =============================>
-
+    
     // <=============================自定义状态 end   =============================>
   },
 
@@ -48,7 +50,7 @@ export default {
       if (data) {
         const fromData = {
           ...data,
-        }
+        };
         const payload = {
           dataTableFormData: fromData,
           dataTableVisible: true,
@@ -156,7 +158,7 @@ export default {
       }
       await Promise.all(results);
       const payload = {
-        dataTableDataForm: formArray,
+        dataTableForm: formArray,
       };
       dispatch.dataTable.setState(payload);
     },
@@ -165,13 +167,12 @@ export default {
      *
      * @param {*} data
      */
-    findDataTableByName(data) {
-      dataTableService.findDataTableByName(data).then(res => {
-        const payload = {
-          dataTableDataTable: res.data,
-        };
-        dispatch.dataTable.setState(payload);
-      });
+    async findDataTableByName(data) {
+      const dataTableRes = await dataTableService.findDataTableByName(data);
+      const payload = {
+        dataTableTable: dataTableRes.data,
+      };
+      dispatch.dataTable.setState(payload);
     },
     // <=============================可选方法 start =============================>
     // <=============================可选方法 end   =============================>

@@ -16,10 +16,10 @@ function DataTablePage() {
 
   useEffect(() => {
     dataTableDispatchers.dataTablePage(1);
-    dataTableDispatchers.findDataFormByName('null');
-    dataTableDispatchers.findDataTableByName('null');
-    dataTableItemDispatchers.findDataFormByName('null');
-    dataTableItemDispatchers.findDataTableByName('null');
+    dataTableDispatchers.findDataFormByName('dataTableForm');
+    dataTableDispatchers.findDataTableByName('dataTableTable');
+    dataTableItemDispatchers.findDataFormByName('dataTableItemForm');
+    dataTableItemDispatchers.findDataTableByName('dataTableItemTable');
   }, [dataTableDispatchers, dataTableItemDispatchers]);
 
   const dataTablePageRender = (value, index, record) => {
@@ -56,13 +56,21 @@ function DataTablePage() {
               onCancel={ () => dataTable.setState({ dataTableVisible: false }) }
               onClose={ () => dataTable.setState({ dataTableVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ dataTableState.dataTableDataForm }
+              <DataFormTemple items={ dataTableState.dataTableForm }
                 dispatchers={ value => dataTableDispatchers.setDataForm(value) }
                 formDataValue={ dataTableState.dataTableFormData } />
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataTableState.dataTableLoadingVisible }>
-            <DataTableTemple dataSource={ dataTableState.dataTableDataTable } pageRender={ dataTablePageRender } />
+            <DataTableTemple dataSource={ dataTableState.dataTableTableData }
+              items={ dataTableState.dataTableTable }
+              rowSelection={ {
+                mode: 'single',
+                onSelect: (selected, record) => {
+                  dataTableItemDispatchers.onRowClick({ selected, record });
+                },
+              } }
+              pageRender={ dataTablePageRender } />
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataTableState.dataTableTotal }</span> 条 </div>
               <Pagination onChange={ current => dataTableDispatchers.dataTablePage(current) }
@@ -84,13 +92,15 @@ function DataTablePage() {
               onCancel={ () => dataTableItem.setState({ dataTableItemVisible: false }) }
               onClose={ () => dataTableItem.setState({ dataTableItemVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ dataTableItemState.dataTableItemDataForm }
+              <DataFormTemple items={ dataTableItemState.dataTableItemForm }
                 dispatchers={ value => dataTableItemDispatchers.setDataForm(value) }
                 formDataValue={ dataTableItemState.dataTableItemFormData } />
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataTableItemState.dataTableItemLoadingVisible }>
-            <DataTableTemple dataSource={ dataTableItemState.dataTableItemDataTable } pageRender={ dataTableItemPageRender } />
+            <DataTableTemple dataSource={ dataTableItemState.dataTableItemTableData }
+              items={ dataTableItemState.dataTableItemTable }
+              pageRender={ dataTableItemPageRender } />
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataTableItemState.dataTableItemTotal }</span> 条 </div>
               <Pagination onChange={ current => dataTableItemDispatchers.dataTableItemPage({ id: dataTableItemState.dataTableId, current }) }

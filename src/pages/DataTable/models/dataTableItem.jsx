@@ -11,6 +11,8 @@ export default {
     dataTableItemLoadingVisible: true,
     dataTableItemTotal: 0,
     dataTableItemCurrent: 1,
+    dataTableItemForm: [],
+    dataTableItemTable: [],
     divVisible: true,
     dataTableId: '',
   },
@@ -47,7 +49,7 @@ export default {
       if (data) {
         const fromData = {
           ...data,
-        }
+        };
         const payload = {
           dataTableItemFormData: fromData,
           dataTableItemVisible: true,
@@ -155,7 +157,7 @@ export default {
       }
       await Promise.all(results);
       const payload = {
-        dataTableItemDataForm: formArray,
+        dataTableItemForm: formArray,
       };
       dispatch.dataTableItem.setState(payload);
     },
@@ -164,13 +166,12 @@ export default {
      *
      * @param {*} data
      */
-    findDataTableByName(data) {
-      dataTableItemService.findDataTableByName(data).then(res => {
-        const payload = {
-          dataTableItemDataTable: res.data,
-        };
-        dispatch.dataTableItem.setState(payload);
-      });
+    async findDataTableByName(data) {
+      const dataTableRes = await dataTableItemService.findDataTableByName(data);
+      const payload = {
+        dataTableItemTable: dataTableRes.data,
+      };
+      dispatch.dataTableItem.setState(payload);
     },
     // <=============================可选方法 start =============================>
     /**
