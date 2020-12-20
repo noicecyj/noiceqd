@@ -66,7 +66,7 @@ function DataTablePage() {
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataTableState.dataTableTotal }</span> 条 </div>
               <Pagination onChange={ current => dataTableDispatchers.dataTablePage(current) }
-                stype="simple" pageSize={ 5 } total={ dataTableState.dataTableTotal } />
+                type="simple" pageSize={ 5 } total={ dataTableState.dataTableTotal } />
             </Box>
           </Loading>
         </div>
@@ -94,7 +94,7 @@ function DataTablePage() {
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataTableItemState.dataTableItemTotal }</span> 条 </div>
               <Pagination onChange={ current => dataTableItemDispatchers.dataTableItemPage({ id: dataTableItemState.dataTableId, current }) }
-                stype="simple" pageSize={ 5 } total={ dataTableItemState.dataTableItemTotal } />
+                type="simple" pageSize={ 5 } total={ dataTableItemState.dataTableItemTotal } />
             </Box>
           </Loading>
         </div>

@@ -126,7 +126,7 @@ export default {
      */
     setDataForm(data) {
       const payload = {
-        dataFormItemFormData: data,
+        dataFormItemForm: data,
       };
       dispatch.dataFormItem.setState(payload);
     },
@@ -157,7 +157,7 @@ export default {
       }
       await Promise.all(results);
       const payload = {
-        dataFormItemDataForm: formArray,
+        dataFormItemForm: formArray,
       };
       dispatch.dataFormItem.setState(payload);
     },
@@ -166,13 +166,12 @@ export default {
      *
      * @param {*} data
      */
-    findDataTableByName(data) {
-      dataFormItemService.findDataTableByName(data).then(res => {
-        const payload = {
-          dataFormItemDataTable: res.data,
-        };
-        dispatch.dataFormItem.setState(payload);
-      });
+    async findDataTableByName(data) {
+      const dataTableRes = await dataFormItemService.findDataTableByName(data);
+      const payload = {
+        dataFormItemTable: dataTableRes.data,
+      };
+      dispatch.dataFormItem.setState(payload);
     },
     // <=============================可选方法 start =============================>
     /**

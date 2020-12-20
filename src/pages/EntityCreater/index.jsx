@@ -143,7 +143,7 @@ function EntityCreaterPage() {
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ entityNameState.entityNameTotal }</span> 条 </div>
               <Pagination onChange={ current => entityNameDispatchers.entityNamePage(current) }
-                stype="simple" pageSize={ 5 } total={ entityNameState.entityNameTotal } />
+                type="simple" pageSize={ 5 } total={ entityNameState.entityNameTotal } />
             </Box>
           </Loading>
         </div>

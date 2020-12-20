@@ -14,7 +14,7 @@ export default {
     dataFormForm: [],
     dataFormTable: [],
     // <=============================自定义状态 start =============================>
-    
+
     // <=============================自定义状态 end   =============================>
   },
 
@@ -158,7 +158,7 @@ export default {
       }
       await Promise.all(results);
       const payload = {
-        dataFormDataForm: formArray,
+        dataFormForm: formArray,
       };
       dispatch.dataForm.setState(payload);
     },
@@ -167,13 +167,12 @@ export default {
      *
      * @param {*} data
      */
-    findDataTableByName(data) {
-      dataFormService.findDataTableByName(data).then(res => {
-        const payload = {
-          dataFormDataTable: res.data,
-        };
-        dispatch.dataForm.setState(payload);
-      });
+    async findDataTableByName(data) {
+      const dataTableRes = await dataFormService.findDataTableByName(data);
+      const payload = {
+        dataFormTable: dataTableRes.data,
+      };
+      dispatch.dataForm.setState(payload);
     },
     // <=============================可选方法 start =============================>
     // <=============================可选方法 end   =============================>

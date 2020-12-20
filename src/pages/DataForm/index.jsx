@@ -62,11 +62,19 @@ function DataFormPage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataFormState.dataFormLoadingVisible }>
-            <DataTableTemple dataSource={ dataFormState.dataFormTableData } items={ dataFormState.dataFormTable } pageRender={ dataFormPageRender } />
+            <DataTableTemple dataSource={ dataFormState.dataFormTableData }
+              items={ dataFormState.dataFormTable }
+              rowSelection={ {
+                mode: 'single',
+                onSelect: (selected, record) => {
+                  dataFormItemDispatchers.onRowClick({ selected, record });
+                },
+              } }
+              pageRender={ dataFormPageRender } />
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataFormState.dataFormTotal }</span> 条 </div>
               <Pagination onChange={ current => dataFormDispatchers.dataFormPage(current) }
-                stype="simple" pageSize={ 5 } total={ dataFormState.dataFormTotal } />
+                type="simple" pageSize={ 5 } total={ dataFormState.dataFormTotal } />
             </Box>
           </Loading>
         </div>
@@ -90,11 +98,13 @@ function DataFormPage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataFormItemState.dataFormItemLoadingVisible }>
-            <DataTableTemple dataSource={ dataFormItemState.dataFormItemDataTable } pageRender={ dataFormItemPageRender } />
+            <DataTableTemple dataSource={ dataFormItemState.dataFormItemTableData }
+              items={ dataFormItemState.dataFormItemTable }
+              pageRender={ dataFormItemPageRender } />
             <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
               <div className={ styles.total }> 共 <span>{ dataFormItemState.dataFormItemTotal }</span> 条 </div>
               <Pagination onChange={ current => dataFormItemDispatchers.dataFormItemPage({ id: dataFormItemState.dataFormId, current }) }
-                stype="simple" pageSize={ 5 } total={ dataFormItemState.dataFormItemTotal } />
+                type="simple" pageSize={ 5 } total={ dataFormItemState.dataFormItemTotal } />
             </Box>
           </Loading>
         </div>
