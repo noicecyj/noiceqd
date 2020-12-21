@@ -48,16 +48,15 @@ function DataFormPage() {
         <div className={ styles.Main }>
           <div className={ styles.add }>
             <Button type="primary" onClick={ () => dataFormDispatchers.dataFormEdit() }> 添加菜单 </Button>
-            <Dialog title="菜单" visible={ dataFormState.dataFormVisible }
-              onOk={ () => dataFormDispatchers.dataFormSave({
-                dataFormFormData: dataFormState.dataFormFormData,
-                dataFormCurrent: dataFormState.dataFormCurrent,
-              }) }
-              onCancel={ () => dataForm.setState({ dataFormVisible: false }) }
+            <Dialog title="菜单" visible={ dataFormState.dataFormVisible } footer={ false }
               onClose={ () => dataForm.setState({ dataFormVisible: false }) }
               style={ { width: '30%' } }>
               <DataFormTemple items={ dataFormState.dataFormForm }
                 dispatchers={ value => dataFormDispatchers.setDataForm(value) }
+                onOk={ () => dataFormDispatchers.dataFormSave({
+                  dataFormFormData: dataFormState.dataFormFormData,
+                  dataFormCurrent: dataFormState.dataFormCurrent,
+                }) }
                 formDataValue={ dataFormState.dataFormFormData } />
             </Dialog>
           </div>
@@ -83,17 +82,16 @@ function DataFormPage() {
         <div className={ styles.Main }>
           <div className={ styles.add }>
             <Button type="primary" onClick={ () => dataFormItemDispatchers.dataFormItemEdit() }> 添加菜单 </Button>
-            <Dialog title="菜单" visible={ dataFormItemState.dataFormItemVisible }
-              onOk={ () => dataFormItemDispatchers.dataFormItemSave({
-                dataFormItemFormData: dataFormItemState.dataFormItemFormData,
-                dataFormItemCurrent: dataFormItemState.dataFormItemCurrent,
-                dataFormId: dataFormItemState.dataFormId,
-              }) }
-              onCancel={ () => dataFormItem.setState({ dataFormItemVisible: false }) }
+            <Dialog title="菜单" visible={ dataFormItemState.dataFormItemVisible } footer={ false }
               onClose={ () => dataFormItem.setState({ dataFormItemVisible: false }) }
               style={ { width: '30%' } }>
               <DataFormTemple items={ dataFormItemState.dataFormItemForm }
                 dispatchers={ value => dataFormItemDispatchers.setDataForm(value) }
+                onOk={ () => dataFormItemDispatchers.dataFormItemSave({
+                  dataFormItemFormData: dataFormItemState.dataFormItemFormData,
+                  dataFormItemCurrent: dataFormItemState.dataFormItemCurrent,
+                  dataFormId: dataFormItemState.dataFormId,
+                }) }
                 formDataValue={ dataFormItemState.dataFormItemFormData } />
             </Dialog>
           </div>
