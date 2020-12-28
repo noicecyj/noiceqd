@@ -26,7 +26,10 @@ export default {
     SELECT_ENTITY: [],
     chooseVisible: false,
     chooseFormData: {},
+    chooseFountVisible: false,
+    chooseFountFormData: {},
     LEVEL_ENTITY_TYPE: [],
+    LEVEL_ENTITY_TYPE_FOUNT: [],
     // <=============================自定义状态 end   =============================>
   },
 
@@ -181,6 +184,18 @@ export default {
       };
       const payload = {
         chooseVisible: true,
+        entityNameFormData: fromData,
+      };
+      dispatch.entityName.setState(payload);
+    },
+    chooseFountEntityFile(data) {
+      const reg = /\[(.+?)\]/g;
+      const fromData = {
+        ...data,
+        relEntity: data.relEntity === null ? null : data.relEntity.match(reg)[0].replace(reg, '$1').split(', '),
+      };
+      const payload = {
+        chooseFountVisible: true,
         entityNameFormData: fromData,
       };
       dispatch.entityName.setState(payload);

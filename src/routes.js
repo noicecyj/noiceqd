@@ -6,6 +6,7 @@ import LogPage from '@/pages/Log';
 import SqlPage from '@/pages/Sql';
 import DataFormPage from '@/pages/DataForm';
 import DataTablePage from '@/pages/DataTable';
+import AppServicePage from '@/pages/AppService';
 import UserPage from '@/pages/User';
 import RolePage from '@/pages/Role';
 import ApiPage from '@/pages/Api';
@@ -43,6 +44,10 @@ const routerConfig = [
       {
         path: '/dataTable',
         component: DataTablePage,
+      },
+      {
+        path: '/appService',
+        component: AppServicePage,
       },
       {
         path: '/user',

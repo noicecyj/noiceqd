@@ -20,6 +20,7 @@ function EntityCreaterPage() {
     entityNameDispatchers.findCatalogByValue('ENTITY_TYPE');
     entityNameDispatchers.findCatalogByValue('DATA_TYPE');
     entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE');
+    entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE_FOUNT');
     entityNameDispatchers.selectEntityFindAll('SELECT_ENTITY');
     // <=============================自定义初始化数据 end   =============================>
     entityNameDispatchers.entityNamePage(1);
@@ -29,7 +30,7 @@ function EntityCreaterPage() {
     return <div className={ styles.opt }>
       {/* <=============================自定义组件 start =============================> */ }
       <Button type="primary" size="small" onClick={ () => entityNameDispatchers.chooseEntityFile(record) }> 生成后端代码 </Button>
-      <Button type="primary" size="small" onClick={ () => entityNameDispatchers.createComponentFile(record) }> 生成前端代码 </Button>
+      <Button type="primary" size="small" onClick={ () => entityNameDispatchers.chooseFountEntityFile(record) }> 生成前端代码 </Button>
       {/* <=============================自定义组件 end   =============================> */ }
       {/* <=============================可选组件 start =============================> */ }
 
@@ -116,6 +117,21 @@ function EntityCreaterPage() {
                 {/* <=============================自定义表单 start =============================> */ }
                 <FormItem label="选择生成：" required requiredMessage="请选择生成类" >
                   <CheckboxGroup dataSource={ entityNameState.LEVEL_ENTITY_TYPE } itemDirection="ver" id="choose" name="choose" />
+                </FormItem>
+                {/* <=============================自定义表单 end   =============================> */ }
+              </Form>
+            </Dialog>
+            <Dialog title="选择生成类" visible={ entityNameState.chooseFountVisible }
+              onOk={ () => entityNameDispatchers.createComponentFile({ ...entityNameState.chooseFountFormData, ...entityNameState.entityNameFormData }) }
+              onCancel={ () => entityName.setState({ chooseFountVisible: false }) }
+              onClose={ () => entityName.setState({ chooseFountVisible: false }) }
+              style={ { width: '30%' } }>
+              <Form style={ { width: '100%' } } { ...entityNameState.formItemLayout }
+                value={ entityNameState.chooseFountFormData }
+                onChange={ value => entityName.setState({ chooseFountFormData: value }) }>
+                {/* <=============================自定义表单 start =============================> */ }
+                <FormItem label="选择生成：" required requiredMessage="请选择生成类" >
+                  <CheckboxGroup dataSource={ entityNameState.LEVEL_ENTITY_TYPE_FOUNT } itemDirection="ver" id="choose" name="choose" />
                 </FormItem>
                 {/* <=============================自定义表单 end   =============================> */ }
               </Form>

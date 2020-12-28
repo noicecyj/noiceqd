@@ -25,27 +25,27 @@ function DataForm(props) {
         if (obj.type === 'Input' || obj.type == null) {
           if (obj.required === 'true') {
             return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <Input id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } />
+              <Input id={ obj.name } name={ obj.name } />
             </FormItem>);
           } else {
             return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Input id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } />
+              <Input id={ obj.name } name={ obj.name } />
             </FormItem>);
           }
         } else if (obj.type === 'Select') {
           if (obj.dataSource != null) {
             if (obj.required === 'true') {
-              return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
-                <Select id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
+              return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
+                <Select id={ obj.name } name={ obj.name } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
               </FormItem>);
             } else {
               return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-                <Select id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
+                <Select id={ obj.name } name={ obj.name } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
               </FormItem>);
             }
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id } requiredMessage={ `请输入${obj.label}` }>
-              <Select id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
+            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
+              <Select id={ obj.name } name={ obj.name } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
             </FormItem>);
           }
         } else if (obj.type === 'ReactJson') {
@@ -66,17 +66,17 @@ function DataForm(props) {
           />);
         } else if (obj.type === 'NumberPicker' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
-              <NumberPicker id={ obj.name } name={ obj.name } defaultValue="" min={ 1 } max={ 10 } />
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
+              <NumberPicker id={ obj.name } name={ obj.name } min={ 1 } max={ 10 } />
             </FormItem>);
           } else {
             return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <NumberPicker id={ obj.name } name={ obj.name } defaultValue="" min={ 1 } max={ 10 } />
+              <NumberPicker id={ obj.name } name={ obj.name } min={ 1 } max={ 10 } />
             </FormItem>);
           }
         } else if (obj.type === 'Switch' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
               <Switch id={ obj.name } name={ obj.name } defaultChecked />
             </FormItem>);
           } else {
@@ -86,7 +86,7 @@ function DataForm(props) {
           }
         } else if (obj.type === 'Range' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
               <Range id={ obj.name } name={ obj.name } defaultValue={ 0 } scales={ [0, 100] } marks={ [0, 100] } />
             </FormItem>);
           } else {
@@ -96,7 +96,7 @@ function DataForm(props) {
           }
         } else if (obj.type === 'DatePicker' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
               <DatePicker id={ obj.name } name={ obj.name } />
             </FormItem>);
           } else {
@@ -106,7 +106,7 @@ function DataForm(props) {
           }
         } else if (obj.type === 'RangePicker' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
               <RangePicker id={ obj.name } name={ obj.name } />
             </FormItem>);
           } else {
@@ -116,7 +116,7 @@ function DataForm(props) {
           }
         } else if (obj.type === 'TimePicker' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
               <TimePicker id={ obj.name } name={ obj.name } />
             </FormItem>);
           } else {
@@ -126,7 +126,7 @@ function DataForm(props) {
           }
         } else if (obj.type === 'Checkbox' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
               <CheckboxGroup id={ obj.name } name={ obj.name } dataSource={ obj.dataSource } itemDirection="ver" />
             </FormItem>);
           } else {
@@ -136,7 +136,7 @@ function DataForm(props) {
           }
         } else if (obj.type === 'Radio' || obj.type == null) {
           if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required requiredMessage={ `请输入${obj.label}` } key={ item.id }>
+            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
               <RadioGroup id={ obj.name } name={ obj.name } dataSource={ obj.dataSource } itemDirection="ver" />
             </FormItem>);
           } else {
@@ -147,7 +147,7 @@ function DataForm(props) {
         } else {
           return (
             <FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Input id={ obj.name } name={ obj.name } placeholder={ `请输入${obj.label}` } />
+              <Input id={ obj.name } name={ obj.name } />
             </FormItem>);
         }
       }) }

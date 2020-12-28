@@ -7,9 +7,9 @@ export default {
    * @param {*} value
    * @return {*} 
    */
-  userPage(value) {
+  appServicePage(value) {
     return request({
-      url: '/ssoApi/userPage',
+      url: '/entityCreateApi/appServicePage',
       method: 'post',
       params: {
         pageNumber: value,
@@ -21,12 +21,12 @@ export default {
   /**
    * 保存
    *
-   * @param {*} userFormData
+   * @param {*} appServiceFormData
    * @return {*} 
    */
-  userSave(data) {
+  appServiceSave(data) {
     return request({
-      url: '/ssoApi/userSave',
+      url: '/entityCreateApi/appServiceSave',
       method: 'post',
       data,
     });
@@ -37,9 +37,9 @@ export default {
    * @param {*} record
    * @return {*} 
    */
-  userDelete(record) {
+  appServiceDelete(record) {
     return request({
-      url: '/ssoApi/userDelete',
+      url: '/entityCreateApi/appServiceDelete',
       method: 'post',
       params: {
         id: record.id,
@@ -92,6 +92,12 @@ export default {
     });
   },
   // <=============================自定义请求 start =============================>
-
+  createAppFile(value) {
+    return request({
+      url: '/entityCreateApi/createAppFile',
+      method: 'post',
+      data: value,
+    });
+  },
   // <=============================自定义请求 end   =============================>
 };

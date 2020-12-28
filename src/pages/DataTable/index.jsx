@@ -48,16 +48,15 @@ function DataTablePage() {
         <div className={ styles.Main }>
           <div className={ styles.add }>
             <Button type="primary" onClick={ () => dataTableDispatchers.dataTableEdit() }> 添加菜单 </Button>
-            <Dialog title="菜单" visible={ dataTableState.dataTableVisible }
-              onOk={ () => dataTableDispatchers.dataTableSave({
-                dataTableFormData: dataTableState.dataTableFormData,
-                dataTableCurrent: dataTableState.dataTableCurrent,
-              }) }
-              onCancel={ () => dataTable.setState({ dataTableVisible: false }) }
+            <Dialog title="菜单" visible={ dataTableState.dataTableVisible } footer={ false }
               onClose={ () => dataTable.setState({ dataTableVisible: false }) }
               style={ { width: '30%' } }>
               <DataFormTemple items={ dataTableState.dataTableForm }
                 dispatchers={ value => dataTableDispatchers.setDataForm(value) }
+                onOk={ () => dataTableDispatchers.dataTableSave({
+                  dataTableFormData: dataTableState.dataTableFormData,
+                  dataTableCurrent: dataTableState.dataTableCurrent,
+                }) }
                 formDataValue={ dataTableState.dataTableFormData } />
             </Dialog>
           </div>
@@ -83,17 +82,16 @@ function DataTablePage() {
         <div className={ styles.Main }>
           <div className={ styles.add }>
             <Button type="primary" onClick={ () => dataTableItemDispatchers.dataTableItemEdit() }> 添加菜单 </Button>
-            <Dialog title="菜单" visible={ dataTableItemState.dataTableItemVisible }
-              onOk={ () => dataTableItemDispatchers.dataTableItemSave({
-                dataTableItemFormData: dataTableItemState.dataTableItemFormData,
-                dataTableItemCurrent: dataTableItemState.dataTableItemCurrent,
-                dataTableId: dataTableItemState.dataTableId,
-              }) }
-              onCancel={ () => dataTableItem.setState({ dataTableItemVisible: false }) }
+            <Dialog title="菜单" visible={ dataTableItemState.dataTableItemVisible } footer={ false }
               onClose={ () => dataTableItem.setState({ dataTableItemVisible: false }) }
               style={ { width: '30%' } }>
               <DataFormTemple items={ dataTableItemState.dataTableItemForm }
                 dispatchers={ value => dataTableItemDispatchers.setDataForm(value) }
+                onOk={ () => dataTableItemDispatchers.dataTableItemSave({
+                  dataTableItemFormData: dataTableItemState.dataTableItemFormData,
+                  dataTableItemCurrent: dataTableItemState.dataTableItemCurrent,
+                  dataTableId: dataTableItemState.dataTableId,
+                }) }
                 formDataValue={ dataTableItemState.dataTableItemFormData } />
             </Dialog>
           </div>
