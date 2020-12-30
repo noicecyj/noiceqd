@@ -157,6 +157,14 @@ export default {
       entityNameService.createEntityFile(data).then(res => {
         if (res.code === 200) {
           Message.success('生成成功');
+          entityNameService.entityNamePage(data.entityNameCurrent).then(resdata => {
+            const payload = {
+              entityNameTotal: resdata.data.totalElements,
+              entityNameTableData: resdata.data.content,
+              entityNameCurrent: data.entityNameCurrent,
+            };
+            dispatch.entityName.setState(payload);
+          });
         } else {
           Message.error('生成失败');
         }
@@ -171,6 +179,14 @@ export default {
       entityNameService.createComponentFile(data).then(res => {
         if (res.code === 200) {
           Message.success('生成成功');
+          entityNameService.entityNamePage(data.entityNameCurrent).then(resdata => {
+            const payload = {
+              entityNameTotal: resdata.data.totalElements,
+              entityNameTableData: resdata.data.content,
+              entityNameCurrent: data.entityNameCurrent,
+            };
+            dispatch.entityName.setState(payload);
+          });
         } else {
           Message.error('生成失败');
         }

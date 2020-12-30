@@ -107,7 +107,11 @@ function EntityCreaterPage() {
               </Form>
             </Dialog>
             <Dialog title="选择生成类" visible={ entityNameState.chooseVisible }
-              onOk={ () => entityNameDispatchers.createEntityFile({ ...entityNameState.chooseFormData, ...entityNameState.entityNameFormData }) }
+              onOk={ () => entityNameDispatchers.createEntityFile({
+                ...entityNameState.chooseFormData,
+                ...entityNameState.entityNameFormData,
+                entityNameCurrent: entityNameState.entityNameCurrent,
+              }) }
               onCancel={ () => entityName.setState({ chooseVisible: false }) }
               onClose={ () => entityName.setState({ chooseVisible: false }) }
               style={ { width: '30%' } }>
@@ -122,7 +126,11 @@ function EntityCreaterPage() {
               </Form>
             </Dialog>
             <Dialog title="选择生成类" visible={ entityNameState.chooseFountVisible }
-              onOk={ () => entityNameDispatchers.createComponentFile({ ...entityNameState.chooseFountFormData, ...entityNameState.entityNameFormData }) }
+              onOk={ () => entityNameDispatchers.createComponentFile({
+                ...entityNameState.chooseFountFormData,
+                ...entityNameState.entityNameFormData,
+                entityNameCurrent: entityNameState.entityNameCurrent,
+              }) }
               onCancel={ () => entityName.setState({ chooseFountVisible: false }) }
               onClose={ () => entityName.setState({ chooseFountVisible: false }) }
               style={ { width: '30%' } }>
