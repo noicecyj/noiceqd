@@ -36,16 +36,25 @@ function DataForm(props) {
           if (obj.dataSource != null) {
             if (obj.required === 'true') {
               return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-                <Select id={ obj.name } name={ obj.name } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
+                <Select id={ obj.name } name={ obj.name }
+                  filterLocal={ false } dataSource={ obj.dataSource }
+                  style={ { width: 414 } } mode={ obj.mode }
+                  defaultValue={ obj.defaultValue != null ? obj.defaultValue : null } />
               </FormItem>);
             } else {
               return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-                <Select id={ obj.name } name={ obj.name } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
+                <Select id={ obj.name } name={ obj.name }
+                  filterLocal={ false } dataSource={ obj.dataSource }
+                  style={ { width: 414 } } mode={ obj.mode }
+                  defaultValue={ obj.defaultValue != null ? obj.defaultValue : null } />
               </FormItem>);
             }
           } else {
             return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Select id={ obj.name } name={ obj.name } filterLocal={ false } dataSource={ obj.dataSource } style={ { width: 414 } } />
+              <Select id={ obj.name } name={ obj.name }
+                filterLocal={ false } dataSource={ obj.dataSource }
+                style={ { width: 414 } } mode={ obj.mode }
+                defaultValue={ obj.defaultValue != null ? obj.defaultValue : null } />
             </FormItem>);
           }
         } else if (obj.type === 'ReactJson') {

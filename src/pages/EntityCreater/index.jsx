@@ -82,7 +82,7 @@ function EntityCreaterPage() {
                   <Input id="name" name="name" placeholder="请输入实体名称" />
                 </FormItem>
                 <FormItem label="对象类型：" required requiredMessage="请选择对象类型">
-                  <RadioGroup dataSource={ entityNameState.ENTITY_TYPE } name="type" />
+                  <RadioGroup dataSource={ entityNameState.ENTITY_TYPE } name="type" id="type" />
                 </FormItem>
                 <FormItem label="生成路径：" required requiredMessage="请选择生成路径">
                   <Input id="path" name="path" placeholder="请输入生成路径" />
