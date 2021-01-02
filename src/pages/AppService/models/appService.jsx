@@ -139,30 +139,11 @@ export default {
      * @param {*} data
      */
     async findDataFormByName(data) {
-      const formArray = [];
-      const results = [];
-      const appServiceRes = await appServiceService.findDataFormByName(data);
-      for (let i = 0; i < appServiceRes.data.length; i++) {
-        if (appServiceRes.data[i].type === 'Select' && appServiceRes.data[i].dataSource !== null) {
-          results.push(appServiceService.findCatalogByValue(appServiceRes.data[i].dataSource).then(res => {
-            const formArr = [];
-            res.forEach(item => {
-              formArr.push({
-                label: item.dictionaryName,
-                value: item.dictionaryValue,
-              });
-            });
-            formArray.push({ ...appServiceRes.data[i], dataSource: formArr });
-          }));
-        } else {
-          formArray.push(appServiceRes.data[i]);
-        }
-      }
-      await Promise.all(results);
+      const dataFormRes = await appServiceService.findDataFormByName(data);
       const payload = {
-        appServiceForm: formArray,
+        entityNameForm: dataFormRes.data,
       };
-      dispatch.appService.setState(payload);
+      dispatch.entityName.setState(payload);
     },
     /**
      * 获取表格

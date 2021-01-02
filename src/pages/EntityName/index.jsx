@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Box, Dialog, Loading, Pagination } from '@alifd/next';
+import { ResponsiveGrid, Button, Box, Dialog, Loading, Pagination, Form, Checkbox } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/EntityName';
 import DataFormTemple from '@/components/dataForm';
@@ -6,6 +6,8 @@ import DataTableTemple from '@/components/dataTable';
 import styles from './index.module.scss';
 
 const { Cell } = ResponsiveGrid;
+const FormItem = Form.Item;
+const { Group: CheckboxGroup } = Checkbox;
 
 function EntityNamePage() {
   const [entityNameState, entityNameDispatchers] = pageStore.useModel('entityName');
@@ -20,6 +22,8 @@ function EntityNamePage() {
     entityNameDispatchers.findDataTableByName('entityNameTable');
     entityDispatchers.findDataFormByName('entityForm');
     entityDispatchers.findDataTableByName('entityTable');
+    entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE');
+    entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE_FOUNT');
   }, [entityNameDispatchers, entityDispatchers]);
 
   const entityNamePageRender = (value, index, record) => {
@@ -62,6 +66,40 @@ function EntityNamePage() {
                   entityNameCurrent: entityNameState.entityNameCurrent,
                 }) }
                 formDataValue={ entityNameState.entityNameFormData } />
+            </Dialog>
+            <Dialog title="选择生成类" visible={ entityNameState.chooseVisible }
+              onOk={ () => entityNameDispatchers.createEntityFile({
+                ...entityNameState.chooseFormData,
+                ...entityNameState.entityNameFormData,
+                entityNameCurrent: entityNameState.entityNameCurrent,
+              }) }
+              onCancel={ () => entityName.setState({ chooseVisible: false }) }
+              onClose={ () => entityName.setState({ chooseVisible: false }) }
+              style={ { width: '30%' } }>
+              <Form style={ { width: '100%' } } { ...entityNameState.formItemLayout }
+                value={ entityNameState.chooseFormData }
+                onChange={ value => entityName.setState({ chooseFormData: value }) }>
+                <FormItem label="选择生成：" required requiredMessage="请选择生成类" >
+                  <CheckboxGroup dataSource={ entityNameState.LEVEL_ENTITY_TYPE } itemDirection="ver" id="choose" name="choose" />
+                </FormItem>
+              </Form>
+            </Dialog>
+            <Dialog title="选择生成类" visible={ entityNameState.chooseFountVisible }
+              onOk={ () => entityNameDispatchers.createComponentFile({
+                ...entityNameState.chooseFountFormData,
+                ...entityNameState.entityNameFormData,
+                entityNameCurrent: entityNameState.entityNameCurrent,
+              }) }
+              onCancel={ () => entityName.setState({ chooseFountVisible: false }) }
+              onClose={ () => entityName.setState({ chooseFountVisible: false }) }
+              style={ { width: '30%' } }>
+              <Form style={ { width: '100%' } } { ...entityNameState.formItemLayout }
+                value={ entityNameState.chooseFountFormData }
+                onChange={ value => entityName.setState({ chooseFountFormData: value }) }>
+                <FormItem label="选择生成：" required requiredMessage="请选择生成类" >
+                  <CheckboxGroup dataSource={ entityNameState.LEVEL_ENTITY_TYPE_FOUNT } itemDirection="ver" id="choose" name="choose" />
+                </FormItem>
+              </Form>
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ entityNameState.entityNameLoadingVisible }>

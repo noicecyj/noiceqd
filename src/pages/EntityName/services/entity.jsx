@@ -95,6 +95,35 @@ export default {
     });
   },
   // <=============================自定义请求 start =============================>
-
+  /**
+   * 上移
+   *
+   * @param {*} value
+   * @return {*}
+   */
+  upEntity(value) {
+    return request({
+      url: '/entityCreateApi/upEntity',
+      method: 'post',
+      params: {
+        id: value,
+      },
+    });
+  },
+  /**
+   * 下移
+   *
+   * @param {*} value
+   * @return {*}
+   */
+  downEntity(value) {
+    return request({
+      url: '/entityCreateApi/downEntity',
+      method: 'post',
+      params: {
+        id: value,
+      },
+    });
+  },
   // <=============================自定义请求 end   =============================>
 };

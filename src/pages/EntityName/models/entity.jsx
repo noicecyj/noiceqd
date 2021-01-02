@@ -136,30 +136,11 @@ export default {
      * @param {*} data
      */
     async findDataFormByName(data) {
-      const formArray = [];
-      const results = [];
-      const entityRes = await entityService.findDataFormByName(data);
-      for (let i = 0; i < entityRes.data.length; i++) {
-        if (entityRes.data[i].type === 'Select' && entityRes.data[i].dataSource !== null) {
-          results.push(entityService.findCatalogByValue(entityRes.data[i].dataSource).then(res => {
-            const formArr = [];
-            res.forEach(item => {
-              formArr.push({
-                label: item.dictionaryName,
-                value: item.dictionaryValue,
-              });
-            });
-            formArray.push({ ...entityRes.data[i], dataSource: formArr });
-          }));
-        } else {
-          formArray.push(entityRes.data[i]);
-        }
-      }
-      await Promise.all(results);
+      const dataFormRes = await entityService.findDataFormByName(data);
       const payload = {
-        entityForm: formArray,
+        entityNameForm: dataFormRes.data,
       };
-      dispatch.entity.setState(payload);
+      dispatch.entityName.setState(payload);
     },
     /**
      * 获取表格
@@ -197,7 +178,44 @@ export default {
     },
     // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
-
+    /**
+     * 上移
+     *
+     * @param {*} data
+     */
+    upEntity(data) {
+      entityService.upEntity(data.record.id).then(() => {
+        entityService.entityPage(data.record.pid, data.entityCurrent).then(res => {
+          const payload = {
+            entityTotal: res.data.totalElements,
+            entityTableData: res.data.content,
+            entityCurrent: data.entityCurrent,
+          };
+          dispatch.entity.setState(payload);
+        });
+      });
+      const payload = { entityVisible: false };
+      dispatch.entity.setState(payload);
+    },
+    /**
+     * 下移
+     *
+     * @param {*} data
+     */
+    downEntity(data) {
+      entityService.downEntity(data.record.id).then(() => {
+        entityService.entityPage(data.record.pid, data.entityCurrent).then(res => {
+          const payload = {
+            entityTotal: res.data.totalElements,
+            entityTableData: res.data.content,
+            entityCurrent: data.entityCurrent,
+          };
+          dispatch.entity.setState(payload);
+        });
+      });
+      const payload = { entityVisible: false };
+      dispatch.entity.setState(payload);
+    },
     // <=============================自定义方法 end   =============================>
   }),
 };

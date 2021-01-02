@@ -14,7 +14,7 @@ export default {
     userForm: [],
     userTable: [],
     // <=============================自定义状态 start =============================>
-    
+
     // <=============================自定义状态 end   =============================>
   },
 
@@ -137,30 +137,11 @@ export default {
      * @param {*} data
      */
     async findDataFormByName(data) {
-      const formArray = [];
-      const results = [];
-      const userRes = await userService.findDataFormByName(data);
-      for (let i = 0; i < userRes.data.length; i++) {
-        if (userRes.data[i].type === 'Select' && userRes.data[i].dataSource !== null) {
-          results.push(userService.findCatalogByValue(userRes.data[i].dataSource).then(res => {
-            const formArr = [];
-            res.forEach(item => {
-              formArr.push({
-                label: item.dictionaryName,
-                value: item.dictionaryValue,
-              });
-            });
-            formArray.push({ ...userRes.data[i], dataSource: formArr });
-          }));
-        } else {
-          formArray.push(userRes.data[i]);
-        }
-      }
-      await Promise.all(results);
+      const dataFormRes = await userService.findDataFormByName(data);
       const payload = {
-        userForm: formArray,
+        entityNameForm: dataFormRes.data,
       };
-      dispatch.user.setState(payload);
+      dispatch.entityName.setState(payload);
     },
     /**
      * 获取表格

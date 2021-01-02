@@ -15,7 +15,12 @@ export default {
     entityNameForm: [],
     entityNameTable: [],
     // <=============================自定义状态 start =============================>
-
+    chooseVisible: false,
+    chooseFormData: {},
+    chooseFountVisible: false,
+    chooseFountFormData: {},
+    LEVEL_ENTITY_TYPE: [],
+    LEVEL_ENTITY_TYPE_FOUNT: [],
     // <=============================自定义状态 end   =============================>
   },
 
