@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactJson from 'react-json-view'
+import { store } from 'ice';
 import { Form, Input, Select, NumberPicker, Switch, Range, DatePicker, TimePicker, Checkbox, Radio } from '@alifd/next';
 
 const FormItem = Form.Item;
@@ -16,53 +17,57 @@ const formItemLayout = {
 };
 
 function DataForm(props) {
+  const [dictionaryState, dictionaryDispatchers] = store.useModel('dictionary');
   const { items, dispatchers, onOk, formDataValue } = props;
+  useEffect(() => {
+    dictionaryDispatchers.findCatalogByValue(items);
+  }, [dictionaryDispatchers, items]);
+
+  console.log(dictionaryState.dictionary);
   return (
     <Form style={ { width: '100%' } } { ...formItemLayout }
       value={ formDataValue } onChange={ value => dispatchers(value) }>
-      {items.map(item => {
-        const obj = JSON.parse(item.jsonData);
-        if (obj.type === 'Input' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <Input id={ obj.name } name={ obj.name } />
+      {dictionaryState.dictionary.map(item => {
+        if (item.type === 'Input' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <Input id={ item.name } name={ item.name } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Input id={ obj.name } name={ obj.name } />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <Input id={ item.name } name={ item.name } />
             </FormItem>);
           }
-        } else if (obj.type === 'Select') {
-          if (obj.dataSource != null) {
-            if (obj.required === 'true') {
-              return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-                <Select id={ obj.name } name={ obj.name }
-                  filterLocal={ false } dataSource={ obj.dataSource }
-                  style={ { width: 414 } } mode={ obj.mode }
-                  defaultValue={ obj.defaultValue != null ? obj.defaultValue : null } />
+        } else if (item.type === 'Select') {
+          if (item.dataSource != null) {
+            if (item.required === 'true') {
+              return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+                <Select id={ item.name } name={ item.name }
+                  filterLocal={ false } dataSource={ item.dataSource }
+                  style={ { width: 414 } } mode={ item.mode }
+                  defaultValue={ item.defaultValue != null ? item.defaultValue : null } />
               </FormItem>);
             } else {
-              return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-                <Select id={ obj.name } name={ obj.name }
-                  filterLocal={ false } dataSource={ obj.dataSource }
-                  style={ { width: 414 } } mode={ obj.mode }
-                  defaultValue={ obj.defaultValue != null ? obj.defaultValue : null } />
+              return (<FormItem label={ `${item.label}：` } key={ item.id }>
+                <Select id={ item.name } name={ item.name }
+                  filterLocal={ false } dataSource={ item.dataSource }
+                  style={ { width: 414 } } mode={ item.mode }
+                  defaultValue={ item.defaultValue != null ? item.defaultValue : null } />
               </FormItem>);
             }
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Select id={ obj.name } name={ obj.name }
-                filterLocal={ false } dataSource={ obj.dataSource }
-                style={ { width: 414 } } mode={ obj.mode }
-                defaultValue={ obj.defaultValue != null ? obj.defaultValue : null } />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <Select id={ item.name } name={ item.name }
+                filterLocal={ false } style={ { width: 414 } } mode={ item.mode }
+                defaultValue={ item.defaultValue != null ? item.defaultValue : null } />
             </FormItem>);
           }
-        } else if (obj.type === 'ReactJson') {
+        } else if (item.type === 'ReactJson') {
           let jsonObj = {};
           if (formDataValue.jsonData) {
             jsonObj = JSON.parse(formDataValue.jsonData);
           }
-          return (<ReactJson src={ jsonObj } name={ obj.name } key={ item.id }
+          return (<ReactJson src={ jsonObj } name={ item.name } key={ item.id }
             onAdd={ (add) => {
               dispatchers({ ...formDataValue, jsonData: JSON.stringify(add.updated_src) });
             } }
@@ -73,93 +78,96 @@ function DataForm(props) {
               dispatchers({ ...formDataValue, jsonData: JSON.stringify(deleteCont.updated_src) });
             } }
           />);
-        } else if (obj.type === 'NumberPicker' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <NumberPicker id={ obj.name } name={ obj.name } min={ 1 } max={ 10 } />
+        } else if (item.type === 'NumberPicker' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <NumberPicker id={ item.name } name={ item.name } min={ 1 } max={ 10 } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <NumberPicker id={ obj.name } name={ obj.name } min={ 1 } max={ 10 } />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <NumberPicker id={ item.name } name={ item.name } min={ 1 } max={ 10 } />
             </FormItem>);
           }
-        } else if (obj.type === 'Switch' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <Switch id={ obj.name } name={ obj.name } defaultChecked />
+        } else if (item.type === 'Switch' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <Switch id={ item.name } name={ item.name } defaultChecked />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Switch id={ obj.name } name={ obj.name } defaultChecked />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <Switch id={ item.name } name={ item.name } defaultChecked />
             </FormItem>);
           }
-        } else if (obj.type === 'Range' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <Range id={ obj.name } name={ obj.name } defaultValue={ 0 } scales={ [0, 100] } marks={ [0, 100] } />
+        } else if (item.type === 'Range' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <Range id={ item.name } name={ item.name } defaultValue={ 0 } scales={ [0, 100] } marks={ [0, 100] } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Range id={ obj.name } name={ obj.name } defaultValue={ 0 } scales={ [0, 100] } marks={ [0, 100] } />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <Range id={ item.name } name={ item.name } defaultValue={ 0 } scales={ [0, 100] } marks={ [0, 100] } />
             </FormItem>);
           }
-        } else if (obj.type === 'DatePicker' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <DatePicker id={ obj.name } name={ obj.name } />
+        } else if (item.type === 'DatePicker' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <DatePicker id={ item.name } name={ item.name } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <DatePicker id={ obj.name } name={ obj.name } />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <DatePicker id={ item.name } name={ item.name } />
             </FormItem>);
           }
-        } else if (obj.type === 'RangePicker' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <RangePicker id={ obj.name } name={ obj.name } />
+        } else if (item.type === 'RangePicker' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <RangePicker id={ item.name } name={ item.name } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <RangePicker id={ obj.name } name={ obj.name } />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <RangePicker id={ item.name } name={ item.name } />
             </FormItem>);
           }
-        } else if (obj.type === 'TimePicker' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <TimePicker id={ obj.name } name={ obj.name } />
+        } else if (item.type === 'TimePicker' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <TimePicker id={ item.name } name={ item.name } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <TimePicker id={ obj.name } name={ obj.name } />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <TimePicker id={ item.name } name={ item.name } />
             </FormItem>);
           }
-        } else if (obj.type === 'Checkbox' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <CheckboxGroup id={ obj.name } name={ obj.name } dataSource={ obj.dataSource } itemDirection="ver" />
+        } else if (item.type === 'Checkbox' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <CheckboxGroup id={ item.name } name={ item.name } dataSource={ item.dataSource } itemDirection={ item.itemDirection } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <CheckboxGroup id={ obj.name } name={ obj.name } dataSource={ obj.dataSource } itemDirection="ver" />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <CheckboxGroup id={ item.name } name={ item.name } dataSource={ item.dataSource } itemDirection={ item.itemDirection } />
             </FormItem>);
           }
-        } else if (obj.type === 'Radio' || obj.type == null) {
-          if (obj.required === 'true') {
-            return (<FormItem label={ `${obj.label}：` } required key={ item.id }>
-              <RadioGroup id={ obj.name } name={ obj.name } dataSource={ obj.dataSource } itemDirection="ver" />
+        } else if (item.type === 'Radio' || item.type == null) {
+          if (item.required === 'true') {
+            return (<FormItem label={ `${item.label}：` } required key={ item.id }>
+              <RadioGroup id={ item.name } name={ item.name } dataSource={ item.dataSource } itemDirection={ item.itemDirection } />
             </FormItem>);
           } else {
-            return (<FormItem label={ `${obj.label}：` } key={ item.id }>
-              <RadioGroup id={ obj.name } name={ obj.name } dataSource={ obj.dataSource } itemDirection="ver" />
+            return (<FormItem label={ `${item.label}：` } key={ item.id }>
+              <RadioGroup id={ item.name } name={ item.name } dataSource={ item.dataSource } itemDirection={ item.itemDirection } />
             </FormItem>);
           }
         } else {
           return (
-            <FormItem label={ `${obj.label}：` } key={ item.id }>
-              <Input id={ obj.name } name={ obj.name } />
+            <FormItem label={ `${item.label}：` } key={ item.id }>
+              <Input id={ item.name } name={ item.name } />
             </FormItem>);
         }
       }) }
+      <FormItem label="排序代码：" required requiredMessage="请输入排序代码" >
+        <Input id="sortCode" name="sortCode" placeholder="请输入排序代码" />
+      </FormItem>
       <FormItem >
         <Form.Submit validate type="primary"
           onClick={ (v, e) => {

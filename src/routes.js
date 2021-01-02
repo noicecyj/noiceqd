@@ -1,7 +1,7 @@
 import BasicLayout from '@/layouts/BasicLayout';
 import PageMenuPage from '@/pages/PageMenu';
 import DictionaryPage from '@/pages/Dictionary';
-import EntityCreaterPage from '@/pages/EntityCreater';
+import EntityNamePage from '@/pages/EntityName';
 import LogPage from '@/pages/Log';
 import SqlPage from '@/pages/Sql';
 import DataFormPage from '@/pages/DataForm';
@@ -27,7 +27,7 @@ const routerConfig = [
       },
       {
         path: '/entitycreater',
-        component: EntityCreaterPage,
+        component: EntityNamePage,
       },
       {
         path: '/log',
