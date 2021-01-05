@@ -139,9 +139,9 @@ export default {
     async findDataFormByName(data) {
       const dataFormRes = await dataTableService.findDataFormByName(data);
       const payload = {
-        entityNameForm: dataFormRes.data,
+        dataTableForm: dataFormRes.data,
       };
-      dispatch.entityName.setState(payload);
+      dispatch.dataTable.setState(payload);
     },
     /**
      * 获取表格
