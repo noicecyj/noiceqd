@@ -22,8 +22,6 @@ function DataForm(props) {
   useEffect(() => {
     dictionaryDispatchers.findCatalogByValue(items);
   }, [dictionaryDispatchers, items]);
-
-  console.log(dictionaryState.dictionary);
   return (
     <Form style={ { width: '100%' } } { ...formItemLayout }
       value={ formDataValue } onChange={ value => dispatchers(value) }>
@@ -171,7 +169,6 @@ function DataForm(props) {
       <FormItem >
         <Form.Submit validate type="primary"
           onClick={ (v, e) => {
-            console.log(v, e);
             if (e == null) {
               onOk();
             }

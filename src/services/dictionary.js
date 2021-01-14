@@ -16,12 +16,38 @@ export default {
       },
     });
   },
+  /**
+   * 获取字典
+   *
+   * @param {*} value
+   * @return {*} 
+   */
+  findDictionaryByCatalogValueAndDictionaryKey(value) {
+    return request({
+      url: '/dictionaryApi/findDictionaryByCatalogValueAndDictionaryKey',
+      method: 'post',
+      params: {
+        value: value.value,
+        key: value.key,
+      },
+    });
+  },
   selectFindAll(value) {
     return request({
       url: '/sqlApi/doFindAllSql',
       method: 'post',
       params: {
         tableName: value,
+      },
+    });
+  },
+  selectFindById(value) {
+    return request({
+      url: '/sqlApi/doFindSqlById',
+      method: 'post',
+      params: {
+        tableName: value.tableName,
+        id: value.id,
       },
     });
   },

@@ -105,6 +105,8 @@ function EntityNamePage() {
           <Loading tip="加载中..." visible={ entityNameState.entityNameLoadingVisible }>
             <DataTableTemple dataSource={ entityNameState.entityNameTableData }
               items={ entityNameState.entityNameTable }
+              total={ entityNameState.entityNameTotal }
+              getPage={ current => entityNameDispatchers.entityNamePage(current) }
               rowSelection={ {
                 mode: 'single',
                 onSelect: (selected, record) => {
@@ -112,11 +114,6 @@ function EntityNamePage() {
                 },
               } }
               pageRender={ entityNamePageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ entityNameState.entityNameTotal }</span> 条 </div>
-              <Pagination onChange={ current => entityNameDispatchers.entityNamePage(current) }
-                type="simple" pageSize={ 5 } total={ entityNameState.entityNameTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>
@@ -140,12 +137,9 @@ function EntityNamePage() {
           <Loading tip="加载中..." visible={ entityState.entityLoadingVisible }>
             <DataTableTemple dataSource={ entityState.entityTableData }
               items={ entityState.entityTable }
+              total={ entityState.entityTotal }
+              getPage={ current => entityDispatchers.entityPage({ id: entityState.entityNameId, current }) }
               pageRender={ entityPageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ entityState.entityTotal }</span> 条 </div>
-              <Pagination onChange={ current => entityDispatchers.entityPage({ id: entityState.entityNameId, current }) }
-                type="simple" pageSize={ 5 } total={ entityState.entityTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>
