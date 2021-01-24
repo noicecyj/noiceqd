@@ -140,26 +140,33 @@ export default {
       dispatch.entityName.setState(payload);
     },
     /**
-     * 获取表单
+     * 设置表格数据
      *
      * @param {*} data
      */
-    async findDataFormByName(data) {
-      const dataFormRes = await entityNameService.findDataFormByName(data);
+    setDataTable(data) {
+      console.log(data, 444);
       const payload = {
-        entityNameForm: dataFormRes.data,
+        entityNameTableData: data,
       };
       dispatch.entityName.setState(payload);
     },
     /**
-     * 获取表格
+     * 获取表格和表格初始化数据
      *
      * @param {*} data
      */
-    async findDataTableByName(data) {
-      const dataTableRes = await entityNameService.findDataTableByName(data);
+    async findDataTableAndFormByName(dataTableAndForm) {
+      const dataRes = await entityNameService.entityNamePage(1);
+      const dataTableRes = await entityNameService.findDataTableByName(dataTableAndForm.dataTable);
+      const dataFormRes = await entityNameService.findDataFormByName(dataTableAndForm.dataForm);
       const payload = {
         entityNameTable: dataTableRes.data,
+        entityNameForm: dataFormRes.data,
+        entityNameTotal: dataRes.data.totalElements,
+        entityNameTableData: dataRes.data.content,
+        entityNameCurrent: 1,
+        entityNameLoadingVisible: false,
       };
       dispatch.entityName.setState(payload);
     },

@@ -49,12 +49,9 @@ function AppServicePage() {
           <Loading tip="加载中..." visible={ appServiceState.appServiceLoadingVisible }>
             <DataTableTemple dataSource={ appServiceState.appServiceTableData }
               items={ appServiceState.appServiceTable }
+              total={ appServiceState.appServiceTotal }
+              getPage={ current => appServiceDispatchers.appServicePage(current) }
               pageRender={ appServicePageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ appServiceState.appServiceTotal }</span> 条 </div>
-              <Pagination onChange={ current => appServiceDispatchers.appServicePage(current) }
-                type="simple" pageSize={ 5 } total={ appServiceState.appServiceTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>

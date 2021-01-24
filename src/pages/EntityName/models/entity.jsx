@@ -131,26 +131,28 @@ export default {
       dispatch.entity.setState(payload);
     },
     /**
-     * 获取表单
+     * 设置表格数据
      *
      * @param {*} data
      */
-    async findDataFormByName(data) {
-      const dataFormRes = await entityService.findDataFormByName(data);
+    setDataTable(data) {
+      console.log(data, 555);
       const payload = {
-        entityForm: dataFormRes.data,
+        entityTableData: data,
       };
       dispatch.entity.setState(payload);
     },
     /**
-     * 获取表格
+     * 获取表格和表格
      *
      * @param {*} data
      */
-    async findDataTableByName(data) {
-      const dataTableRes = await entityService.findDataTableByName(data);
+    async findDataTableAndFormByName(dataTableAndForm) {
+      const dataTableRes = await entityService.findDataTableByName(dataTableAndForm.dataTable);
+      const dataFormRes = await entityService.findDataFormByName(dataTableAndForm.dataForm);
       const payload = {
         entityTable: dataTableRes.data,
+        entityForm: dataFormRes.data,
       };
       dispatch.entity.setState(payload);
     },

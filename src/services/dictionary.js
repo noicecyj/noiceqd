@@ -51,4 +51,14 @@ export default {
       },
     });
   },
+  transformData(dataSource, dataTableItemList) {
+    return request({
+      url: '/pageMenuApi/transformData',
+      method: 'post',
+      data: {
+        dataSource,
+        dataTableItemList,
+      },
+    });
+  },
 };

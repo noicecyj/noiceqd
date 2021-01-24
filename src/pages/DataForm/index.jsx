@@ -63,6 +63,8 @@ function DataFormPage() {
           <Loading tip="加载中..." visible={ dataFormState.dataFormLoadingVisible }>
             <DataTableTemple dataSource={ dataFormState.dataFormTableData }
               items={ dataFormState.dataFormTable }
+              total={ dataFormState.appServiceTotal }
+              getPage={ current => dataFormDispatchers.dataFormPage(current) }
               rowSelection={ {
                 mode: 'single',
                 onSelect: (selected, record) => {
@@ -70,11 +72,6 @@ function DataFormPage() {
                 },
               } }
               pageRender={ dataFormPageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ dataFormState.dataFormTotal }</span> 条 </div>
-              <Pagination onChange={ current => dataFormDispatchers.dataFormPage(current) }
-                type="simple" pageSize={ 5 } total={ dataFormState.dataFormTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>
@@ -98,12 +95,9 @@ function DataFormPage() {
           <Loading tip="加载中..." visible={ dataFormItemState.dataFormItemLoadingVisible }>
             <DataTableTemple dataSource={ dataFormItemState.dataFormItemTableData }
               items={ dataFormItemState.dataFormItemTable }
+              total={ dataFormItemState.dataFormItemTotal }
+              getPage={ current => dataFormItemDispatchers.dataFormItemPage({ id: dataFormItemState.dataFormId, current }) }
               pageRender={ dataFormItemPageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ dataFormItemState.dataFormItemTotal }</span> 条 </div>
-              <Pagination onChange={ current => dataFormItemDispatchers.dataFormItemPage({ id: dataFormItemState.dataFormId, current }) }
-                type="simple" pageSize={ 5 } total={ dataFormItemState.dataFormItemTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>

@@ -1,4 +1,4 @@
-import { ResponsiveGrid, Button, Box, Dialog, Loading, Pagination, Form, Checkbox } from '@alifd/next';
+import { ResponsiveGrid, Button, Dialog, Loading, Form, Checkbox } from '@alifd/next';
 import React, { useEffect } from 'react';
 import { store as pageStore } from 'ice/EntityName';
 import DataFormTemple from '@/components/dataForm';
@@ -17,14 +17,10 @@ function EntityNamePage() {
   const entity = pageStore.useModelDispatchers('entity');
 
   useEffect(() => {
-    entityNameDispatchers.entityNamePage(1);
-    entityNameDispatchers.findDataFormByName('entityNameForm');
-    entityNameDispatchers.findDataTableByName('entityNameTable');
-    entityDispatchers.findDataFormByName('entityForm');
-    entityDispatchers.findDataTableByName('entityTable');
+    entityNameDispatchers.findDataTableAndFormByName({ dataTable: 'entityNameTable', dataForm: 'entityNameForm' });
     entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE');
     entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE_FOUNT');
-  }, [entityNameDispatchers, entityDispatchers]);
+  }, [entityNameDispatchers]);
 
   const entityNamePageRender = (value, index, record) => {
     return <div className={ styles.opt }>
@@ -110,9 +106,12 @@ function EntityNamePage() {
               rowSelection={ {
                 mode: 'single',
                 onSelect: (selected, record) => {
+                  entityDispatchers.findDataTableAndFormByName({ dataTable: 'entityTable', dataForm: 'entityForm' });
+                  console.log(123);
                   entityDispatchers.onRowClick({ selected, record });
                 },
               } }
+              dispatchers={ value => entityNameDispatchers.setDataTable(value) }
               pageRender={ entityNamePageRender } />
           </Loading>
         </div>
@@ -124,7 +123,8 @@ function EntityNamePage() {
             <Dialog title="菜单" visible={ entityState.entityVisible } footer={ false }
               onClose={ () => entity.setState({ entityVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ entityState.entityForm }
+              <DataFormTemple
+                items={ entityState.entityForm }
                 dispatchers={ value => entityDispatchers.setDataForm(value) }
                 onOk={ () => entityDispatchers.entitySave({
                   entityFormData: entityState.entityFormData,
@@ -139,6 +139,7 @@ function EntityNamePage() {
               items={ entityState.entityTable }
               total={ entityState.entityTotal }
               getPage={ current => entityDispatchers.entityPage({ id: entityState.entityNameId, current }) }
+              dispatchers={ value => entityDispatchers.setDataTable(value) }
               pageRender={ entityPageRender } />
           </Loading>
         </div>

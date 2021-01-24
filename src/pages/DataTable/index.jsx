@@ -63,6 +63,8 @@ function DataTablePage() {
           <Loading tip="加载中..." visible={ dataTableState.dataTableLoadingVisible }>
             <DataTableTemple dataSource={ dataTableState.dataTableTableData }
               items={ dataTableState.dataTableTable }
+              total={ dataTableState.appServiceTotal }
+              getPage={ current => dataTableDispatchers.dataTablePage(current) }
               rowSelection={ {
                 mode: 'single',
                 onSelect: (selected, record) => {
@@ -70,11 +72,6 @@ function DataTablePage() {
                 },
               } }
               pageRender={ dataTablePageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ dataTableState.dataTableTotal }</span> 条 </div>
-              <Pagination onChange={ current => dataTableDispatchers.dataTablePage(current) }
-                type="simple" pageSize={ 5 } total={ dataTableState.dataTableTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>
@@ -98,12 +95,9 @@ function DataTablePage() {
           <Loading tip="加载中..." visible={ dataTableItemState.dataTableItemLoadingVisible }>
             <DataTableTemple dataSource={ dataTableItemState.dataTableItemTableData }
               items={ dataTableItemState.dataTableItemTable }
+              total={ dataTableItemState.dataTableItemTotal }
+              getPage={ current => dataTableItemDispatchers.dataTableItemPage({ id: dataTableItemState.dataTableId, current }) }
               pageRender={ dataTableItemPageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ dataTableItemState.dataTableItemTotal }</span> 条 </div>
-              <Pagination onChange={ current => dataTableItemDispatchers.dataTableItemPage({ id: dataTableItemState.dataTableId, current }) }
-                type="simple" pageSize={ 5 } total={ dataTableItemState.dataTableItemTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>

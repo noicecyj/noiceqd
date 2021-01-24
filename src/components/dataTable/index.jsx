@@ -5,15 +5,15 @@ import styles from './index.module.scss';
 
 function DataTable(props) {
   const [dictionaryState, dictionaryDispatchers] = store.useModel('dictionary');
-  const { items, pageRender, dataSource, rowSelection, total, getPage } = props;
+  const { items, pageRender, dataSource, rowSelection, total, getPage, dispatchers } = props;
   useEffect(() => {
     if (items.length !== 0 && dataSource.length !== 0) {
-      dictionaryDispatchers.findTableCatalogByValue({ dataSource, items });
+      dictionaryDispatchers.findTableCatalogByValue({ dataSource, items, dispatchers });
     }
-  }, [dictionaryDispatchers, dataSource, items]);
+  }, [dictionaryDispatchers, dataSource, items, dispatchers]);
   return (
     <div>
-      <Table hasBorder className={ styles.Table } dataSource={ dictionaryState.tableDataSource } rowSelection={ rowSelection } >
+      <Table hasBorder className={ styles.Table } dataSource={ dataSource } rowSelection={ rowSelection } >
         { items.length === 0 ? null : items.map((item, index) => {
           const obj = JSON.parse(item.jsonData);
           return <Table.Column title={ obj.title } dataIndex={ obj.dataIndex } key={ index } />;

@@ -65,42 +65,12 @@ export default {
      *
      * @param {*} data
      */
-    async findTableCatalogByValue(data) {
-      const results = [];
-      const formArray = [];
-      for (let i = 0; i < data.items.length; i++) {
-        const obj = JSON.parse(data.items[i].jsonData);
-        if (obj.dataSourceType === 'dictionary' || obj.dataSourceType === 'dataBase') {
-          if (obj.dataSourceType === 'dictionary') {
-            for (let j = 0; j < data.dataSource.length; j++) {
-              results.push(dictionaryService.findDictionaryByCatalogValueAndDictionaryKey({ value: obj.value, key: obj.id }).then(res => {
-                console.log(res, 222);
-              }));
-            }
-          } else if (obj.dataSourceType === 'dataBase') {
-            for (let k = 0; k < data.dataSource.length; k++) {
-              if (data.dataSource[k][obj.dataIndex]) {
-                results.push(dictionaryService.selectFindById({ tableName: obj.dataSource, id: data.dataSource[k][obj.dataIndex] }).then(res => {
-                  res.data.forEach(item => {
-                    const jsonitem = `{"${obj.dataIndex}": "${item.name}"}`;
-                    const objitem = JSON.parse(jsonitem);
-                    formArray.push({ ...data.dataSource[k], ...objitem });
-                  });
-                }));
-              } else {
-                formArray.push({ ...data.dataSource[k] });
-              }
-            }
-          }
+    findTableCatalogByValue(data) {
+      dictionaryService.transformData(data.dataSource, data.items).then(res => {
+        if (data.dispatchers) {
+          data.dispatchers(res.data);
         }
-      }
-      await Promise.all(results);
-      console.log(formArray);
-      const payload = {
-        tableDataSource: formArray
-      };
-      dispatch.dictionary.setState(payload);
-
+      });
     },
   }),
 };
