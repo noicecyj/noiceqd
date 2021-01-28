@@ -91,6 +91,17 @@ export default {
       },
     });
   },
+  transformData(dataSource, dataTableItemList, dataFormItemList) {
+    return request({
+      url: '/pageMenuApi/transformData',
+      method: 'post',
+      data: {
+        dataSource,
+        dataTableItemList,
+        dataFormItemList,
+      },
+    });
+  },
   // <=============================自定义请求 start =============================>
   createEntityFile(value) {
     return request({

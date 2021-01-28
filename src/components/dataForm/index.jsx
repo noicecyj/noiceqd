@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactJson from 'react-json-view'
-import { store } from 'ice';
 import { Form, Input, Select, NumberPicker, Switch, Range, DatePicker, TimePicker, Checkbox, Radio } from '@alifd/next';
 
 const FormItem = Form.Item;
@@ -17,15 +16,14 @@ const formItemLayout = {
 };
 
 function DataForm(props) {
-  const [dictionaryState, dictionaryDispatchers] = store.useModel('dictionary');
+
   const { items, dispatchers, onOk, formDataValue } = props;
-  useEffect(() => {
-    dictionaryDispatchers.findCatalogByValue(items);
-  }, [dictionaryDispatchers, items]);
+  console.log(items);
   return (
     <Form style={ { width: '100%' } } { ...formItemLayout }
       value={ formDataValue } onChange={ value => dispatchers(value) }>
-      {dictionaryState.dictionary.map(item => {
+      {items.map(item => {
+        console.log(item.dataSource, 234);
         if (item.type === 'Input' || item.type == null) {
           if (item.required === 'true') {
             return (<FormItem label={ `${item.label}：` } required key={ item.id }>

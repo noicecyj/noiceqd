@@ -53,6 +53,7 @@ export default {
      * @param {*} data
      */
     entityNameEdit(data) {
+      console.log(data);
       if (data) {
         const reg = /\[(.+?)\]/g;
         const fromData = {
@@ -145,7 +146,6 @@ export default {
      * @param {*} data
      */
     setDataTable(data) {
-      console.log(data, 444);
       const payload = {
         entityNameTableData: data,
       };
@@ -160,11 +160,13 @@ export default {
       const dataRes = await entityNameService.entityNamePage(1);
       const dataTableRes = await entityNameService.findDataTableByName(dataTableAndForm.dataTable);
       const dataFormRes = await entityNameService.findDataFormByName(dataTableAndForm.dataForm);
+      const data = await entityNameService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
+      console.log(dataFormRes);
       const payload = {
         entityNameTable: dataTableRes.data,
-        entityNameForm: dataFormRes.data,
+        entityNameForm: data.data.objectForm,
         entityNameTotal: dataRes.data.totalElements,
-        entityNameTableData: dataRes.data.content,
+        entityNameTableData: data.data.objectList,
         entityNameCurrent: 1,
         entityNameLoadingVisible: false,
       };

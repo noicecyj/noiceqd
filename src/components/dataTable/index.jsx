@@ -1,16 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Table, Box, Pagination } from '@alifd/next';
-import { store } from 'ice';
 import styles from './index.module.scss';
 
 function DataTable(props) {
-  const [dictionaryState, dictionaryDispatchers] = store.useModel('dictionary');
-  const { items, pageRender, dataSource, rowSelection, total, getPage, dispatchers } = props;
-  useEffect(() => {
-    if (items.length !== 0 && dataSource.length !== 0) {
-      dictionaryDispatchers.findTableCatalogByValue({ dataSource, items, dispatchers });
-    }
-  }, [dictionaryDispatchers, dataSource, items, dispatchers]);
+  const { items, pageRender, dataSource, rowSelection, total, getPage } = props;
   return (
     <div>
       <Table hasBorder className={ styles.Table } dataSource={ dataSource } rowSelection={ rowSelection } >

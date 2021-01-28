@@ -111,7 +111,6 @@ function EntityNamePage() {
                   entityDispatchers.onRowClick({ selected, record });
                 },
               } }
-              dispatchers={ value => entityNameDispatchers.setDataTable(value) }
               pageRender={ entityNamePageRender } />
           </Loading>
         </div>
@@ -139,7 +138,6 @@ function EntityNamePage() {
               items={ entityState.entityTable }
               total={ entityState.entityTotal }
               getPage={ current => entityDispatchers.entityPage({ id: entityState.entityNameId, current }) }
-              dispatchers={ value => entityDispatchers.setDataTable(value) }
               pageRender={ entityPageRender } />
           </Loading>
         </div>
