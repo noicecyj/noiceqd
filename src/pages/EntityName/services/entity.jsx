@@ -15,7 +15,7 @@ export default {
       params: {
         id,
         pageNumber: value,
-        pageSize: 5,
+        pageSize: 13,
         sortCode: 'sortCode',
       },
     });
@@ -46,6 +46,15 @@ export default {
       method: 'post',
       params: {
         id: record.id,
+      },
+    });
+  },
+  findEntityById(id) {
+    return request({
+      url: '/entityCreateApi/findEntityById',
+      method: 'post',
+      params: {
+        id,
       },
     });
   },
@@ -91,6 +100,17 @@ export default {
       method: 'post',
       params: {
         name,
+      },
+    });
+  },
+  transformData(dataSource, dataTableItemList, dataFormItemList) {
+    return request({
+      url: '/pageMenuApi/transformData',
+      method: 'post',
+      data: {
+        dataSource,
+        dataTableItemList,
+        dataFormItemList,
       },
     });
   },

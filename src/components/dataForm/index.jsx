@@ -18,12 +18,11 @@ const formItemLayout = {
 function DataForm(props) {
 
   const { items, dispatchers, onOk, formDataValue } = props;
-  console.log(items);
+
   return (
     <Form style={ { width: '100%' } } { ...formItemLayout }
       value={ formDataValue } onChange={ value => dispatchers(value) }>
       {items.map(item => {
-        console.log(item.dataSource, 234);
         if (item.type === 'Input' || item.type == null) {
           if (item.required === 'true') {
             return (<FormItem label={ `${item.label}：` } required key={ item.id }>

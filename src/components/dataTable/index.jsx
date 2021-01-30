@@ -16,8 +16,7 @@ function DataTable(props) {
       </Table>
       <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
         <div className={ styles.total }> 共 <span>{ total }</span> 条 </div>
-        <Pagination onChange={ current => getPage(current) }
-          type="simple" pageSize={ 5 } total={ total } />
+        <Pagination onChange={ current => getPage(current) } type="simple" pageSize={ 13 } total={ total } />
       </Box>
     </div>
 

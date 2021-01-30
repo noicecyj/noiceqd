@@ -17,7 +17,7 @@ function EntityNamePage() {
   const entity = pageStore.useModelDispatchers('entity');
 
   useEffect(() => {
-    entityNameDispatchers.findDataTableAndFormByName({ dataTable: 'entityNameTable', dataForm: 'entityNameForm' });
+    entityNameDispatchers.findDataTableAndFormByName();
     entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE');
     entityNameDispatchers.findCatalogByValue('LEVEL_ENTITY_TYPE_FOUNT');
   }, [entityNameDispatchers]);
@@ -30,6 +30,7 @@ function EntityNamePage() {
       <Button type="primary" size="small" onClick={ () => entityNameDispatchers.entityNameDelete({
         record,
         entityNameCurrent: entityNameState.entityNameCurrent,
+        entityNameTable: entityNameState.entityNameTable,
       }) } warning> 删除 </Button>
     </div>;
   };
@@ -42,6 +43,7 @@ function EntityNamePage() {
       <Button type="primary" size="small" onClick={ () => entityDispatchers.entityDelete({
         record,
         entityCurrent: entityState.entityCurrent,
+        entityTable: entityState.entityTable,
       }) } warning> 删除 </Button>
     </div>;
   };
@@ -60,6 +62,7 @@ function EntityNamePage() {
                 onOk={ () => entityNameDispatchers.entityNameSave({
                   entityNameFormData: entityNameState.entityNameFormData,
                   entityNameCurrent: entityNameState.entityNameCurrent,
+                  entityNameTable: entityNameState.entityNameTable,
                 }) }
                 formDataValue={ entityNameState.entityNameFormData } />
             </Dialog>
@@ -102,12 +105,10 @@ function EntityNamePage() {
             <DataTableTemple dataSource={ entityNameState.entityNameTableData }
               items={ entityNameState.entityNameTable }
               total={ entityNameState.entityNameTotal }
-              getPage={ current => entityNameDispatchers.entityNamePage(current) }
+              getPage={ current => entityNameDispatchers.entityNamePage({ current, entityNameTable: entityNameState.entityNameTable, }) }
               rowSelection={ {
                 mode: 'single',
                 onSelect: (selected, record) => {
-                  entityDispatchers.findDataTableAndFormByName({ dataTable: 'entityTable', dataForm: 'entityForm' });
-                  console.log(123);
                   entityDispatchers.onRowClick({ selected, record });
                 },
               } }
@@ -138,7 +139,8 @@ function EntityNamePage() {
               items={ entityState.entityTable }
               total={ entityState.entityTotal }
               getPage={ current => entityDispatchers.entityPage({ id: entityState.entityNameId, current }) }
-              pageRender={ entityPageRender } />
+              pageRender={ entityPageRender }
+              className={ styles.Table } />
           </Loading>
         </div>
       </Cell>

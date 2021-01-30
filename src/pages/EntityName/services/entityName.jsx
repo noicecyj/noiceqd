@@ -46,6 +46,15 @@ export default {
       },
     });
   },
+  findEntityNameById(id) {
+    return request({
+      url: '/entityCreateApi/findEntityNameById',
+      method: 'post',
+      params: {
+        id,
+      },
+    });
+  },
   /**
    * 获取字典
    *

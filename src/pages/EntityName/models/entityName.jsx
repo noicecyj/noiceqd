@@ -36,29 +36,29 @@ export default {
      *
      * @param {*} data
      */
-    entityNamePage(data) {
-      entityNameService.entityNamePage(data).then(res => {
-        const payload = {
-          entityNameTotal: res.data.totalElements,
-          entityNameTableData: res.data.content,
-          entityNameCurrent: data,
-          entityNameLoadingVisible: false,
-        };
-        dispatch.entityName.setState(payload);
-      });
+    async entityNamePage(data) {
+      const dataRes = await entityNameService.entityNamePage(data.current);
+      const entityName = await entityNameService.transformData(dataRes.data.content, data.entityNameTable);
+      const payload = {
+        entityNameTotal: dataRes.data.totalElements,
+        entityNameTableData: entityName.data.objectList,
+        entityNameCurrent: data.current,
+        entityNameLoadingVisible: false,
+      };
+      dispatch.entityName.setState(payload);
     },
     /**
      * 编辑
      *
      * @param {*} data
      */
-    entityNameEdit(data) {
-      console.log(data);
+    async entityNameEdit(data) {
+      const entityName = await entityNameService.findEntityNameById(data.id);
       if (data) {
         const reg = /\[(.+?)\]/g;
         const fromData = {
-          ...data,
-          relEntity: data.relEntity === null ? null : data.relEntity.match(reg)[0].replace(reg, '$1').split(', '),
+          ...entityName.data,
+          relEntity: entityName.data.relEntity === null ? null : entityName.data.relEntity.match(reg)[0].replace(reg, '$1').split(', '),
         };
         const payload = {
           entityNameFormData: fromData,
@@ -78,35 +78,32 @@ export default {
      *
      * @param {*} data
      */
-    entityNameDelete(data) {
-      entityNameService.entityNameDelete(data.record).then(() => {
-        entityNameService.entityNamePage(data.entityNameCurrent).then(res => {
-          const payload = {
-            entityNameTotal: res.data.totalElements,
-            entityNameTableData: res.data.content,
-            entityNameCurrent: data.entityNameCurrent,
-          };
-          dispatch.entityName.setState(payload);
-        });
-      });
+    async entityNameDelete(data) {
+      await entityNameService.entityNameDelete(data.record);
+      const dataRes = await entityNameService.entityNamePage(data.entityNameCurrent);
+      const entityName = await entityNameService.transformData(dataRes.data.content, data.entityNameTable);
+      const payload = {
+        entityNameTotal: dataRes.data.totalElements,
+        entityNameTableData: entityName.data.objectList,
+        entityNameCurrent: data.entityNameCurrent,
+      };
+      dispatch.entityName.setState(payload);
     },
     /**
      * 保存
      *
      * @param {*} data
      */
-    entityNameSave(data) {
-      entityNameService.entityNameSave(data.entityNameFormData).then(() => {
-        entityNameService.entityNamePage(data.entityNameCurrent).then(res => {
-          const payload = {
-            entityNameTotal: res.data.totalElements,
-            entityNameTableData: res.data.content,
-            entityNameCurrent: data.entityNameCurrent,
-          };
-          dispatch.entityName.setState(payload);
-        });
-      });
-      const payload = { entityNameVisible: false };
+    async entityNameSave(data) {
+      await entityNameService.entityNameSave(data.entityNameFormData);
+      const dataRes = await entityNameService.entityNamePage(data.entityNameCurrent);
+      const entityName = await entityNameService.transformData(dataRes.data.content, data.entityNameTable);
+      const payload = {
+        entityNameTotal: dataRes.data.totalElements,
+        entityNameTableData: entityName.data.objectList,
+        entityNameCurrent: data.entityNameCurrent,
+        entityNameVisible: false
+      };
       dispatch.entityName.setState(payload);
     },
     /**
@@ -141,27 +138,15 @@ export default {
       dispatch.entityName.setState(payload);
     },
     /**
-     * 设置表格数据
-     *
-     * @param {*} data
-     */
-    setDataTable(data) {
-      const payload = {
-        entityNameTableData: data,
-      };
-      dispatch.entityName.setState(payload);
-    },
-    /**
      * 获取表格和表格初始化数据
      *
      * @param {*} data
      */
-    async findDataTableAndFormByName(dataTableAndForm) {
+    async findDataTableAndFormByName() {
       const dataRes = await entityNameService.entityNamePage(1);
-      const dataTableRes = await entityNameService.findDataTableByName(dataTableAndForm.dataTable);
-      const dataFormRes = await entityNameService.findDataFormByName(dataTableAndForm.dataForm);
+      const dataTableRes = await entityNameService.findDataTableByName('entityNameTable');
+      const dataFormRes = await entityNameService.findDataFormByName('entityNameForm');
       const data = await entityNameService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
-      console.log(dataFormRes);
       const payload = {
         entityNameTable: dataTableRes.data,
         entityNameForm: data.data.objectForm,
@@ -179,14 +164,6 @@ export default {
       entityNameService.createEntityFile(data).then(res => {
         if (res.code === 200) {
           Message.success('生成成功');
-          entityNameService.entityNamePage(data.entityNameCurrent).then(resdata => {
-            const payload = {
-              entityNameTotal: resdata.data.totalElements,
-              entityNameTableData: resdata.data.content,
-              entityNameCurrent: data.entityNameCurrent,
-            };
-            dispatch.entityName.setState(payload);
-          });
         } else {
           Message.error('生成失败');
         }
@@ -201,14 +178,6 @@ export default {
       entityNameService.createComponentFile(data).then(res => {
         if (res.code === 200) {
           Message.success('生成成功');
-          entityNameService.entityNamePage(data.entityNameCurrent).then(resdata => {
-            const payload = {
-              entityNameTotal: resdata.data.totalElements,
-              entityNameTableData: resdata.data.content,
-              entityNameCurrent: data.entityNameCurrent,
-            };
-            dispatch.entityName.setState(payload);
-          });
         } else {
           Message.error('生成失败');
         }

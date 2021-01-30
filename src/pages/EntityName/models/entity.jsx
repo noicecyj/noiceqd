@@ -29,26 +29,27 @@ export default {
      *
      * @param {*} data
      */
-    entityPage(data) {
-      entityService.entityPage(data.id, data.current).then(res => {
-        const payload = {
-          entityTotal: res.data.totalElements,
-          entityTableData: res.data.content,
-          entityCurrent: data.current,
-          entityLoadingVisible: false,
-        };
-        dispatch.entity.setState(payload);
-      });
+    async entityPage(data) {
+      const dataRes = await entityService.entityPage(data.id, data.current);
+      const entity = await entityService.transformData(dataRes.data.content, data.entityTable);
+      const payload = {
+        entityTotal: dataRes.data.totalElements,
+        entityTableData: entity.data.objectList,
+        entityCurrent: data.current,
+        entityLoadingVisible: false,
+      };
+      dispatch.entity.setState(payload);
     },
     /**
      * 编辑
      *
      * @param {*} data
      */
-    entityEdit(data) {
+    async entityEdit(data) {
+      const entity = await entityService.findEntityById(data.id);
       if (data) {
         const fromData = {
-          ...data,
+          ...entity.data,
         };
         const payload = {
           entityFormData: fromData,
@@ -68,35 +69,32 @@ export default {
      *
      * @param {*} data
      */
-    entityDelete(data) {
-      entityService.entityDelete(data.record).then(() => {
-        entityService.entityPage(data.record.id, data.entityCurrent).then(res => {
-          const payload = {
-            entityTotal: res.data.totalElements,
-            entityTableData: res.data.content,
-            entityCurrent: data.entityCurrent,
-          };
-          dispatch.entity.setState(payload);
-        });
-      });
+    async entityDelete(data) {
+      await entityService.entityDelete(data.record);
+      const dataRes = await entityService.entityPage(data.record.id, data.entityCurrent);
+      const entity = await entityService.transformData(dataRes.data.content, data.entityTable);
+      const payload = {
+        entityTotal: dataRes.data.totalElements,
+        entityTableData: entity.data.objectList,
+        entityCurrent: data.entityCurrent,
+      };
+      dispatch.entity.setState(payload);
     },
     /**
      * 保存
      *
      * @param {*} data
      */
-    entitySave(data) {
-      entityService.entitySave(data.entityFormData, data.entityNameId).then(() => {
-        entityService.entityPage(data.entityNameId, data.entityCurrent).then(res => {
-          const payload = {
-            entityTotal: res.data.totalElements,
-            entityTableData: res.data.content,
-            entityCurrent: data.entityCurrent,
-          };
-          dispatch.entity.setState(payload);
-        });
-      });
-      const payload = { entityVisible: false };
+    async entitySave(data) {
+      await entityService.entitySave(data.entityFormData);
+      const dataRes = await entityService.entityPage(data.entityNameId, data.entityCurrent);
+      const entity = await entityService.transformData(dataRes.data.content, data.entityTable);
+      const payload = {
+        entityTotal: dataRes.data.totalElements,
+        entityTableData: entity.data.objectList,
+        entityCurrent: data.entityCurrent,
+        entityVisible: false
+      };
       dispatch.entity.setState(payload);
     },
     /**
@@ -130,50 +128,25 @@ export default {
       };
       dispatch.entity.setState(payload);
     },
-    /**
-     * 设置表格数据
-     *
-     * @param {*} data
-     */
-    setDataTable(data) {
-      console.log(data, 555);
-      const payload = {
-        entityTableData: data,
-      };
-      dispatch.entity.setState(payload);
-    },
-    /**
-     * 获取表格和表格
-     *
-     * @param {*} data
-     */
-    async findDataTableAndFormByName(dataTableAndForm) {
-      const dataTableRes = await entityService.findDataTableByName(dataTableAndForm.dataTable);
-      const dataFormRes = await entityService.findDataFormByName(dataTableAndForm.dataForm);
-      const payload = {
-        entityTable: dataTableRes.data,
-        entityForm: dataFormRes.data,
-      };
-      dispatch.entity.setState(payload);
-    },
     // <=============================可选方法 start =============================>
     /**
      * 点击行
      *
      * @param {*} data
      */
-    onRowClick(data) {
-      entityService.entityPage(data.record.id, 1).then(res => {
-        const payload = {
-          divVisible: !data.selected,
-          entityTotal: res.data.totalElements,
-          entityTableData: res.data.content,
-          entityCurrent: 1,
-        };
-        dispatch.entity.setState(payload);
-      });
+    async onRowClick(value) {
+      const dataRes = await entityService.entityPage(value.record.id, 1);
+      const dataTableRes = await entityService.findDataTableByName('entityTable');
+      const dataFormRes = await entityService.findDataFormByName('entityForm');
+      const data = await entityService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
-        entityNameId: data.record.id,
+        divVisible: !value.selected,
+        entityTable: dataTableRes.data,
+        entityForm: data.data.objectForm,
+        entityTotal: dataRes.data.totalElements,
+        entityTableData: data.data.objectList,
+        entityCurrent: 1,
+        entityNameId: value.record.id,
         entityLoadingVisible: false,
       };
       dispatch.entity.setState(payload);
