@@ -46,6 +46,12 @@ export default {
       },
     });
   },
+  /**
+   * 根据ID查询
+   *
+   * @param {*} id
+   * @return {*} 
+   */
   findEntityNameById(id) {
     return request({
       url: '/entityCreateApi/findEntityNameById',
@@ -100,6 +106,14 @@ export default {
       },
     });
   },
+  /**
+   * 初始化
+   *
+   * @param {*} dataSource
+   * @param {*} dataTableItemList
+   * @param {*} dataFormItemList
+   * @return {*} 
+   */
   transformData(dataSource, dataTableItemList, dataFormItemList) {
     return request({
       url: '/pageMenuApi/transformData',
