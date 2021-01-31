@@ -139,7 +139,7 @@ function EntityNamePage() {
             <DataTableTemple dataSource={ entityState.entityTableData }
               items={ entityState.entityTable }
               total={ entityState.entityTotal }
-              getPage={ current => entityDispatchers.entityPage({ id: entityState.entityNameId, current }) }
+              getPage={ current => entityDispatchers.entityPage({ entityNameId: entityState.entityNameId, current }) }
               pageRender={ entityPageRender }
               className={ styles.Table } />
           </Loading>

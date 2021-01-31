@@ -31,7 +31,7 @@ export default {
      * @param {*} data
      */
     async entityPage(data) {
-      const dataRes = await entityService.entityPage(data.id, data.current);
+      const dataRes = await entityService.entityPage(data.entityNameId, data.current);
       const entity = await initService.transformData(dataRes.data.content, data.entityTable);
       const payload = {
         entityTotal: dataRes.data.totalElements,
