@@ -1,6 +1,6 @@
 import { ResponsiveGrid, Button, Dialog, Loading, Form, Checkbox } from '@alifd/next';
 import React, { useEffect } from 'react';
-import { store as pageStore } from 'ice/EntityName';
+import pageStore from '@/pages/EntityName/store';
 import DataFormTemple from '@/components/dataForm';
 import DataTableTemple from '@/components/dataTable';
 import styles from './index.module.scss';
@@ -140,8 +140,7 @@ function EntityNamePage() {
               items={ entityState.entityTable }
               total={ entityState.entityTotal }
               getPage={ current => entityDispatchers.entityPage({ entityNameId: entityState.entityNameId, current }) }
-              pageRender={ entityPageRender }
-              className={ styles.Table } />
+              pageRender={ entityPageRender } />
           </Loading>
         </div>
       </Cell>
