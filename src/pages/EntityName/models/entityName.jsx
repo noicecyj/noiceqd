@@ -1,5 +1,6 @@
 import { Message } from '@alifd/next';
 import entityNameService from '../services/entityName';
+import initService from '../../../services/init';
 
 export default {
 
@@ -38,7 +39,7 @@ export default {
      */
     async entityNamePage(data) {
       const dataRes = await entityNameService.entityNamePage(data.current);
-      const entityName = await entityNameService.transformData(dataRes.data.content, data.entityNameTable);
+      const entityName = await initService.transformData(dataRes.data.content, data.entityNameTable);
       const payload = {
         entityNameTotal: dataRes.data.totalElements,
         entityNameTableData: entityName.data.objectList,
@@ -81,7 +82,7 @@ export default {
     async entityNameDelete(data) {
       await entityNameService.entityNameDelete(data.record);
       const dataRes = await entityNameService.entityNamePage(data.entityNameCurrent);
-      const entityName = await entityNameService.transformData(dataRes.data.content, data.entityNameTable);
+      const entityName = await initService.transformData(dataRes.data.content, data.entityNameTable);
       const payload = {
         entityNameTotal: dataRes.data.totalElements,
         entityNameTableData: entityName.data.objectList,
@@ -97,7 +98,7 @@ export default {
     async entityNameSave(data) {
       await entityNameService.entityNameSave(data.entityNameFormData);
       const dataRes = await entityNameService.entityNamePage(data.entityNameCurrent);
-      const entityName = await entityNameService.transformData(dataRes.data.content, data.entityNameTable);
+      const entityName = await initService.transformData(dataRes.data.content, data.entityNameTable);
       const payload = {
         entityNameTotal: dataRes.data.totalElements,
         entityNameTableData: entityName.data.objectList,
@@ -112,7 +113,7 @@ export default {
      * @param {*} data
      */
     findCatalogByValue(data) {
-      entityNameService.findCatalogByValue(data).then(res => {
+      initService.findCatalogByValue(data).then(res => {
         const formArr = [];
         res.forEach(item => {
           formArr.push({
@@ -144,9 +145,9 @@ export default {
      */
     async findDataTableAndFormByName() {
       const dataRes = await entityNameService.entityNamePage(1);
-      const dataTableRes = await entityNameService.findDataTableByName('entityNameTable');
-      const dataFormRes = await entityNameService.findDataFormByName('entityNameForm');
-      const data = await entityNameService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
+      const dataTableRes = await initService.findDataTableByName('entityNameTable');
+      const dataFormRes = await initService.findDataFormByName('entityNameForm');
+      const data = await initService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
         entityNameTable: dataTableRes.data,
         entityNameForm: data.data.objectForm,

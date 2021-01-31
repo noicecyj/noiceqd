@@ -27,7 +27,7 @@ export default {
    * @param {*} entityNameId
    * @return {*} 
    */
-  entitySave(entityFormData, entityNameId) {
+  entitySave(entityNameId, entityFormData) {
     return request({
       url: '/entityCreateApi/entitySave',
       method: 'post',
@@ -50,8 +50,8 @@ export default {
     });
   },
   /**
-   *
    * 根据ID查询
+   * 
    * @param {*} id
    * @return {*} 
    */
@@ -61,70 +61,6 @@ export default {
       method: 'post',
       params: {
         id,
-      },
-    });
-  },
-  /**
-   * 获取字典
-   *
-   * @param {*} value
-   * @return {*} 
-   */
-  findCatalogByValue(value) {
-    return request({
-      url: '/dictionaryApi/findCatalogByValue',
-      method: 'post',
-      params: {
-        value,
-      },
-    });
-  },
-  /**
-   * 获取表单
-   *
-   * @param {*} name
-   * @return {*} 
-   */
-  findDataFormByName(name) {
-    return request({
-      url: '/pageMenuApi/findDataFormByName',
-      method: 'post',
-      params: {
-        name,
-      },
-    });
-  },
-  /**
-   * 获取表格
-   *
-   * @param {*} name
-   * @return {*} 
-   */
-  findDataTableByName(name) {
-    return request({
-      url: '/pageMenuApi/findDataTableByName',
-      method: 'post',
-      params: {
-        name,
-      },
-    });
-  },
-  /**
-   * 初始化
-   *
-   * @param {*} dataSource
-   * @param {*} dataTableItemList
-   * @param {*} dataFormItemList
-   * @return {*} 
-   */
-  transformData(dataSource, dataTableItemList, dataFormItemList) {
-    return request({
-      url: '/pageMenuApi/transformData',
-      method: 'post',
-      data: {
-        dataSource,
-        dataTableItemList,
-        dataFormItemList,
       },
     });
   },

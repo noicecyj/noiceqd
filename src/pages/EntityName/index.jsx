@@ -129,6 +129,7 @@ function EntityNamePage() {
                 onOk={ () => entityDispatchers.entitySave({
                   entityFormData: entityState.entityFormData,
                   entityCurrent: entityState.entityCurrent,
+                  entityTable: entityState.entityTable,
                   entityNameId: entityState.entityNameId,
                 }) }
                 formDataValue={ entityState.entityFormData } />

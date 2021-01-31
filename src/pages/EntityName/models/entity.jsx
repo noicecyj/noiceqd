@@ -1,4 +1,5 @@
 import entityService from '../services/entity';
+import initService from '../../../services/init';
 
 export default {
 
@@ -31,7 +32,7 @@ export default {
      */
     async entityPage(data) {
       const dataRes = await entityService.entityPage(data.id, data.current);
-      const entity = await entityService.transformData(dataRes.data.content, data.entityTable);
+      const entity = await initService.transformData(dataRes.data.content, data.entityTable);
       const payload = {
         entityTotal: dataRes.data.totalElements,
         entityTableData: entity.data.objectList,
@@ -72,7 +73,7 @@ export default {
     async entityDelete(data) {
       await entityService.entityDelete(data.record);
       const dataRes = await entityService.entityPage(data.record.id, data.entityCurrent);
-      const entity = await entityService.transformData(dataRes.data.content, data.entityTable);
+      const entity = await initService.transformData(dataRes.data.content, data.entityTable);
       const payload = {
         entityTotal: dataRes.data.totalElements,
         entityTableData: entity.data.objectList,
@@ -86,9 +87,9 @@ export default {
      * @param {*} data
      */
     async entitySave(data) {
-      await entityService.entitySave(data.entityFormData);
+      await entityService.entitySave(data.entityNameId, data.entityFormData);
       const dataRes = await entityService.entityPage(data.entityNameId, data.entityCurrent);
-      const entity = await entityService.transformData(dataRes.data.content, data.entityTable);
+      const entity = await initService.transformData(dataRes.data.content, data.entityTable);
       const payload = {
         entityTotal: dataRes.data.totalElements,
         entityTableData: entity.data.objectList,
@@ -103,7 +104,7 @@ export default {
      * @param {*} data
      */
     findCatalogByValue(data) {
-      entityService.findCatalogByValue(data).then(res => {
+      initService.findCatalogByValue(data).then(res => {
         const formArr = [];
         res.forEach(item => {
           formArr.push({
@@ -128,7 +129,6 @@ export default {
       };
       dispatch.entity.setState(payload);
     },
-    // <=============================可选方法 start =============================>
     /**
      * 点击行
      *
@@ -136,9 +136,9 @@ export default {
      */
     async onRowClick(value) {
       const dataRes = await entityService.entityPage(value.record.id, 1);
-      const dataTableRes = await entityService.findDataTableByName('entityTable');
-      const dataFormRes = await entityService.findDataFormByName('entityForm');
-      const data = await entityService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
+      const dataTableRes = await initService.findDataTableByName('entityTable');
+      const dataFormRes = await initService.findDataFormByName('entityForm');
+      const data = await initService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
         divVisible: !value.selected,
         entityTable: dataTableRes.data,
@@ -151,7 +151,6 @@ export default {
       };
       dispatch.entity.setState(payload);
     },
-    // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
     /**
      * 上移
