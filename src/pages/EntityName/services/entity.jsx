@@ -27,7 +27,7 @@ export default {
    * @param {*} entityNameId
    * @return {*} 
    */
-  entitySave(entityNameId, entityFormData) {
+  entitySave(entityFormData, entityNameId) {
     return request({
       url: '/entityCreateApi/entitySave',
       method: 'post',
