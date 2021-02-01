@@ -1,4 +1,5 @@
 import dataFormItemService from '../services/dataFormItem';
+import initService from '../../../services/init';
 
 export default {
 
@@ -29,26 +30,27 @@ export default {
      *
      * @param {*} data
      */
-    dataFormItemPage(data) {
-      dataFormItemService.dataFormItemPage(data.id, data.current).then(res => {
-        const payload = {
-          dataFormItemTotal: res.data.totalElements,
-          dataFormItemTableData: res.data.content,
-          dataFormItemCurrent: data.current,
-          dataFormItemLoadingVisible: false,
-        };
-        dispatch.dataFormItem.setState(payload);
-      });
+    async dataFormItemPage(data) {
+      const dataRes = await dataFormItemService.dataFormItemPage(data.dataFormId, data.current);
+      const dataFormItem = await initService.transformData(dataRes.data.content, data.dataFormItemTable);
+      const payload = {
+        dataFormItemTotal: dataRes.data.totalElements,
+        dataFormItemTableData: dataFormItem.data.objectList,
+        dataFormItemCurrent: data.current,
+        dataFormItemLoadingVisible: false,
+      };
+      dispatch.dataFormItem.setState(payload);
     },
     /**
      * 编辑
      *
      * @param {*} data
      */
-    dataFormItemEdit(data) {
+    async dataFormItemEdit(data) {
+      const dataFormItem = await dataFormItemService.findDataFormItemById(data.id);
       if (data) {
         const fromData = {
-          ...data,
+          ...dataFormItem.data,
         };
         const payload = {
           dataFormItemFormData: fromData,
@@ -68,35 +70,32 @@ export default {
      *
      * @param {*} data
      */
-    dataFormItemDelete(data) {
-      dataFormItemService.dataFormItemDelete(data.record).then(() => {
-        dataFormItemService.dataFormItemPage(data.record.id, data.dataFormItemCurrent).then(res => {
-          const payload = {
-            dataFormItemTotal: res.data.totalElements,
-            dataFormItemTableData: res.data.content,
-            dataFormItemCurrent: data.dataFormItemCurrent,
-          };
-          dispatch.dataFormItem.setState(payload);
-        });
-      });
+    async dataFormItemDelete(data) {
+      await dataFormItemService.dataFormItemDelete(data.record);
+      const dataRes = await dataFormItemService.dataFormItemPage(data.record.id, data.dataFormItemCurrent);
+      const dataFormItem = await initService.transformData(dataRes.data.content, data.dataFormItemTable);
+      const payload = {
+        dataFormItemTotal: dataRes.data.totalElements,
+        dataFormItemTableData: dataFormItem.data.objectList,
+        dataFormItemCurrent: data.dataFormItemCurrent,
+      };
+      dispatch.dataFormItem.setState(payload);
     },
     /**
      * 保存
      *
      * @param {*} data
      */
-    dataFormItemSave(data) {
-      dataFormItemService.dataFormItemSave(data.dataFormItemFormData, data.dataFormId).then(() => {
-        dataFormItemService.dataFormItemPage(data.dataFormId, data.dataFormItemCurrent).then(res => {
-          const payload = {
-            dataFormItemTotal: res.data.totalElements,
-            dataFormItemTableData: res.data.content,
-            dataFormItemCurrent: data.dataFormItemCurrent,
-          };
-          dispatch.dataFormItem.setState(payload);
-        });
-      });
-      const payload = { dataFormItemVisible: false };
+    async dataFormItemSave(data) {
+      await dataFormItemService.dataFormItemSave(data.dataFormId, data.dataFormItemFormData);
+      const dataRes = await dataFormItemService.dataFormItemPage(data.dataFormId, data.dataFormItemCurrent);
+      const dataFormItem = await initService.transformData(dataRes.data.content, data.dataFormItemTable);
+      const payload = {
+        dataFormItemTotal: dataRes.data.totalElements,
+        dataFormItemTableData: dataFormItem.data.objectList,
+        dataFormItemCurrent: data.dataFormItemCurrent,
+        dataFormItemVisible: false,
+      };
       dispatch.dataFormItem.setState(payload);
     },
     /**
@@ -105,7 +104,7 @@ export default {
      * @param {*} data
      */
     findCatalogByValue(data) {
-      dataFormItemService.findCatalogByValue(data).then(res => {
+      initService.findCatalogByValue(data).then(res => {
         const formArr = [];
         res.forEach(item => {
           formArr.push({
@@ -131,54 +130,28 @@ export default {
       dispatch.dataFormItem.setState(payload);
     },
     /**
-     * 获取表单
-     *
-     * @param {*} data
-     */
-    async findDataFormByName(data) {
-      const dataFormRes = await dataFormItemService.findDataFormByName(data);
-      const payload = {
-        dataFormItemForm: dataFormRes.data,
-      };
-      dispatch.dataFormItem.setState(payload);
-    },
-    /**
-     * 获取表格
-     *
-     * @param {*} data
-     */
-    async findDataTableByName(data) {
-      const dataTableRes = await dataFormItemService.findDataTableByName(data);
-      const payload = {
-        dataFormItemTable: dataTableRes.data,
-      };
-      dispatch.dataFormItem.setState(payload);
-    },
-    // <=============================可选方法 start =============================>
-    /**
      * 点击行
      *
      * @param {*} data
      */
-    onRowClick(data) {
-      dataFormItemService.dataFormItemPage(data.record.id, 1).then(res => {
-        const payload = {
-          divVisible: !data.selected,
-          dataFormItemTotal: res.data.totalElements,
-          dataFormItemTableData: res.data.content,
-          dataFormItemCurrent: 1,
-        };
-        dispatch.dataFormItem.setState(payload);
-      });
+    async onRowClick(value) {
+      const dataRes = await dataFormItemService.dataFormItemPage(value.record.id, 1);
+      const dataTableRes = await initService.findDataTableByName('dataFormItemTable');
+      const dataFormRes = await initService.findDataFormByName('dataFormItemForm');
+      const data = await initService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
-        dataFormId: data.record.id,
+        divVisible: !value.selected,
+        dataFormItemTable: dataTableRes.data,
+        dataFormItemForm: data.data.objectForm,
+        dataFormItemTotal: dataRes.data.totalElements,
+        dataFormItemTableData: data.data.objectList,
+        dataFormItemCurrent: 1,
+        dataFormId: value.record.id,
         dataFormItemLoadingVisible: false,
       };
       dispatch.dataFormItem.setState(payload);
     },
-    // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
-
     // <=============================自定义方法 end   =============================>
   }),
 };

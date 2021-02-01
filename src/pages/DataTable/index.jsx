@@ -1,6 +1,6 @@
-import { ResponsiveGrid, Button, Box, Dialog, Loading, Pagination } from '@alifd/next';
+import { ResponsiveGrid, Button, Dialog, Loading } from '@alifd/next';
 import React, { useEffect } from 'react';
-import { store as pageStore } from 'ice/DataTable';
+import pageStore from '@/pages/DataTable/store';
 import DataFormTemple from '@/components/dataForm';
 import DataTableTemple from '@/components/dataTable';
 import styles from './index.module.scss';
@@ -15,12 +15,8 @@ function DataTablePage() {
   const dataTableItem = pageStore.useModelDispatchers('dataTableItem');
 
   useEffect(() => {
-    dataTableDispatchers.dataTablePage(1);
-    dataTableDispatchers.findDataFormByName('dataTableForm');
-    dataTableDispatchers.findDataTableByName('dataTableTable');
-    dataTableItemDispatchers.findDataFormByName('dataTableItemForm');
-    dataTableItemDispatchers.findDataTableByName('dataTableItemTable');
-  }, [dataTableDispatchers, dataTableItemDispatchers]);
+    dataTableDispatchers.findDataTableAndFormByName();
+  }, [dataTableDispatchers]);
 
   const dataTablePageRender = (value, index, record) => {
     return <div className={ styles.opt }>
@@ -28,6 +24,7 @@ function DataTablePage() {
       <Button type="primary" size="small" onClick={ () => dataTableDispatchers.dataTableDelete({
         record,
         dataTableCurrent: dataTableState.dataTableCurrent,
+        dataTableTable: dataTableState.dataTableTable,
       }) } warning> 删除 </Button>
     </div>;
   };
@@ -38,6 +35,7 @@ function DataTablePage() {
       <Button type="primary" size="small" onClick={ () => dataTableItemDispatchers.dataTableItemDelete({
         record,
         dataTableItemCurrent: dataTableItemState.dataTableItemCurrent,
+        dataTableItemTable: dataTableItemState.dataTableItemTable,
       }) } warning> 删除 </Button>
     </div>;
   };
@@ -51,20 +49,23 @@ function DataTablePage() {
             <Dialog title="菜单" visible={ dataTableState.dataTableVisible } footer={ false }
               onClose={ () => dataTable.setState({ dataTableVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ dataTableState.dataTableForm }
+              <DataFormTemple
+                items={ dataTableState.dataTableForm }
                 dispatchers={ value => dataTableDispatchers.setDataForm(value) }
                 onOk={ () => dataTableDispatchers.dataTableSave({
                   dataTableFormData: dataTableState.dataTableFormData,
                   dataTableCurrent: dataTableState.dataTableCurrent,
+                  dataTableTable: dataTableState.dataTableTable,
                 }) }
                 formDataValue={ dataTableState.dataTableFormData } />
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataTableState.dataTableLoadingVisible }>
-            <DataTableTemple dataSource={ dataTableState.dataTableTableData }
+            <DataTableTemple
+              dataSource={ dataTableState.dataTableTableData }
               items={ dataTableState.dataTableTable }
-              total={ dataTableState.appServiceTotal }
-              getPage={ current => dataTableDispatchers.dataTablePage(current) }
+              total={ dataTableState.dataTableTotal }
+              getPage={ current => dataTableDispatchers.dataTablePage({ current, dataTableTable: dataTableState.dataTableTable, }) }
               rowSelection={ {
                 mode: 'single',
                 onSelect: (selected, record) => {
@@ -82,21 +83,24 @@ function DataTablePage() {
             <Dialog title="菜单" visible={ dataTableItemState.dataTableItemVisible } footer={ false }
               onClose={ () => dataTableItem.setState({ dataTableItemVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ dataTableItemState.dataTableItemForm }
+              <DataFormTemple
+                items={ dataTableItemState.dataTableItemForm }
                 dispatchers={ value => dataTableItemDispatchers.setDataForm(value) }
                 onOk={ () => dataTableItemDispatchers.dataTableItemSave({
                   dataTableItemFormData: dataTableItemState.dataTableItemFormData,
                   dataTableItemCurrent: dataTableItemState.dataTableItemCurrent,
+                  dataTableItemTable: dataTableItemState.dataTableItemTable,
                   dataTableId: dataTableItemState.dataTableId,
                 }) }
                 formDataValue={ dataTableItemState.dataTableItemFormData } />
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ dataTableItemState.dataTableItemLoadingVisible }>
-            <DataTableTemple dataSource={ dataTableItemState.dataTableItemTableData }
+            <DataTableTemple
+              dataSource={ dataTableItemState.dataTableItemTableData }
               items={ dataTableItemState.dataTableItemTable }
               total={ dataTableItemState.dataTableItemTotal }
-              getPage={ current => dataTableItemDispatchers.dataTableItemPage({ id: dataTableItemState.dataTableId, current }) }
+              getPage={ current => dataTableItemDispatchers.dataTableItemPage({ dataTableId: dataTableItemState.dataTableId, current }) }
               pageRender={ dataTableItemPageRender } />
           </Loading>
         </div>

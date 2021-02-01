@@ -15,7 +15,7 @@ export default {
       params: {
         id,
         pageNumber: value,
-        pageSize: 5,
+        pageSize: 13,
         sortCode: 'sortCode',
       },
     });
@@ -50,51 +50,20 @@ export default {
     });
   },
   /**
-   * 获取字典
-   *
-   * @param {*} value
+   * 根据ID查询
+   * 
+   * @param {*} id
    * @return {*} 
    */
-  findCatalogByValue(value) {
+  findDataFormItemById(id) {
     return request({
-      url: '/dictionaryApi/findCatalogByValue',
+      url: '/pageMenuApi/findDataFormItemById',
       method: 'post',
       params: {
-        value,
-      },
-    });
-  },
-  /**
-   * 获取表单
-   *
-   * @param {*} name
-   * @return {*} 
-   */
-  findDataFormByName(name) {
-    return request({
-      url: '/pageMenuApi/findDataFormByName',
-      method: 'post',
-      params: {
-        name,
-      },
-    });
-  },
-  /**
-   * 获取表格
-   *
-   * @param {*} name
-   * @return {*} 
-   */
-  findDataTableByName(name) {
-    return request({
-      url: '/pageMenuApi/findDataTableByName',
-      method: 'post',
-      params: {
-        name,
+        id,
       },
     });
   },
   // <=============================自定义请求 start =============================>
-
   // <=============================自定义请求 end   =============================>
 };

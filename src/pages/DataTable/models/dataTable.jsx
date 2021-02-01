@@ -1,4 +1,5 @@
 import dataTableService from '../services/dataTable';
+import initService from '../../../services/init';
 
 export default {
 
@@ -14,7 +15,6 @@ export default {
     dataTableForm: [],
     dataTableTable: [],
     // <=============================自定义状态 start =============================>
-
     // <=============================自定义状态 end   =============================>
   },
 
@@ -30,26 +30,27 @@ export default {
      *
      * @param {*} data
      */
-    dataTablePage(data) {
-      dataTableService.dataTablePage(data).then(res => {
-        const payload = {
-          dataTableTotal: res.data.totalElements,
-          dataTableTableData: res.data.content,
-          dataTableCurrent: data,
-          dataTableLoadingVisible: false,
-        };
-        dispatch.dataTable.setState(payload);
-      });
+    async dataTablePage(data) {
+      const dataRes = await dataTableService.dataTablePage(data.current);
+      const dataTable = await initService.transformData(dataRes.data.content, data.dataTableTable);
+      const payload = {
+        dataTableTotal: dataRes.data.totalElements,
+        dataTableTableData: dataTable.data.objectList,
+        dataTableCurrent: data.current,
+        dataTableLoadingVisible: false,
+      };
+      dispatch.dataTable.setState(payload);
     },
     /**
      * 编辑
      *
      * @param {*} data
      */
-    dataTableEdit(data) {
+    async dataTableEdit(data) {
+      const dataTable = await dataTableService.findDataTableById(data.id);
       if (data) {
         const fromData = {
-          ...data,
+          ...dataTable.data,
         };
         const payload = {
           dataTableFormData: fromData,
@@ -69,35 +70,32 @@ export default {
      *
      * @param {*} data
      */
-    dataTableDelete(data) {
-      dataTableService.dataTableDelete(data.record).then(() => {
-        dataTableService.dataTablePage(data.dataTableCurrent).then(res => {
-          const payload = {
-            dataTableTotal: res.data.totalElements,
-            dataTableTableData: res.data.content,
-            dataTableCurrent: data.dataTableCurrent,
-          };
-          dispatch.dataTable.setState(payload);
-        });
-      });
+    async dataTableDelete(data) {
+      await dataTableService.dataTableDelete(data.record);
+      const dataRes = await dataTableService.dataTablePage(data.dataTableCurrent);
+      const dataTable = await initService.transformData(dataRes.data.content, data.dataTableTable);
+      const payload = {
+        dataTableTotal: dataRes.data.totalElements,
+        dataTableTableData: dataTable.data.objectList,
+        dataTableCurrent: data.dataTableCurrent,
+      };
+      dispatch.dataTable.setState(payload);
     },
     /**
      * 保存
      *
      * @param {*} data
      */
-    dataTableSave(data) {
-      dataTableService.dataTableSave(data.dataTableFormData).then(() => {
-        dataTableService.dataTablePage(data.dataTableCurrent).then(res => {
-          const payload = {
-            dataTableTotal: res.data.totalElements,
-            dataTableTableData: res.data.content,
-            dataTableCurrent: data.dataTableCurrent,
-          };
-          dispatch.dataTable.setState(payload);
-        });
-      });
-      const payload = { dataTableVisible: false };
+    async dataTableSave(data) {
+      await dataTableService.dataTableSave(data.dataTableFormData);
+      const dataRes = await dataTableService.dataTablePage(data.dataTableCurrent);
+      const dataTable = await initService.transformData(dataRes.data.content, data.dataTableTable);
+      const payload = {
+        dataTableTotal: dataRes.data.totalElements,
+        dataTableTableData: dataTable.data.objectList,
+        dataTableCurrent: data.dataTableCurrent,
+        dataTableVisible: false,
+      };
       dispatch.dataTable.setState(payload);
     },
     /**
@@ -106,7 +104,7 @@ export default {
      * @param {*} data
      */
     findCatalogByValue(data) {
-      dataTableService.findCatalogByValue(data).then(res => {
+      initService.findCatalogByValue(data).then(res => {
         const formArr = [];
         res.forEach(item => {
           formArr.push({
@@ -132,33 +130,26 @@ export default {
       dispatch.dataTable.setState(payload);
     },
     /**
-     * 获取表单
+     * 获取表格和表格初始化数据
      *
      * @param {*} data
      */
-    async findDataFormByName(data) {
-      const dataFormRes = await dataTableService.findDataFormByName(data);
-      const payload = {
-        dataTableForm: dataFormRes.data,
-      };
-      dispatch.dataTable.setState(payload);
-    },
-    /**
-     * 获取表格
-     *
-     * @param {*} data
-     */
-    async findDataTableByName(data) {
-      const dataTableRes = await dataTableService.findDataTableByName(data);
+    async findDataTableAndFormByName() {
+      const dataRes = await dataTableService.dataTablePage(1);
+      const dataTableRes = await initService.findDataTableByName('dataTableTable');
+      const dataFormRes = await initService.findDataFormByName('dataTableForm');
+      const data = await initService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
         dataTableTable: dataTableRes.data,
+        dataTableForm: data.data.objectForm,
+        dataTableTotal: dataRes.data.totalElements,
+        dataTableTableData: data.data.objectList,
+        dataTableCurrent: 1,
+        dataTableLoadingVisible: false,
       };
       dispatch.dataTable.setState(payload);
     },
-    // <=============================可选方法 start =============================>
-    // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
-
     // <=============================自定义方法 end   =============================>
   }),
 };

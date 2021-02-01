@@ -1,4 +1,5 @@
 import dataTableItemService from '../services/dataTableItem';
+import initService from '../../../services/init';
 
 export default {
 
@@ -29,26 +30,27 @@ export default {
      *
      * @param {*} data
      */
-    dataTableItemPage(data) {
-      dataTableItemService.dataTableItemPage(data.id, data.current).then(res => {
-        const payload = {
-          dataTableItemTotal: res.data.totalElements,
-          dataTableItemTableData: res.data.content,
-          dataTableItemCurrent: data.current,
-          dataTableItemLoadingVisible: false,
-        };
-        dispatch.dataTableItem.setState(payload);
-      });
+    async dataTableItemPage(data) {
+      const dataRes = await dataTableItemService.dataTableItemPage(data.dataTableId, data.current);
+      const dataTableItem = await initService.transformData(dataRes.data.content, data.dataTableItemTable);
+      const payload = {
+        dataTableItemTotal: dataRes.data.totalElements,
+        dataTableItemTableData: dataTableItem.data.objectList,
+        dataTableItemCurrent: data.current,
+        dataTableItemLoadingVisible: false,
+      };
+      dispatch.dataTableItem.setState(payload);
     },
     /**
      * 编辑
      *
      * @param {*} data
      */
-    dataTableItemEdit(data) {
+    async dataTableItemEdit(data) {
+      const dataTableItem = await dataTableItemService.findDataTableItemById(data.id);
       if (data) {
         const fromData = {
-          ...data,
+          ...dataTableItem.data,
         };
         const payload = {
           dataTableItemFormData: fromData,
@@ -68,35 +70,32 @@ export default {
      *
      * @param {*} data
      */
-    dataTableItemDelete(data) {
-      dataTableItemService.dataTableItemDelete(data.record).then(() => {
-        dataTableItemService.dataTableItemPage(data.record.id, data.dataTableItemCurrent).then(res => {
-          const payload = {
-            dataTableItemTotal: res.data.totalElements,
-            dataTableItemTableData: res.data.content,
-            dataTableItemCurrent: data.dataTableItemCurrent,
-          };
-          dispatch.dataTableItem.setState(payload);
-        });
-      });
+    async dataTableItemDelete(data) {
+      await dataTableItemService.dataTableItemDelete(data.record);
+      const dataRes = await dataTableItemService.dataTableItemPage(data.record.id, data.dataTableItemCurrent);
+      const dataTableItem = await initService.transformData(dataRes.data.content, data.dataTableItemTable);
+      const payload = {
+        dataTableItemTotal: dataRes.data.totalElements,
+        dataTableItemTableData: dataTableItem.data.objectList,
+        dataTableItemCurrent: data.dataTableItemCurrent,
+      };
+      dispatch.dataTableItem.setState(payload);
     },
     /**
      * 保存
      *
      * @param {*} data
      */
-    dataTableItemSave(data) {
-      dataTableItemService.dataTableItemSave(data.dataTableItemFormData, data.dataTableId).then(() => {
-        dataTableItemService.dataTableItemPage(data.dataTableId, data.dataTableItemCurrent).then(res => {
-          const payload = {
-            dataTableItemTotal: res.data.totalElements,
-            dataTableItemTableData: res.data.content,
-            dataTableItemCurrent: data.dataTableItemCurrent,
-          };
-          dispatch.dataTableItem.setState(payload);
-        });
-      });
-      const payload = { dataTableItemVisible: false };
+    async dataTableItemSave(data) {
+      await dataTableItemService.dataTableItemSave(data.dataTableId, data.dataTableItemFormData);
+      const dataRes = await dataTableItemService.dataTableItemPage(data.dataTableId, data.dataTableItemCurrent);
+      const dataTableItem = await initService.transformData(dataRes.data.content, data.dataTableItemTable);
+      const payload = {
+        dataTableItemTotal: dataRes.data.totalElements,
+        dataTableItemTableData: dataTableItem.data.objectList,
+        dataTableItemCurrent: data.dataTableItemCurrent,
+        dataTableItemVisible: false,
+      };
       dispatch.dataTableItem.setState(payload);
     },
     /**
@@ -105,7 +104,7 @@ export default {
      * @param {*} data
      */
     findCatalogByValue(data) {
-      dataTableItemService.findCatalogByValue(data).then(res => {
+      initService.findCatalogByValue(data).then(res => {
         const formArr = [];
         res.forEach(item => {
           formArr.push({
@@ -131,54 +130,28 @@ export default {
       dispatch.dataTableItem.setState(payload);
     },
     /**
-     * 获取表单
-     *
-     * @param {*} data
-     */
-    async findDataFormByName(data) {
-      const dataFormRes = await dataTableItemService.findDataFormByName(data);
-      const payload = {
-        dataTableItemForm: dataFormRes.data,
-      };
-      dispatch.dataTableItem.setState(payload);
-    },
-    /**
-     * 获取表格
-     *
-     * @param {*} data
-     */
-    async findDataTableByName(data) {
-      const dataTableRes = await dataTableItemService.findDataTableByName(data);
-      const payload = {
-        dataTableItemTable: dataTableRes.data,
-      };
-      dispatch.dataTableItem.setState(payload);
-    },
-    // <=============================可选方法 start =============================>
-    /**
      * 点击行
      *
      * @param {*} data
      */
-    onRowClick(data) {
-      dataTableItemService.dataTableItemPage(data.record.id, 1).then(res => {
-        const payload = {
-          divVisible: !data.selected,
-          dataTableItemTotal: res.data.totalElements,
-          dataTableItemTableData: res.data.content,
-          dataTableItemCurrent: 1,
-        };
-        dispatch.dataTableItem.setState(payload);
-      });
+    async onRowClick(value) {
+      const dataRes = await dataTableItemService.dataTableItemPage(value.record.id, 1);
+      const dataTableRes = await initService.findDataTableByName('dataTableItemTable');
+      const dataFormRes = await initService.findDataFormByName('dataTableItemForm');
+      const data = await initService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
-        dataTableId: data.record.id,
+        divVisible: !value.selected,
+        dataTableItemTable: dataTableRes.data,
+        dataTableItemForm: data.data.objectForm,
+        dataTableItemTotal: dataRes.data.totalElements,
+        dataTableItemTableData: data.data.objectList,
+        dataTableItemCurrent: 1,
+        dataTableId: value.record.id,
         dataTableItemLoadingVisible: false,
       };
       dispatch.dataTableItem.setState(payload);
     },
-    // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
-
     // <=============================自定义方法 end   =============================>
   }),
 };
