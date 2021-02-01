@@ -57,7 +57,8 @@ function EntityNamePage() {
             <Dialog title="菜单" visible={ entityNameState.entityNameVisible } footer={ false }
               onClose={ () => entityName.setState({ entityNameVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ entityNameState.entityNameForm }
+              <DataFormTemple
+                items={ entityNameState.entityNameForm }
                 dispatchers={ value => entityNameDispatchers.setDataForm(value) }
                 onOk={ () => entityNameDispatchers.entityNameSave({
                   entityNameFormData: entityNameState.entityNameFormData,
@@ -102,7 +103,8 @@ function EntityNamePage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ entityNameState.entityNameLoadingVisible }>
-            <DataTableTemple dataSource={ entityNameState.entityNameTableData }
+            <DataTableTemple
+              dataSource={ entityNameState.entityNameTableData }
               items={ entityNameState.entityNameTable }
               total={ entityNameState.entityNameTotal }
               getPage={ current => entityNameDispatchers.entityNamePage({ current, entityNameTable: entityNameState.entityNameTable, }) }
@@ -136,7 +138,8 @@ function EntityNamePage() {
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ entityState.entityLoadingVisible }>
-            <DataTableTemple dataSource={ entityState.entityTableData }
+            <DataTableTemple
+              dataSource={ entityState.entityTableData }
               items={ entityState.entityTable }
               total={ entityState.entityTotal }
               getPage={ current => entityDispatchers.entityPage({ entityNameId: entityState.entityNameId, current }) }

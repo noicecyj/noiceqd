@@ -103,7 +103,7 @@ export default {
         entityNameTotal: dataRes.data.totalElements,
         entityNameTableData: entityName.data.objectList,
         entityNameCurrent: data.entityNameCurrent,
-        entityNameVisible: false
+        entityNameVisible: false,
       };
       dispatch.entityName.setState(payload);
     },
@@ -158,8 +158,6 @@ export default {
       };
       dispatch.entityName.setState(payload);
     },
-    // <=============================可选方法 start =============================>
-    // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
     createEntityFile(data) {
       entityNameService.createEntityFile(data).then(res => {

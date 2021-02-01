@@ -94,7 +94,7 @@ export default {
         entityTotal: dataRes.data.totalElements,
         entityTableData: entity.data.objectList,
         entityCurrent: data.entityCurrent,
-        entityVisible: false
+        entityVisible: false,
       };
       dispatch.entity.setState(payload);
     },
