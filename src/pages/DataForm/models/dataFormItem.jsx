@@ -47,8 +47,8 @@ export default {
      * @param {*} data
      */
     async dataFormItemEdit(data) {
-      const dataFormItem = await dataFormItemService.findDataFormItemById(data.id);
       if (data) {
+        const dataFormItem = await dataFormItemService.findDataFormItemById(data.id);
         const fromData = {
           ...dataFormItem.data,
         };

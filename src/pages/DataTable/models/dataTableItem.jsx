@@ -47,8 +47,8 @@ export default {
      * @param {*} data
      */
     async dataTableItemEdit(data) {
-      const dataTableItem = await dataTableItemService.findDataTableItemById(data.id);
       if (data) {
+        const dataTableItem = await dataTableItemService.findDataTableItemById(data.id);
         const fromData = {
           ...dataTableItem.data,
         };

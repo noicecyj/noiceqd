@@ -54,8 +54,8 @@ export default {
      * @param {*} data
      */
     async entityNameEdit(data) {
-      const entityName = await entityNameService.findEntityNameById(data.id);
       if (data) {
+        const entityName = await entityNameService.findEntityNameById(data.id);
         const reg = /\[(.+?)\]/g;
         const fromData = {
           ...entityName.data,

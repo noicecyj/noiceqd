@@ -1,6 +1,6 @@
 import BasicLayout from '@/layouts/BasicLayout';
 import PageMenuPage from '@/pages/PageMenu';
-import DictionaryPage from '@/pages/Dictionary';
+import CatalogPage from '@/pages/Catalog';
 import EntityNamePage from '@/pages/EntityName';
 import LogPage from '@/pages/Log';
 import SqlPage from '@/pages/Sql';
@@ -21,8 +21,8 @@ const routerConfig = [
         component: PageMenuPage,
       },
       {
-        path: '/dictionary',
-        component: DictionaryPage,
+        path: '/catalog',
+        component: CatalogPage,
       },
       {
         path: '/entitycreater',

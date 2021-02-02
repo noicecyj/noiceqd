@@ -47,8 +47,8 @@ export default {
      * @param {*} data
      */
     async entityEdit(data) {
-      const entity = await entityService.findEntityById(data.id);
       if (data) {
+        const entity = await entityService.findEntityById(data.id);
         const fromData = {
           ...entity.data,
         };

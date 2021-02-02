@@ -4,16 +4,14 @@ export default {
   /**
    * 数据
    *
-   * @param {*} id
    * @param {*} value
    * @return {*} 
    */
-  dataTableItemPage(id, value) {
+  catalogPage(value) {
     return request({
-      url: '/pageMenuApi/dataTableItemPage',
+      url: '/dictionaryApi/catalogPage',
       method: 'post',
       params: {
-        id,
         pageNumber: value,
         pageSize: 13,
         sortCode: 'sortCode',
@@ -23,15 +21,14 @@ export default {
   /**
    * 保存
    *
-   * @param {*} dataTableItemFormData
-   * @param {*} dataTableId
+   * @param {*} catalogFormData
    * @return {*} 
    */
-  dataTableItemSave(dataTableId, dataTableItemFormData) {
+  catalogSave(data) {
     return request({
-      url: '/pageMenuApi/dataTableItemSave',
+      url: '/dictionaryApi/catalogSave',
       method: 'post',
-      data: { ...dataTableItemFormData, pid: dataTableId },
+      data,
     });
   },
   /**
@@ -40,9 +37,9 @@ export default {
    * @param {*} record
    * @return {*} 
    */
-  dataTableItemDelete(record) {
+  catalogDelete(record) {
     return request({
-      url: '/pageMenuApi/dataTableItemDelete',
+      url: '/dictionaryApi/catalogDelete',
       method: 'post',
       params: {
         id: record.id,
@@ -55,9 +52,9 @@ export default {
    * @param {*} id
    * @return {*} 
    */
-  findDataTableItemById(id) {
+  findCatalogById(id) {
     return request({
-      url: '/pageMenuApi/findDataTableItemById',
+      url: '/dictionaryApi/findCatalogById',
       method: 'post',
       params: {
         id,

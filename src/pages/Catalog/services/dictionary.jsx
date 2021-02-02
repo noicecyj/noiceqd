@@ -8,9 +8,9 @@ export default {
    * @param {*} value
    * @return {*} 
    */
-  dataTableItemPage(id, value) {
+  dictionaryPage(id, value) {
     return request({
-      url: '/pageMenuApi/dataTableItemPage',
+      url: '/dictionaryApi/dictionaryPage',
       method: 'post',
       params: {
         id,
@@ -23,15 +23,15 @@ export default {
   /**
    * 保存
    *
-   * @param {*} dataTableItemFormData
-   * @param {*} dataTableId
+   * @param {*} dictionaryFormData
+   * @param {*} catalogId
    * @return {*} 
    */
-  dataTableItemSave(dataTableId, dataTableItemFormData) {
+  dictionarySave(catalogId, dictionaryFormData) {
     return request({
-      url: '/pageMenuApi/dataTableItemSave',
+      url: '/dictionaryApi/dictionarySave',
       method: 'post',
-      data: { ...dataTableItemFormData, pid: dataTableId },
+      data: { ...dictionaryFormData, pid: catalogId },
     });
   },
   /**
@@ -40,9 +40,9 @@ export default {
    * @param {*} record
    * @return {*} 
    */
-  dataTableItemDelete(record) {
+  dictionaryDelete(record) {
     return request({
-      url: '/pageMenuApi/dataTableItemDelete',
+      url: '/dictionaryApi/dictionaryDelete',
       method: 'post',
       params: {
         id: record.id,
@@ -55,9 +55,9 @@ export default {
    * @param {*} id
    * @return {*} 
    */
-  findDataTableItemById(id) {
+  findDictionaryById(id) {
     return request({
-      url: '/pageMenuApi/findDataTableItemById',
+      url: '/dictionaryApi/findDictionaryById',
       method: 'post',
       params: {
         id,
