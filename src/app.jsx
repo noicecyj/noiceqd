@@ -7,7 +7,7 @@ const locale = getLocale();
 const appConfig = {
   app: {
     rootId: 'ice-container',
-    addProvider: ({ children }) => <LocaleProvider locale={locale}>{children}</LocaleProvider>,
+    addProvider: ({ children }) => <LocaleProvider locale={ locale }>{ children }</LocaleProvider>,
   },
   router: {
     type: 'browser',

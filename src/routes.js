@@ -1,5 +1,5 @@
 import BasicLayout from '@/layouts/BasicLayout';
-import PageMenuPage from '@/pages/PageMenu';
+import MenuPagePage from '@/pages/MenuPage';
 import CatalogPage from '@/pages/Catalog';
 import EntityNamePage from '@/pages/EntityName';
 import LogPage from '@/pages/Log';
@@ -18,7 +18,7 @@ const routerConfig = [
     children: [
       {
         path: '/pagemenu',
-        component: PageMenuPage,
+        component: MenuPagePage,
       },
       {
         path: '/catalog',
