@@ -1,6 +1,12 @@
 import { request } from 'ice';
 
 export default {
+  /**
+   * 数据
+   *
+   * @param {*} value
+   * @return {*} 
+   */
   apiPage(value) {
     return request({
       url: '/ssoApi/apiPage',
@@ -12,6 +18,25 @@ export default {
       },
     });
   },
+  /**
+   * 保存
+   *
+   * @param {*} apiFormData
+   * @return {*} 
+   */
+  apiSave(data) {
+    return request({
+      url: '/ssoApi/apiSave',
+      method: 'post',
+      data,
+    });
+  },
+  /**
+   * 删除
+   *
+   * @param {*} record
+   * @return {*} 
+   */
   apiDelete(record) {
     return request({
       url: '/ssoApi/apiDelete',
@@ -21,11 +46,21 @@ export default {
       },
     });
   },
-  apiSave(data) {
+  /**
+   * 根据ID查询
+   * 
+   * @param {*} id
+   * @return {*} 
+   */
+  findApiById(id) {
     return request({
-      url: '/ssoApi/apiSave',
+      url: '/ssoApi/findApiById',
       method: 'post',
-      data,
+      params: {
+        id,
+      },
     });
   },
+  // <=============================自定义请求 start =============================>
+  // <=============================自定义请求 end   =============================>
 };

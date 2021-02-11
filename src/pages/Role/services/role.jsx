@@ -7,9 +7,9 @@ export default {
    * @param {*} value
    * @return {*} 
    */
-  userPage(value) {
+  rolePage(value) {
     return request({
-      url: '/ssoApi/userPage',
+      url: '/ssoApi/rolePage',
       method: 'post',
       params: {
         pageNumber: value,
@@ -21,13 +21,12 @@ export default {
   /**
    * 保存
    *
-   * @param {*} userFormData
+   * @param {*} roleFormData
    * @return {*} 
    */
-  userSave(data) {
-    console.log(data);
+  roleSave(data) {
     return request({
-      url: '/ssoApi/userSave',
+      url: '/ssoApi/roleSave',
       method: 'post',
       data,
     });
@@ -38,9 +37,9 @@ export default {
    * @param {*} record
    * @return {*} 
    */
-  userDelete(record) {
+  roleDelete(record) {
     return request({
-      url: '/ssoApi/userDelete',
+      url: '/ssoApi/roleDelete',
       method: 'post',
       params: {
         id: record.id,
@@ -53,9 +52,9 @@ export default {
    * @param {*} id
    * @return {*} 
    */
-  findUserById(id) {
+  findRoleById(id) {
     return request({
-      url: '/ssoApi/findUserById',
+      url: '/ssoApi/findRoleById',
       method: 'post',
       params: {
         id,

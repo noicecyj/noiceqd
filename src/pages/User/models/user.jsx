@@ -1,4 +1,5 @@
 import userService from '../services/user';
+import initService from '../../../services/init';
 
 export default {
 
@@ -14,7 +15,6 @@ export default {
     userForm: [],
     userTable: [],
     // <=============================自定义状态 start =============================>
-
     // <=============================自定义状态 end   =============================>
   },
 
@@ -30,26 +30,27 @@ export default {
      *
      * @param {*} data
      */
-    userPage(data) {
-      userService.userPage(data).then(res => {
-        const payload = {
-          userTotal: res.data.totalElements,
-          userTableData: res.data.content,
-          userCurrent: data,
-          userLoadingVisible: false,
-        };
-        dispatch.user.setState(payload);
-      });
+    async userPage(data) {
+      const dataRes = await userService.userPage(data.current);
+      const user = await initService.transformData(dataRes.data.content, data.userTable);
+      const payload = {
+        userTotal: dataRes.data.totalElements,
+        userTableData: user.data.objectList,
+        userCurrent: data.current,
+        userLoadingVisible: false,
+      };
+      dispatch.user.setState(payload);
     },
     /**
      * 编辑
      *
      * @param {*} data
      */
-    userEdit(data) {
+    async userEdit(data) {
       if (data) {
+        const user = await userService.findUserById(data.id);
         const fromData = {
-          ...data,
+          ...user.data,
         };
         const payload = {
           userFormData: fromData,
@@ -69,35 +70,32 @@ export default {
      *
      * @param {*} data
      */
-    userDelete(data) {
-      userService.userDelete(data.record).then(() => {
-        userService.userPage(data.userCurrent).then(res => {
-          const payload = {
-            userTotal: res.data.totalElements,
-            userTableData: res.data.content,
-            userCurrent: data.userCurrent,
-          };
-          dispatch.user.setState(payload);
-        });
-      });
+    async userDelete(data) {
+      await userService.userDelete(data.record);
+      const dataRes = await userService.userPage(data.userCurrent);
+      const user = await initService.transformData(dataRes.data.content, data.userTable);
+      const payload = {
+        userTotal: dataRes.data.totalElements,
+        userTableData: user.data.objectList,
+        userCurrent: data.userCurrent,
+      };
+      dispatch.user.setState(payload);
     },
     /**
      * 保存
      *
      * @param {*} data
      */
-    userSave(data) {
-      userService.userSave(data.userFormData).then(() => {
-        userService.userPage(data.userCurrent).then(res => {
-          const payload = {
-            userTotal: res.data.totalElements,
-            userTableData: res.data.content,
-            userCurrent: data.userCurrent,
-          };
-          dispatch.user.setState(payload);
-        });
-      });
-      const payload = { userVisible: false };
+    async userSave(data) {
+      await userService.userSave(data.userFormData);
+      const dataRes = await userService.userPage(data.userCurrent);
+      const user = await initService.transformData(dataRes.data.content, data.userTable);
+      const payload = {
+        userTotal: dataRes.data.totalElements,
+        userTableData: user.data.objectList,
+        userCurrent: data.userCurrent,
+        userVisible: false,
+      };
       dispatch.user.setState(payload);
     },
     /**
@@ -106,7 +104,7 @@ export default {
      * @param {*} data
      */
     findCatalogByValue(data) {
-      userService.findCatalogByValue(data).then(res => {
+      initService.findCatalogByValue(data).then(res => {
         const formArr = [];
         res.forEach(item => {
           formArr.push({
@@ -132,33 +130,26 @@ export default {
       dispatch.user.setState(payload);
     },
     /**
-     * 获取表单
+     * 获取表格和表格初始化数据
      *
      * @param {*} data
      */
-    async findDataFormByName(data) {
-      const dataFormRes = await userService.findDataFormByName(data);
-      const payload = {
-        entityNameForm: dataFormRes.data,
-      };
-      dispatch.entityName.setState(payload);
-    },
-    /**
-     * 获取表格
-     *
-     * @param {*} data
-     */
-    async findDataTableByName(data) {
-      const dataTableRes = await userService.findDataTableByName(data);
+    async findDataTableAndFormByName() {
+      const dataRes = await userService.userPage(1);
+      const dataTableRes = await initService.findDataTableByName('userTable');
+      const dataFormRes = await initService.findDataFormByName('userForm');
+      const data = await initService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
         userTable: dataTableRes.data,
+        userForm: data.data.objectForm,
+        userTotal: dataRes.data.totalElements,
+        userTableData: data.data.objectList,
+        userCurrent: 1,
+        userLoadingVisible: false,
       };
       dispatch.user.setState(payload);
     },
-    // <=============================可选方法 start =============================>
-    // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
-
     // <=============================自定义方法 end   =============================>
   }),
 };

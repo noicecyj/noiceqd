@@ -1,6 +1,6 @@
-import { ResponsiveGrid, Button, Box, Dialog, Loading, Pagination } from '@alifd/next';
+import { ResponsiveGrid, Button, Dialog, Loading } from '@alifd/next';
 import React, { useEffect } from 'react';
-import { store as pageStore } from 'ice/User';
+import pageStore from '@/pages/User/store';
 import DataFormTemple from '@/components/dataForm';
 import DataTableTemple from '@/components/dataTable';
 import styles from './index.module.scss';
@@ -12,9 +12,7 @@ function UserPage() {
   const user = pageStore.useModelDispatchers('user');
 
   useEffect(() => {
-    userDispatchers.userPage(1);
-    userDispatchers.findDataFormByName('userForm');
-    userDispatchers.findDataTableByName('userTable');
+    userDispatchers.findDataTableAndFormByName();
   }, [userDispatchers]);
 
   const userPageRender = (value, index, record) => {
@@ -23,6 +21,7 @@ function UserPage() {
       <Button type="primary" size="small" onClick={ () => userDispatchers.userDelete({
         record,
         userCurrent: userState.userCurrent,
+        userTable: userState.userTable,
       }) } warning> 删除 </Button>
     </div>;
   };
@@ -36,24 +35,24 @@ function UserPage() {
             <Dialog title="菜单" visible={ userState.userVisible } footer={ false }
               onClose={ () => user.setState({ userVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ userState.userForm }
+              <DataFormTemple
+                items={ userState.userForm }
                 dispatchers={ value => userDispatchers.setDataForm(value) }
                 onOk={ () => userDispatchers.userSave({
                   userFormData: userState.userFormData,
                   userCurrent: userState.userCurrent,
+                  userTable: userState.userTable,
                 }) }
                 formDataValue={ userState.userFormData } />
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ userState.userLoadingVisible }>
-            <DataTableTemple dataSource={ userState.userTableData }
+            <DataTableTemple
+              dataSource={ userState.userTableData }
               items={ userState.userTable }
+              total={ userState.userTotal }
+              getPage={ current => userDispatchers.userPage({ current, userTable: userState.userTable, }) }
               pageRender={ userPageRender } />
-            <Box margin={ [15, 0, 0, 0] } direction="row" align="center" justify="space-between">
-              <div className={ styles.total }> 共 <span>{ userState.userTotal }</span> 条 </div>
-              <Pagination onChange={ current => userDispatchers.userPage(current) }
-                type="simple" pageSize={ 5 } total={ userState.userTotal } />
-            </Box>
           </Loading>
         </div>
       </Cell>
