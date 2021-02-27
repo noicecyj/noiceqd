@@ -18,27 +18,27 @@
   "proxy": {
     "/pageMenuApi": {
       "enable": true,
-      "target": "http://127.0.0.1:8010"
+      "target": "http://127.0.0.1:8050/cyj-page-menu"
     },
     "/entityCreateApi": {
       "enable": true,
-      "target": "http://127.0.0.1:8020"
+      "target": "http://127.0.0.1:8050/cyj-entity-creater"
     },
     "/dictionaryApi": {
       "enable": true,
-      "target": "http://127.0.0.1:8030"
+      "target": "http://127.0.0.1:8050/cyj-dictionary"
     },
     "/logApi": {
       "enable": true,
-      "target": "http://127.0.0.1:8040"
+      "target": "http://127.0.0.1:8050/cyj-log"
     },
     "/ssoApi": {
       "enable": true,
-      "target": "http://127.0.0.1:8050"
+      "target": "http://127.0.0.1:8050/cyj-sso"
     },
     "/sqlApi": {
       "enable": true,
-      "target": "http://127.0.0.1:8070"
+      "target": "http://127.0.0.1:8050/cyj-query"
     }
   }
 }
