@@ -1,6 +1,6 @@
-import { ResponsiveGrid, Button, Box, Dialog, Loading, Pagination } from '@alifd/next';
+import { ResponsiveGrid, Button, Dialog, Loading } from '@alifd/next';
 import React, { useEffect } from 'react';
-import { store as pageStore } from 'ice/AppService';
+import pageStore from '@/pages/AppService/store';
 import DataFormTemple from '@/components/dataForm';
 import DataTableTemple from '@/components/dataTable';
 import styles from './index.module.scss';
@@ -12,18 +12,16 @@ function AppServicePage() {
   const appService = pageStore.useModelDispatchers('appService');
 
   useEffect(() => {
-    appServiceDispatchers.appServicePage(1);
-    appServiceDispatchers.findDataFormByName('appServiceForm');
-    appServiceDispatchers.findDataTableByName('appServiceTable');
+    appServiceDispatchers.findDataTableAndFormByName();
   }, [appServiceDispatchers]);
 
   const appServicePageRender = (value, index, record) => {
     return <div className={ styles.opt }>
-      <Button type="primary" size="small" onClick={ () => appServiceDispatchers.createAppFile(record) }> 生成服务代码 </Button>
       <Button type="primary" size="small" onClick={ () => appServiceDispatchers.appServiceEdit(record) }> 编辑 </Button>
       <Button type="primary" size="small" onClick={ () => appServiceDispatchers.appServiceDelete({
         record,
         appServiceCurrent: appServiceState.appServiceCurrent,
+        appServiceTable: appServiceState.appServiceTable,
       }) } warning> 删除 </Button>
     </div>;
   };
@@ -37,20 +35,23 @@ function AppServicePage() {
             <Dialog title="菜单" visible={ appServiceState.appServiceVisible } footer={ false }
               onClose={ () => appService.setState({ appServiceVisible: false }) }
               style={ { width: '30%' } }>
-              <DataFormTemple items={ appServiceState.appServiceForm }
+              <DataFormTemple
+                items={ appServiceState.appServiceForm }
                 dispatchers={ value => appServiceDispatchers.setDataForm(value) }
                 onOk={ () => appServiceDispatchers.appServiceSave({
                   appServiceFormData: appServiceState.appServiceFormData,
                   appServiceCurrent: appServiceState.appServiceCurrent,
+                  appServiceTable: appServiceState.appServiceTable,
                 }) }
                 formDataValue={ appServiceState.appServiceFormData } />
             </Dialog>
           </div>
           <Loading tip="加载中..." visible={ appServiceState.appServiceLoadingVisible }>
-            <DataTableTemple dataSource={ appServiceState.appServiceTableData }
+            <DataTableTemple
+              dataSource={ appServiceState.appServiceTableData }
               items={ appServiceState.appServiceTable }
               total={ appServiceState.appServiceTotal }
-              getPage={ current => appServiceDispatchers.appServicePage(current) }
+              getPage={ current => appServiceDispatchers.appServicePage({ current, appServiceTable: appServiceState.appServiceTable, }) }
               pageRender={ appServicePageRender } />
           </Loading>
         </div>

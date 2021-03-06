@@ -79,7 +79,7 @@ function EntityNamePage() {
               <Form style={ { width: '100%' } } { ...entityNameState.formItemLayout }
                 value={ entityNameState.chooseFormData }
                 onChange={ value => entityName.setState({ chooseFormData: value }) }>
-                <FormItem label="选择生成：" required requiredMessage="请选择生成类" >
+                <FormItem label="选择生成：" requiredMessage="请选择生成类" >
                   <CheckboxGroup dataSource={ entityNameState.LEVEL_ENTITY_TYPE } itemDirection="ver" id="choose" name="choose" />
                 </FormItem>
               </Form>
@@ -96,7 +96,7 @@ function EntityNamePage() {
               <Form style={ { width: '100%' } } { ...entityNameState.formItemLayout }
                 value={ entityNameState.chooseFountFormData }
                 onChange={ value => entityName.setState({ chooseFountFormData: value }) }>
-                <FormItem label="选择生成：" required requiredMessage="请选择生成类" >
+                <FormItem label="选择生成：" requiredMessage="请选择生成类" >
                   <CheckboxGroup dataSource={ entityNameState.LEVEL_ENTITY_TYPE_FOUNT } itemDirection="ver" id="choose" name="choose" />
                 </FormItem>
               </Form>

@@ -1,6 +1,5 @@
-import { Message } from '@alifd/next';
 import appServiceService from '../services/appService';
-
+import initService from '../../../services/init';
 
 export default {
 
@@ -16,7 +15,6 @@ export default {
     appServiceForm: [],
     appServiceTable: [],
     // <=============================自定义状态 start =============================>
-
     // <=============================自定义状态 end   =============================>
   },
 
@@ -32,26 +30,27 @@ export default {
      *
      * @param {*} data
      */
-    appServicePage(data) {
-      appServiceService.appServicePage(data).then(res => {
-        const payload = {
-          appServiceTotal: res.data.totalElements,
-          appServiceTableData: res.data.content,
-          appServiceCurrent: data,
-          appServiceLoadingVisible: false,
-        };
-        dispatch.appService.setState(payload);
-      });
+    async appServicePage(data) {
+      const dataRes = await appServiceService.appServicePage(data.current);
+      const appService = await initService.transformData(dataRes.data.content, data.appServiceTable);
+      const payload = {
+        appServiceTotal: dataRes.data.totalElements,
+        appServiceTableData: appService.data.objectList,
+        appServiceCurrent: data.current,
+        appServiceLoadingVisible: false,
+      };
+      dispatch.appService.setState(payload);
     },
     /**
      * 编辑
      *
      * @param {*} data
      */
-    appServiceEdit(data) {
+    async appServiceEdit(data) {
       if (data) {
+        const appService = await appServiceService.findAppServiceById(data.id);
         const fromData = {
-          ...data,
+          ...appService.data,
         };
         const payload = {
           appServiceFormData: fromData,
@@ -71,35 +70,32 @@ export default {
      *
      * @param {*} data
      */
-    appServiceDelete(data) {
-      appServiceService.appServiceDelete(data.record).then(() => {
-        appServiceService.appServicePage(data.appServiceCurrent).then(res => {
-          const payload = {
-            appServiceTotal: res.data.totalElements,
-            appServiceTableData: res.data.content,
-            appServiceCurrent: data.appServiceCurrent,
-          };
-          dispatch.appService.setState(payload);
-        });
-      });
+    async appServiceDelete(data) {
+      await appServiceService.appServiceDelete(data.record);
+      const dataRes = await appServiceService.appServicePage(data.appServiceCurrent);
+      const appService = await initService.transformData(dataRes.data.content, data.appServiceTable);
+      const payload = {
+        appServiceTotal: dataRes.data.totalElements,
+        appServiceTableData: appService.data.objectList,
+        appServiceCurrent: data.appServiceCurrent,
+      };
+      dispatch.appService.setState(payload);
     },
     /**
      * 保存
      *
      * @param {*} data
      */
-    appServiceSave(data) {
-      appServiceService.appServiceSave(data.appServiceFormData).then(() => {
-        appServiceService.appServicePage(data.appServiceCurrent).then(res => {
-          const payload = {
-            appServiceTotal: res.data.totalElements,
-            appServiceTableData: res.data.content,
-            appServiceCurrent: data.appServiceCurrent,
-          };
-          dispatch.appService.setState(payload);
-        });
-      });
-      const payload = { appServiceVisible: false };
+    async appServiceSave(data) {
+      await appServiceService.appServiceSave(data.appServiceFormData);
+      const dataRes = await appServiceService.appServicePage(data.appServiceCurrent);
+      const appService = await initService.transformData(dataRes.data.content, data.appServiceTable);
+      const payload = {
+        appServiceTotal: dataRes.data.totalElements,
+        appServiceTableData: appService.data.objectList,
+        appServiceCurrent: data.appServiceCurrent,
+        appServiceVisible: false,
+      };
       dispatch.appService.setState(payload);
     },
     /**
@@ -108,7 +104,7 @@ export default {
      * @param {*} data
      */
     findCatalogByValue(data) {
-      appServiceService.findCatalogByValue(data).then(res => {
+      initService.findCatalogByValue(data).then(res => {
         const formArr = [];
         res.forEach(item => {
           formArr.push({
@@ -134,41 +130,26 @@ export default {
       dispatch.appService.setState(payload);
     },
     /**
-     * 获取表单
+     * 获取表格和表格初始化数据
      *
      * @param {*} data
      */
-    async findDataFormByName(data) {
-      const dataFormRes = await appServiceService.findDataFormByName(data);
-      const payload = {
-        appServiceForm: dataFormRes.data,
-      };
-      dispatch.appService.setState(payload);
-    },
-    /**
-     * 获取表格
-     *
-     * @param {*} data
-     */
-    async findDataTableByName(data) {
-      const dataTableRes = await appServiceService.findDataTableByName(data);
+    async findDataTableAndFormByName() {
+      const dataRes = await appServiceService.appServicePage(1);
+      const dataTableRes = await initService.findDataTableByName('appServiceTable');
+      const dataFormRes = await initService.findDataFormByName('appServiceForm');
+      const data = await initService.transformData(dataRes.data.content, dataTableRes.data, dataFormRes.data);
       const payload = {
         appServiceTable: dataTableRes.data,
+        appServiceForm: data.data.objectForm,
+        appServiceTotal: dataRes.data.totalElements,
+        appServiceTableData: data.data.objectList,
+        appServiceCurrent: 1,
+        appServiceLoadingVisible: false,
       };
       dispatch.appService.setState(payload);
     },
-    // <=============================可选方法 start =============================>
-    // <=============================可选方法 end   =============================>
     // <=============================自定义方法 start =============================>
-    createAppFile(data) {
-      appServiceService.createAppFile(data).then(res => {
-        if (res.code === 200) {
-          Message.success('生成成功');
-        } else {
-          Message.error('生成失败');
-        }
-      });
-    },
     // <=============================自定义方法 end   =============================>
   }),
 };
